@@ -87,7 +87,16 @@ class ProductManager{
         }
     }
 
+    /////////////////////////////////
+
     updateProduct(id, newValue){
+        try{
+
+        }
+        catch(error){
+            console.log(`Error ${error}`);
+        }
+
         const isFound = this.products.find(product => product.id == id);
         if(isFound){
             "change value";
@@ -107,32 +116,8 @@ class ProductManager{
 
 
 
-// const readFile = async() => {
-//     try{
-//         const content = await fs.promises.readFile(PATH+'products.txt', 'utf-8');
-//         const contentObject = JSON.parse(content);
-//         return contentObject;
-//     }
-//     catch(error){
-//         console.log(`Error ${error}`);
-//     }
-// }
-
-// const writeFile = async(newContent) => {
-//     try{
-//         const newContentString = JSON.stringify(newContent);
-//         await fs.promises.writeFile(PATH+'products.txt', newContentString);
-//     }
-//     catch(error){
-//         console.log(`Error ${error}`);
-//     }
-// }
-
 (
     async () => {
-        //console.log(await products)
-        //const products = readFile();
-        //const instanceManager = new ProductManager(await products);
 
         const instanceManager = new ProductManager('./products.txt');
 
@@ -140,9 +125,6 @@ class ProductManager{
         console.log(viewProducts);
 
         instanceManager.addProduct("producto prueba", "Este es un producto prueba", 200, "Sin imagen", "abc123", 25);
-        
-        //const viewProducts2 = await instanceManager.getProducts();
-        //console.log(viewProducts2);
 
         const findProduct = await instanceManager.getProductById(1);
         console.log(findProduct);
