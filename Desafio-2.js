@@ -90,18 +90,18 @@ class ProductManager{
     /////////////////////////////////
 
     async updateProduct(id, newProduct){
-        console.log(`TEST ${newProduct}`);
+        //console.log(`TEST ${newProduct}`);
         try{
             const dataFile = await this.getProducts();
             const isFound = dataFile.find(product => product.id == id);
-            console.log(`TEST ${isFound}`);
+            //console.log(`TEST ${isFound}`);
             if(isFound){
                 const index = dataFile.findIndex(productId => productId.id === id);
-                console.log(`TEST ${index}`);
+                //console.log(`TEST ${index}`);
                 newProduct.id = id;
-                const asd = dataFile.splice(index, 1, newProduct);
-                console.log(`TEST ${asd}`);
-                await this.saveFile(this.pathToFile, asd);
+                dataFile.splice(index, 1, newProduct);
+                //console.log(`TEST ${asd}`);
+                await this.saveFile(this.pathToFile, dataFile);
             }else{
                 "Not found";
             }
@@ -113,8 +113,15 @@ class ProductManager{
 
     }
 
-    deleteProduct(id){
-        this.products = this.products.filter(product => product.id !== id) || "Not found";
+    async deleteProduct(id){
+        try {
+            const dataFile = await this.getProducts();
+            const filterData = dataFile.filter(product => product.id !== id) || null;
+            await this.saveFile(this.pathToFile, filterData);
+        }
+        catch(error){
+            console.log(`Error ${error}`);
+        }
     }
 
     
@@ -138,18 +145,7 @@ class ProductManager{
 
         instanceManager.updateProduct(3,{"id":3,"title":"producto prueba 3","description":"Este es un producto prueba","price":500,"thumbnail":"Sin imagen","code":"abc123","stock":80});
 
-        // instanceManager.deleteProduct(1);
-
-        // const viewProducts2 = instanceManager.getProducts();
-        // console.log(viewProducts2);
-
-        // writeFile(viewProducts2);
-
-        //const viewProducts3 = instanceManager.getProducts();
-        //console.log(viewProducts3);
-
-        //const viewProductsModify = instanceManager.getProducts();
-
-        //writeFile(viewProductsModify);
+        instanceManager.deleteProduct(4);
+        
     }
 )()
