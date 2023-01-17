@@ -92,7 +92,7 @@ class ProductManager{
             const dataFile = await this.getProducts();
             const isFound = dataFile.find(product => product.id == id);
             if(isFound){
-                const index = dataFile.findIndex(productId => productId.id === id);
+                const index = dataFile.findIndex(productId => productId.id == id);
                 newProduct.id = id;
                 dataFile.splice(index, 1, newProduct);
                 await this.saveFile(this.pathToFile, dataFile);
