@@ -90,16 +90,20 @@ class ProductManager{
     /////////////////////////////////
 
     async updateProduct(id, newProduct){
+        console.log(`TEST ${newProduct}`);
         try{
             const dataFile = await this.getProducts();
             const isFound = dataFile.find(product => product.id == id);
+            console.log(`TEST ${isFound}`);
             if(isFound){
                 const index = dataFile.findIndex(productId => productId.id === id);
+                console.log(`TEST ${index}`);
                 newProduct.id = id;
-                dataFile.splice(index, 1, newProduct);
-                await this.saveFile(this.pathToFile, dataFile);
+                const asd = dataFile.splice(index, 1, newProduct);
+                console.log(`TEST ${asd}`);
+                await this.saveFile(this.pathToFile, asd);
             }else{
-                "Not found"
+                "Not found";
             }
         }
         catch(error){
