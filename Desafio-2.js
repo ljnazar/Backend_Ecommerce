@@ -87,20 +87,14 @@ class ProductManager{
         }
     }
 
-    /////////////////////////////////
-
     async updateProduct(id, newProduct){
-        //console.log(`TEST ${newProduct}`);
         try{
             const dataFile = await this.getProducts();
             const isFound = dataFile.find(product => product.id == id);
-            //console.log(`TEST ${isFound}`);
             if(isFound){
                 const index = dataFile.findIndex(productId => productId.id === id);
-                //console.log(`TEST ${index}`);
                 newProduct.id = id;
                 dataFile.splice(index, 1, newProduct);
-                //console.log(`TEST ${asd}`);
                 await this.saveFile(this.pathToFile, dataFile);
             }else{
                 "Not found";
@@ -109,8 +103,6 @@ class ProductManager{
         catch(error){
             console.log(`Error ${error}`);
         }
-
-
     }
 
     async deleteProduct(id){
@@ -123,8 +115,6 @@ class ProductManager{
             console.log(`Error ${error}`);
         }
     }
-
-    
 }
 
 
@@ -133,19 +123,19 @@ class ProductManager{
 (
     async () => {
 
-        const instanceManager = new ProductManager('./products.txt');
+        const instanceManager = new ProductManager('./products.json');
 
         const viewProducts = await instanceManager.getProducts();
         console.log(viewProducts);
 
         instanceManager.addProduct("producto prueba", "Este es un producto prueba", 200, "Sin imagen", "abc123", 25);
 
-        const findProduct = await instanceManager.getProductById(1);
-        console.log(findProduct);
+        // const findProduct = await instanceManager.getProductById(1);
+        // console.log(findProduct);
 
-        instanceManager.updateProduct(3,{"id":3,"title":"producto prueba 3","description":"Este es un producto prueba","price":500,"thumbnail":"Sin imagen","code":"abc123","stock":80});
+        //instanceManager.updateProduct(3,{"id":3,"title":"producto prueba 3","description":"Este es un producto prueba","price":500,"thumbnail":"Sin imagen","code":"abc123","stock":80});
 
-        instanceManager.deleteProduct(4);
-        
+        instanceManager.deleteProduct(1);
+
     }
 )()
