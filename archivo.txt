@@ -1,1 +1,0 @@
-[{"id":"1","title":"prueba","description":"prueba 1","price":"300","thumbnail":"./asd/asd.jpg","code":"abc123","stock":2},{"id":"2","title":"prueba","description":"prueba 2","price":"400","thumbnail":"./asd/asd.jpg","code":"abc456","stock":3}]

@@ -2,50 +2,89 @@ const fs = require('fs');
 
 class ProductManager{
 
-    products;
+    pathToFile;
 
-    constructor(file){
-        this.products = file;
+    constructor(pathToFile){
+        this.pathToFile = pathToFile;
     }
 
-    addProduct(title, description, price, thumbnail, code, stock){
-        if(title && description && price && thumbnail && code && stock && this.validateCode(code)){
-            const product = {
-                id : this.getNewId(),
-                title,
-                description,
-                price,
-                thumbnail,
-                code,
-                stock
+    async addProduct(title, description, price, thumbnail, code, stock){
+        try{
+            const dataFile = await this.getProducts();
+            if(title && description && price && thumbnail && code && stock && this.validateCode(code)){
+                const product = {
+                    id : await this.getNewId(),
+                    title,
+                    description,
+                    price,
+                    thumbnail,
+                    code,
+                    stock
+                }
+                dataFile.push(product);
+                await this.saveFile(this.pathToFile, dataFile);
+                console.log(`Product with id ${product.id} added`);
+            }else{
+                console.log("ERROR: Require validate fields");
             }
-            this.products.push(product);
-            console.log(`Product with id ${product.id} added`);
-        }else{
-            console.log("ERROR: Require validate fields");
+        }
+        catch(error){
+            console.log(`Error ${error}`);
         }
     }
 
-    getProducts(){
-        return this.products;
+    async getProducts(){
+        try{
+            const content = await fs.promises.readFile(this.pathToFile, 'utf-8');
+            const contentObject = JSON.parse(content);
+            return contentObject;
+        }
+        catch(error){
+            console.log(`Error ${error}`);
+        }
+    }
+
+    async saveFile(path, newContent){
+        try{
+            const newContentString = JSON.stringify(newContent);
+            await fs.promises.writeFile(path, newContentString);
+        }
+        catch(error){
+            console.log(`Error ${error}`);
+        }
     }
     
-    getNewId(){
-        return this.products.length + 1;
+    async getNewId(){
+        try{
+            const dataFile = await this.getProducts();
+            return dataFile.length + 1;
+        }
+        catch(error){
+            console.log(`Error ${error}`);
+        }
     }
 
-    validateCode(code){
-        const result = this.products.find(product => product.code == code);
-        return result ? false : true;
+    async validateCode(code){
+        try{
+            const dataFile = await this.getProducts();
+            const result = dataFile.find(product => product.code == code);
+            return result ? false : true;
+        }
+        catch(error){
+            console.log(`Error ${error}`);
+        }
     }
 
-    getProductById(id){
+    async getProductById(id){
         console.log(`Search product with id: ${id}`);
-        // Method 1
-        //return this.products.id = id ? this.products[id-1] : "Not found";
-        // Method 2
-        const isFound = this.products.find(product => product.id == id);
-        return isFound ? this.products[id-1] : "Not found";
+        try{
+            const dataFile = await this.getProducts();
+            const isFound = dataFile.find(product => product.id == id);
+            return isFound ? dataFile[id-1] : "Not found";
+        }
+        catch(error){
+            console.log(`Error ${error}`);
+        }
     }
 
     updateProduct(id, newValue){
@@ -67,52 +106,56 @@ class ProductManager{
 
 
 
-const PATH = './';
 
+// const readFile = async() => {
+//     try{
+//         const content = await fs.promises.readFile(PATH+'products.txt', 'utf-8');
+//         const contentObject = JSON.parse(content);
+//         return contentObject;
+//     }
+//     catch(error){
+//         console.log(`Error ${error}`);
+//     }
+// }
 
-
-const readFile = async() => {
-    try{
-        const content = await fs.promises.readFile(PATH+'products.txt', 'utf-8');
-        const contentObject = JSON.parse(content);
-        return contentObject;
-    }
-    catch(error){
-        console.log(`Error ${error}`);
-    }
-}
-
-const writeFile = async(newContent) => {
-    try{
-        const newContentString = JSON.stringify(newContent);
-        await fs.promises.writeFile(PATH+'products.txt', newContentString);
-    }
-    catch(error){
-        console.log(`Error ${error}`);
-    }
-}
+// const writeFile = async(newContent) => {
+//     try{
+//         const newContentString = JSON.stringify(newContent);
+//         await fs.promises.writeFile(PATH+'products.txt', newContentString);
+//     }
+//     catch(error){
+//         console.log(`Error ${error}`);
+//     }
+// }
 
 (
     async () => {
         //console.log(await products)
-        const products = readFile();
-        const instanceManager = new ProductManager(await products);
+        //const products = readFile();
+        //const instanceManager = new ProductManager(await products);
 
-        const viewProducts = instanceManager.getProducts();
+        const instanceManager = new ProductManager('./products.txt');
+
+        const viewProducts = await instanceManager.getProducts();
         console.log(viewProducts);
 
-        // instanceManager.addProduct("producto prueba", "Este es un producto prueba", 200, "Sin imagen", "abc123", 25);
+        instanceManager.addProduct("producto prueba", "Este es un producto prueba", 200, "Sin imagen", "abc123", 25);
+        
+        //const viewProducts2 = await instanceManager.getProducts();
+        //console.log(viewProducts2);
+
+        const findProduct = await instanceManager.getProductById(1);
+        console.log(findProduct);
+
+        // instanceManager.deleteProduct(1);
+
         // const viewProducts2 = instanceManager.getProducts();
         // console.log(viewProducts2);
 
-        // const findProduct = instanceManager.getProductById(1);
-        // console.log(findProduct);
+        // writeFile(viewProducts2);
 
-        ProductsModify = instanceManager.deleteProduct(1);
-        writeFile(ProductsModify);
-
-        const viewProducts3 = instanceManager.getProducts();
-        console.log(viewProducts3);
+        //const viewProducts3 = instanceManager.getProducts();
+        //console.log(viewProducts3);
 
         //const viewProductsModify = instanceManager.getProducts();
 
