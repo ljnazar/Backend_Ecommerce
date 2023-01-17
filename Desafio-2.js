@@ -89,20 +89,23 @@ class ProductManager{
 
     /////////////////////////////////
 
-    updateProduct(id, newValue){
+    async updateProduct(id, newProduct){
         try{
-
+            const dataFile = await this.getProducts();
+            const isFound = dataFile.find(product => product.id == id);
+            if(isFound){
+                const index = dataFile.findIndex(productId => productId.id === id);
+                newProduct.id = id;
+                dataFile.splice(index, 1, newProduct);
+                await this.saveFile(this.pathToFile, dataFile);
+            }else{
+                "Not found"
+            }
         }
         catch(error){
             console.log(`Error ${error}`);
         }
 
-        const isFound = this.products.find(product => product.id == id);
-        if(isFound){
-            "change value";
-        }else{
-            "Not found"
-        }
 
     }
 
@@ -128,6 +131,8 @@ class ProductManager{
 
         const findProduct = await instanceManager.getProductById(1);
         console.log(findProduct);
+
+        instanceManager.updateProduct(3,{"id":3,"title":"producto prueba 3","description":"Este es un producto prueba","price":500,"thumbnail":"Sin imagen","code":"abc123","stock":80});
 
         // instanceManager.deleteProduct(1);
 
