@@ -56,8 +56,14 @@ class ProductManager{
     
     async getNewId(){
         try{
-            const dataFile = await this.getProducts();
-            return dataFile.length + 1;
+            let idMax = 0
+            const dataFile = await this.getProducts()
+            dataFile.forEach(product => {
+                if (product.id > idMax) {
+                    idMax = product.id
+                }
+            });
+            return idMax + 1
         }
         catch(error){
             console.log(`Error ${error}`);
@@ -97,7 +103,7 @@ class ProductManager{
                 dataFile.splice(index, 1, newProduct);
                 await this.saveFile(this.pathToFile, dataFile);
             }else{
-                "Not found";
+                console.log("Update operation: Not found");
             }
         }
         catch(error){
@@ -108,8 +114,14 @@ class ProductManager{
     async deleteProduct(id){
         try {
             const dataFile = await this.getProducts();
-            const filterData = dataFile.filter(product => product.id !== id) || null;
-            await this.saveFile(this.pathToFile, filterData);
+            const isFound = dataFile.find(product => product.id == id);
+            if(isFound){
+                const filterData = dataFile.filter(product => product.id !== id) || null;
+                await this.saveFile(this.pathToFile, filterData);
+            }
+            else{
+                console.log("Delete operation: Not found");
+            }
         }
         catch(error){
             console.log(`Error ${error}`);
@@ -117,14 +129,12 @@ class ProductManager{
     }
 }
 
-
-
-
 (
     async () => {
 
         const instanceManager = new ProductManager('./products.json');
 
+        console.log('Initial products');
         const viewProducts = await instanceManager.getProducts();
         console.log(viewProducts);
 
@@ -133,9 +143,9 @@ class ProductManager{
         // const findProduct = await instanceManager.getProductById(1);
         // console.log(findProduct);
 
-        //instanceManager.updateProduct(3,{"id":3,"title":"producto prueba 3","description":"Este es un producto prueba","price":500,"thumbnail":"Sin imagen","code":"abc123","stock":80});
+        //instanceManager.updateProduct(4,{"id":4,"title":"producto prueba 4","description":"Este es un producto prueba","price":500,"thumbnail":"Sin imagen","code":"abc123","stock":80});
 
-        instanceManager.deleteProduct(1);
+        //instanceManager.deleteProduct(3);
 
     }
 )()
