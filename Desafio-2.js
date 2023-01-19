@@ -137,14 +137,14 @@ class ProductManager{
         const viewProducts = await instanceManager.getProducts();
         console.log(viewProducts);
 
-        //instanceManager.addProduct("producto prueba", "Este es un producto prueba", 200, "Sin imagen", "abc123", 25);
+        //await instanceManager.addProduct("producto prueba", "Este es un producto prueba", 200, "Sin imagen", "abc123", 25);
 
         // const findProduct = await instanceManager.getProductById(1);
         // console.log(findProduct);
 
-        instanceManager.updateProduct(1,{"id":1,"title":"producto prueba 1","description":"Este es un producto prueba","price":300,"thumbnail":"Sin imagen","code":"abc123","stock":80});
+        //await instanceManager.updateProduct(1,{"id":1,"title":"producto prueba 1","description":"Este es un producto prueba","price":300,"thumbnail":"Sin imagen","code":"abc123","stock":80});
 
-        //instanceManager.deleteProduct(3);
+        //await instanceManager.deleteProduct(3);
 
     }
 )()
