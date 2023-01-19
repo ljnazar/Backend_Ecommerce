@@ -98,9 +98,8 @@ class ProductManager{
             const dataFile = await this.getProducts();
             const isFound = dataFile.find(product => product.id == id);
             if(isFound){
-                const index = dataFile.findIndex(productId => productId.id == id);
                 newProduct.id = id;
-                dataFile.splice(index, 1, newProduct);
+                dataFile[dataFile.findIndex(element => element.id == id)] = newProduct;
                 await this.saveFile(this.pathToFile, dataFile);
             }else{
                 console.log("Update operation: Not found");
@@ -138,12 +137,12 @@ class ProductManager{
         const viewProducts = await instanceManager.getProducts();
         console.log(viewProducts);
 
-        instanceManager.addProduct("producto prueba", "Este es un producto prueba", 200, "Sin imagen", "abc123", 25);
+        //instanceManager.addProduct("producto prueba", "Este es un producto prueba", 200, "Sin imagen", "abc123", 25);
 
         // const findProduct = await instanceManager.getProductById(1);
         // console.log(findProduct);
 
-        //instanceManager.updateProduct(4,{"id":4,"title":"producto prueba 4","description":"Este es un producto prueba","price":500,"thumbnail":"Sin imagen","code":"abc123","stock":80});
+        instanceManager.updateProduct(1,{"id":1,"title":"producto prueba 1","description":"Este es un producto prueba","price":300,"thumbnail":"Sin imagen","code":"abc123","stock":80});
 
         //instanceManager.deleteProduct(3);
 
