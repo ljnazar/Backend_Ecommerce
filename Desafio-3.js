@@ -1,13 +1,11 @@
+const express = require('express');
 const fs = require('fs');
 
 class ProductManager{
-
     pathToFile;
-
     constructor(pathToFile){
         this.pathToFile = pathToFile;
     }
-
     async addProduct(title, description, price, thumbnail, code, stock){
         try{
             const dataFile = await this.getProducts();
@@ -32,7 +30,6 @@ class ProductManager{
             console.log(`Error ${error}`);
         }
     }
-
     async getProducts(){
         try{
             const content = await fs.promises.readFile(this.pathToFile, 'utf-8');
@@ -43,7 +40,6 @@ class ProductManager{
             console.log(`Error ${error}`);
         }
     }
-
     async saveFile(path, newContent){
         try{
             const newContentString = JSON.stringify(newContent);
@@ -53,7 +49,6 @@ class ProductManager{
             console.log(`Error ${error}`);
         }
     }
-    
     async getNewId(){
         try{
             let idMax = 0;
@@ -69,7 +64,6 @@ class ProductManager{
             console.log(`Error ${error}`);
         }
     }
-
     async validateCode(code){
         try{
             const dataFile = await this.getProducts();
@@ -80,7 +74,6 @@ class ProductManager{
             console.log(`Error ${error}`);
         }
     }
-
     async getProductById(id){
         console.log(`Search product with id: ${id}`);
         try{
@@ -92,7 +85,6 @@ class ProductManager{
             console.log(`Error ${error}`);
         }
     }
-
     async updateProduct(id, newProduct){
         try{
             const dataFile = await this.getProducts();
@@ -109,7 +101,6 @@ class ProductManager{
             console.log(`Error ${error}`);
         }
     }
-
     async deleteProduct(id){
         try {
             const dataFile = await this.getProducts();
@@ -128,23 +119,29 @@ class ProductManager{
     }
 }
 
-(
-    async () => {
+const app = express();
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
-        const instanceManager = new ProductManager('./products.json');
-
-        console.log('Initial products');
-        const viewProducts = await instanceManager.getProducts();
-        console.log(viewProducts);
-
-        //instanceManager.addProduct("producto prueba", "Este es un producto prueba", 200, "Sin imagen", "abc123", 25);
-
-        // const findProduct = await instanceManager.getProductById(1);
-        // console.log(findProduct);
-
-        instanceManager.updateProduct(1,{"id":1,"title":"producto prueba 1","description":"Este es un producto prueba","price":300,"thumbnail":"Sin imagen","code":"abc123","stock":80});
-
-        //instanceManager.deleteProduct(3);
-
+app.get('/products', async (req, res) => {
+    const instanceManager = new ProductManager('./products.json');
+    const viewProducts = await instanceManager.getProducts();
+    if(viewProducts){
+        const { limit } = req.query;
+        limit ? res.status(200).send(viewProducts.filter(element => element.id <= limit)) : res.status(200).send(viewProducts);
     }
-)()
+    else{
+        res.status(404).send('Not Found');
+    }
+});
+
+app.get('/products/:pid', async (req, res) => {
+    const instanceManager = new ProductManager('./products.json');
+    const viewProducts = await instanceManager.getProducts();
+    const { pid } = req.params;
+    idFound = viewProducts.find(element => element.id == pid);
+    idFound ? res.status(200).send(idFound) : res.status(404).send('Not Found');
+});
+
+const server = app.listen(8080, ()=> console.log('Server running on port 8080'));
+server.on('error', error => console.log(error));
