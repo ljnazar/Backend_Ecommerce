@@ -99,8 +99,9 @@ class ProductManager{
             const isFound = dataFile.find(product => product.id == id);
             if(isFound){
                 flagFound = true;
-                newProduct.id = id;
-                dataFile[dataFile.findIndex(element => element.id == id)] = newProduct;
+                const newObj = { "id":id, ...newProduct }
+                //newProduct.id = id;
+                dataFile[dataFile.findIndex(element => element.id == id)] = newObj;
                 await this.saveFile(this.pathToFile, dataFile);
             }else{
                 flagFound = false;

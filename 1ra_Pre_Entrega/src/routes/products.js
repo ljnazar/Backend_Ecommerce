@@ -30,7 +30,8 @@ productsRouter.post('/', async (req, res) => {
 });
 
 productsRouter.put('/:pid', async (req, res) => {
-    const { pid } = req.params;
+    let { pid } = req.params;
+    pid = parseInt(pid);
     const data = req.body;
     const instanceManager = new ProductManager('./src/products.json');
     const flagFound = await instanceManager.updateProduct(pid, data);
