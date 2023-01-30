@@ -5,8 +5,8 @@
   "main": "Desafio-1.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node Desafio-3.js",
-    "dev": "nodemon Desafio-3.js"
+    "start": "node 1ra_Pre_Entrega",
+    "dev": "nodemon 1ra_Pre_Entrega"
   },
   "repository": {
     "type": "git",
