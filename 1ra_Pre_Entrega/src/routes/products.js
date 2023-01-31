@@ -4,7 +4,7 @@ const { ProductManager } = require('../ProductManager');
 
 productsRouter.get('/', async (req, res) => {
     const instanceManager = new ProductManager('./src/products.json');
-    const viewProducts = await instanceManager.getProducts();
+    const viewProducts = await instanceManager.getData();
     if(viewProducts){
         const { limit } = req.query;
         limit ? res.status(200).send(viewProducts.filter(element => element.id <= limit)) : res.status(200).send(viewProducts);
@@ -16,9 +16,9 @@ productsRouter.get('/', async (req, res) => {
 
 productsRouter.get('/:pid', async (req, res) => {
     const instanceManager = new ProductManager('./src/products.json');
-    const viewProducts = await instanceManager.getProducts();
+    const viewProducts = await instanceManager.getData();
     const { pid } = req.params;
-    idFound = viewProducts.find(element => element.id == pid);
+    const idFound = viewProducts.find(element => element.id == pid);
     idFound ? res.status(200).send(idFound) : res.status(404).send('Not Found');
 });
 

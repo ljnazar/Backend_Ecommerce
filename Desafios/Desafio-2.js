@@ -10,7 +10,7 @@ class ProductManager{
 
     async addProduct(title, description, price, thumbnail, code, stock){
         try{
-            const dataFile = await this.getProducts();
+            const dataFile = await this.getData();
             if(title && description && price && thumbnail && code && stock && this.validateCode(code)){
                 const product = {
                     id : await this.getNewId(),
@@ -33,7 +33,7 @@ class ProductManager{
         }
     }
 
-    async getProducts(){
+    async getData(){
         try{
             const content = await fs.promises.readFile(this.pathToFile, 'utf-8');
             const contentObject = JSON.parse(content);
@@ -57,7 +57,7 @@ class ProductManager{
     async getNewId(){
         try{
             let idMax = 0;
-            const dataFile = await this.getProducts();
+            const dataFile = await this.getData();
             dataFile.forEach(product => {
                 if (product.id > idMax) {
                     idMax = product.id;
@@ -72,7 +72,7 @@ class ProductManager{
 
     async validateCode(code){
         try{
-            const dataFile = await this.getProducts();
+            const dataFile = await this.getData();
             const result = dataFile.find(product => product.code == code);
             return result ? false : true;
         }
@@ -84,7 +84,7 @@ class ProductManager{
     async getProductById(id){
         console.log(`Search product with id: ${id}`);
         try{
-            const dataFile = await this.getProducts();
+            const dataFile = await this.getData();
             const isFound = dataFile.find(product => product.id == id);
             return isFound ? dataFile[id-1] : "Not found";
         }
@@ -95,7 +95,7 @@ class ProductManager{
 
     async updateProduct(id, newProduct){
         try{
-            const dataFile = await this.getProducts();
+            const dataFile = await this.getData();
             const isFound = dataFile.find(product => product.id == id);
             if(isFound){
                 newProduct.id = id;
@@ -112,7 +112,7 @@ class ProductManager{
 
     async deleteProduct(id){
         try {
-            const dataFile = await this.getProducts();
+            const dataFile = await this.getData();
             const isFound = dataFile.find(product => product.id == id);
             if(isFound){
                 const filterData = dataFile.filter(product => product.id !== id) || null;
@@ -134,7 +134,7 @@ class ProductManager{
         const instanceManager = new ProductManager('./products.json');
 
         console.log('Initial products');
-        const viewProducts = await instanceManager.getProducts();
+        const viewProducts = await instanceManager.getData();
         console.log(viewProducts);
 
         //await instanceManager.addProduct("producto prueba", "Este es un producto prueba", 200, "Sin imagen", "abc123", 25);

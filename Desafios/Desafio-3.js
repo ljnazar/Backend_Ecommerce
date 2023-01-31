@@ -8,7 +8,7 @@ class ProductManager{
     }
     async addProduct(title, description, price, thumbnail, code, stock){
         try{
-            const dataFile = await this.getProducts();
+            const dataFile = await this.getData();
             if(title && description && price && thumbnail && code && stock && this.validateCode(code)){
                 const product = {
                     id : await this.getNewId(),
@@ -30,7 +30,7 @@ class ProductManager{
             console.log(`Error ${error}`);
         }
     }
-    async getProducts(){
+    async getData(){
         try{
             const content = await fs.promises.readFile(this.pathToFile, 'utf-8');
             const contentObject = JSON.parse(content);
@@ -52,7 +52,7 @@ class ProductManager{
     async getNewId(){
         try{
             let idMax = 0;
-            const dataFile = await this.getProducts();
+            const dataFile = await this.getData();
             dataFile.forEach(product => {
                 if (product.id > idMax) {
                     idMax = product.id;
@@ -66,7 +66,7 @@ class ProductManager{
     }
     async validateCode(code){
         try{
-            const dataFile = await this.getProducts();
+            const dataFile = await this.getData();
             const result = dataFile.find(product => product.code == code);
             return result ? false : true;
         }
@@ -77,7 +77,7 @@ class ProductManager{
     async getProductById(id){
         console.log(`Search product with id: ${id}`);
         try{
-            const dataFile = await this.getProducts();
+            const dataFile = await this.getData();
             const isFound = dataFile.find(product => product.id == id);
             return isFound ? dataFile[id-1] : "Not found";
         }
@@ -87,7 +87,7 @@ class ProductManager{
     }
     async updateProduct(id, newProduct){
         try{
-            const dataFile = await this.getProducts();
+            const dataFile = await this.getData();
             const isFound = dataFile.find(product => product.id == id);
             if(isFound){
                 newProduct.id = id;
@@ -103,7 +103,7 @@ class ProductManager{
     }
     async deleteProduct(id){
         try {
-            const dataFile = await this.getProducts();
+            const dataFile = await this.getData();
             const isFound = dataFile.find(product => product.id == id);
             if(isFound){
                 const filterData = dataFile.filter(product => product.id !== id) || null;
@@ -125,7 +125,7 @@ app.use(express.urlencoded({ extended: true }));
 
 app.get('/products', async (req, res) => {
     const instanceManager = new ProductManager('./products.json');
-    const viewProducts = await instanceManager.getProducts();
+    const viewProducts = await instanceManager.getData();
     if(viewProducts){
         const { limit } = req.query;
         limit ? res.status(200).send(viewProducts.filter(element => element.id <= limit)) : res.status(200).send(viewProducts);
@@ -137,7 +137,7 @@ app.get('/products', async (req, res) => {
 
 app.get('/products/:pid', async (req, res) => {
     const instanceManager = new ProductManager('./products.json');
-    const viewProducts = await instanceManager.getProducts();
+    const viewProducts = await instanceManager.getData();
     const { pid } = req.params;
     idFound = viewProducts.find(element => element.id == pid);
     idFound ? res.status(200).send(idFound) : res.status(404).send('Not Found');

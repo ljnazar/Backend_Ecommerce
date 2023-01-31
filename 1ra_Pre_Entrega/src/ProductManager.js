@@ -8,7 +8,7 @@ class ProductManager{
     async addProduct(title, description, code, price, status=true, stock, category, thumbnail){
         let flagValidator;
         try{
-            const dataFile = await this.getProducts();
+            const dataFile = await this.getData();
             if(title && description && code && price && stock && category && this.validateCode(code)){
                 flagValidator = true;
                 const product = {
@@ -37,7 +37,29 @@ class ProductManager{
             return flagValidator;
         }
     }
-    async getProducts(){
+    async addCart(products){
+        let flagFound;
+        try{
+            const dataFile = await this.getData();
+            if(products){
+                flagFound = true;
+                id = await this.getNewId();
+                dataFile.push( { "id":id, ...products });
+                await this.saveFile(this.pathToFile, dataFile);
+                console.log(`Product with id ${id} added to cart`);
+            }else{
+                flagFound = false;
+                console.log("Add operation: Not found");
+            }
+        }
+        catch(error){
+            console.log(`Error ${error}`);
+        }
+        finally{
+            return flagFound;
+        }
+    }
+    async getData(){
         try{
             const content = await fs.promises.readFile(this.pathToFile, 'utf-8');
             const contentObject = JSON.parse(content);
@@ -59,7 +81,7 @@ class ProductManager{
     async getNewId(){
         try{
             let idMax = 0;
-            const dataFile = await this.getProducts();
+            const dataFile = await this.getData();
             dataFile.forEach(product => {
                 if (product.id > idMax) {
                     idMax = product.id;
@@ -73,7 +95,7 @@ class ProductManager{
     }
     async validateCode(code){
         try{
-            const dataFile = await this.getProducts();
+            const dataFile = await this.getData();
             const result = dataFile.find(product => product.code == code);
             return result ? false : true;
         }
@@ -84,7 +106,7 @@ class ProductManager{
     async getProductById(id){
         console.log(`Search product with id: ${id}`);
         try{
-            const dataFile = await this.getProducts();
+            const dataFile = await this.getData();
             const isFound = dataFile.find(product => product.id == id);
             return isFound ? dataFile[id-1] : "Not found";
         }
@@ -95,12 +117,11 @@ class ProductManager{
     async updateProduct(id, newProduct){
         let flagFound;
         try{
-            const dataFile = await this.getProducts();
+            const dataFile = await this.getData();
             const isFound = dataFile.find(product => product.id == id);
             if(isFound){
                 flagFound = true;
                 const newObj = { "id":id, ...newProduct }
-                //newProduct.id = id;
                 dataFile[dataFile.findIndex(element => element.id == id)] = newObj;
                 await this.saveFile(this.pathToFile, dataFile);
             }else{
@@ -118,7 +139,7 @@ class ProductManager{
     async deleteProduct(id){
         let flagFound;
         try {
-            const dataFile = await this.getProducts();
+            const dataFile = await this.getData();
             const isFound = dataFile.find(product => product.id == id);
             if(isFound){
                 flagFound = true;

@@ -24,7 +24,7 @@ class ProductManager{
         }
     }
 
-    getProducts(){
+    getData(){
         return this.products;
     }
     
@@ -49,13 +49,13 @@ class ProductManager{
 
 const instanceManager = new ProductManager();
 
-const viewProducts = instanceManager.getProducts();
+const viewProducts = instanceManager.getData();
 
 console.log(viewProducts);
 
 instanceManager.addProduct("producto prueba", "Este es un producto prueba", 200, "Sin imagen", "abc123", 25);
 
-const viewProducts2 = instanceManager.getProducts();
+const viewProducts2 = instanceManager.getData();
 
 console.log(viewProducts2);
 
