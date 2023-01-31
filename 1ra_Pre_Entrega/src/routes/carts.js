@@ -17,6 +17,7 @@ cartsRouter.get('/:cid', async (req, res) => {
     idFound ? res.status(200).send(idFound) : res.status(404).send('Not Found');
 });
 
+// Example of format to send data body -> {"product":10,"quantity":1}
 cartsRouter.post('/:cid/product/:pid', async (req, res) => {
     let productsCart = req.body;
     let { cid } = req.params;
