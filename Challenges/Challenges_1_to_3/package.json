@@ -4,9 +4,7 @@
   "description": "Server of Market Oficom S.R.L.",
   "main": "Desafio-1.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node 1ra_Pre_Entrega",
-    "dev": "nodemon 1ra_Pre_Entrega"
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
     "type": "git",
