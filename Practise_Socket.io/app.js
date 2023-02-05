@@ -4,6 +4,9 @@ const http = require('http');
 const httpServer = http.createServer(app);
 const { Server } = require('socket.io');
 const io = new Server(httpServer);
+const env = require('dotenv')
+
+env.config();
 
 app.use(express.static('public'));
 app.use(express.json());
@@ -33,6 +36,6 @@ io.on('connection', (socket) => {
     });
 });
 
-const PORT = 3000;
+const PORT = process.env.PORT || 8080;
 
 httpServer.listen(PORT, () => console.log(`Server running on port ${PORT}`));
