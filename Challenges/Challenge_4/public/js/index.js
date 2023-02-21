@@ -15,4 +15,4 @@ btnDelete.addEventListener('click', () => {
 
 socket.on('viewProducts', data => {
     document.querySelector('p').innerText = data;
-})
+});
