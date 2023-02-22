@@ -3,7 +3,6 @@ const mongoose = require('mongoose');
 const productCollection = 'products';
 
 const productSchema = new mongoose.Schema({
-    idProduct: String,
     title: String,
     description: String,
     price: String,

@@ -8,6 +8,7 @@ const env = require('dotenv');
 const handlebars = require('express-handlebars');
 const messageRouter = require('./routers/message.router');
 const productRouter = require('./routers/product.router');
+const cartRouter = require('./routers/cart.router');
 const mongoose = require('mongoose');
 const messageModel = require('./models/message.model');
 
@@ -23,6 +24,7 @@ app.set('view engine', 'handlebars');
 
 app.use('/messages', messageRouter);
 app.use('/products', productRouter);
+app.use('/carts', cartRouter);
 
 const MONGOOSE_API_KEY = process.env.MONGOOSE_API_KEY;
 mongoose.connect(MONGOOSE_API_KEY, (error) => {
