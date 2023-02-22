@@ -1,12 +1,20 @@
 <h1>Real Time Chat</h1>
 
 <div>
-    <input id="inputSendMessage" type="text">
-    <button id="btnSendMessage">Send Message</button>
+    <label>User</label>
+    <input id="inputUser" type="text">
 </div>
 <br>
 
-<p>{{data}}</p>
+<div>
+    <label>Message</label>
+    <input id="inputMessage" type="text">
+</div>
+<br>
+
+<button id="btnSendMessage">Send Message</button>
+
+<p id="paragraphRender"></p>
 
 <script src="/socket.io/socket.io.js"></script>
-<script src="js/index.js"></script>
+<script src="js/chat.js"></script>

@@ -1,12 +1,12 @@
-const mongosse = require('mongoose');
+const mongoose = require('mongoose');
 
 const messageCollection = 'messages';
 
-const messageSchema = new mongosse.Schema({
+const messageSchema = new mongoose.Schema({
     user: String,
     message: String
 }, {versionKey: false});
 
-const messageModel = mongosse.model(messageCollection, messageSchema);
+const messageModel = mongoose.model(messageCollection, messageSchema);
 
-module.exports =  messageModel;
+module.exports = messageModel;
