@@ -26,6 +26,8 @@ app.use('/messages', messageRouter);
 app.use('/products', productRouter);
 app.use('/carts', cartRouter);
 
+mongoose.set("strictQuery", false);
+
 const MONGOOSE_API_KEY = process.env.MONGOOSE_API_KEY;
 mongoose.connect(MONGOOSE_API_KEY, (error) => {
     if(error){
