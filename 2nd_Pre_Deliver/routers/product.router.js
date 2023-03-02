@@ -7,16 +7,34 @@ productRouter.get('/', async (req, res) => {
 
     const { limit, page, sort, query } = req.query
 
-    console.log(limit);
-    console.log(page);
-    console.log(sort);
-    console.log(query);
+    //console.log(limit);
+    //console.log(page);
+    //console.log(sort);
+    //console.log(query);
+
+    let products;
+    let options;
 
     try{
-        //let products = await productModel.find();
-        let products = await productModel.paginate( {title: query}, {limit: limit , page: page});
-        //let products = await productModel.paginate( {title: query}, {limit: limit , page: page, sort: { _id: 1, createdAt: -1 }});
-        //res.render('products', { data: products });
+        if(query){
+            if(limit) {
+                options = {
+                    limit: limit,
+                    page: page,
+                    sort: { price: sort}
+                }
+            }
+            else {
+                options = {
+                    pagination: false,
+                    sort: { price: sort},
+                }
+            }
+            products = await productModel.paginate( {title: query}, options );
+        }
+        else{
+            products = await productModel.find();
+        }
         res.send(products);
     }
     catch(error){
