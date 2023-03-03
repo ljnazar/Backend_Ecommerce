@@ -12,7 +12,7 @@ productRouter.get('/', async (req, res) => {
     //console.log(sort);
     //console.log(query);
 
-    let products;
+    let result;
     let options;
 
     try{
@@ -30,15 +30,30 @@ productRouter.get('/', async (req, res) => {
                     sort: { price: sort},
                 }
             }
-            products = await productModel.paginate( {title: query}, options );
+            result = await productModel.paginate( {title: query}, options );
         }
         else{
-            products = await productModel.find();
+            result = await productModel.find();
         }
-        res.send(products);
     }
     catch(error){
         console.log(`Cannot get products with mongoose ${error}`);
+    }
+    finally{
+        let resultFormatted = {
+            status: 'Status code',
+            payload : result.docs,
+            totalResults: result.totalDocs,
+            totalPages: result.totalPages,
+            prevPage: result.prevPage,
+            nextPage: result.nextPage,
+            page: result.page,
+            hasPrevPage: result.hasPrevPage,
+            hasNextPage: result.hasNextPage,
+            prevLink: result.hasPrevPage ? 'Link-to-pre-page' : null,
+            nextLink: result.hasNextPage ? 'Link-to-post-page' : null
+        }
+        res.send(resultFormatted);
     }
 });
 
