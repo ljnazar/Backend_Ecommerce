@@ -57,10 +57,10 @@ productRouter.get('/', async (req, res) => {
     }
 });
 
-productRouter.get('/:id', async (req, res) => {
-    const { id } = req.params;
+productRouter.get('/:pid', async (req, res) => {
+    const { pid } = req.params;
     try{
-        let product = await productModel.find({_id: id});
+        let product = await productModel.find({_id: pid});
         //res.render('products', { data: product });
         res.send(product);
     }
@@ -82,23 +82,26 @@ productRouter.post('/', async (req, res) => {
             code, 
             stock
         });
+        res.send("Product create success");
     }
     catch(error){
         console.log(`Cannot send product to mongoose ${error}`);
     }
 });
 
-productRouter.put('/:id', async (req, res) => {
-    let { id } = req.params;
+productRouter.put('/:pid', async (req, res) => {
+    let { pid } = req.params;
     const data = req.body;
     let {title, description, price, thumbnail, code, stock } = data;
     if(!title || !description || !price || !thumbnail || !code || !stock) return res.send({ status: "Error", error: "Incomplete values"});
-    await productModel.updateOne({_id: id}, data);
+    await productModel.updateOne({_id: pid}, data);
+    res.send("Product update success");
 });
 
-productRouter.delete('/:id', async (req, res) => {
-    let { id } = req.params;
-    await productModel.deleteOne({_id: id});
+productRouter.delete('/:pid', async (req, res) => {
+    let { pid } = req.params;
+    await productModel.deleteOne({_id: pid});
+    res.send("Product delete success");
 });
 
 module.exports = productRouter;
