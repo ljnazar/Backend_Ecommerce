@@ -5,7 +5,7 @@ const productRouter = Router();
 
 productRouter.get('/', async (req, res) => {
 
-    const { limit, page, sort, query } = req.query
+    const { limit, page, sort, query } = req.query;
 
     //console.log(limit);
     //console.log(page);
@@ -61,7 +61,6 @@ productRouter.get('/:pid', async (req, res) => {
     const { pid } = req.params;
     try{
         let product = await productModel.find({_id: pid});
-        //res.render('products', { data: product });
         res.send(product);
     }
     catch(error){

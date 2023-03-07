@@ -15,10 +15,6 @@ const cartSchema = new mongoose.Schema({
         ],
         default: []
     },
-    // test: {
-    //     type: mongoose.Schema.Types.ObjectId,
-    //     ref: "products",
-    // },
     quantity: String
 }, {versionKey: false});
 
