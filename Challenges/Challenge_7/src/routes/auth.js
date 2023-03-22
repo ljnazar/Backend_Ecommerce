@@ -22,39 +22,20 @@ authRouter.post('/login', sessionValidation,  async (req, res) => {
         res.render('login-error', { user });
     }else{
         req.session.user = userFound.email;
-        const products = await productModel.find({category: "notebooks"});
-        // const products = [
-        //     {
-        //         _id: "641b5697136efbfe5d76d68f",
-        //         title: 'Notebook',
-        //         description: 'Asus Modelo 15FRX',
-        //         category: 'notebooks',
-        //         price: '152000',
-        //         thumbnail: 'https://mdbcdn.b-cdn.net/img/Photos/Horizontal/E-commerce/Products/4.webp',
-        //         code: 'abc123',
-        //         stock: '6'
-        //     },
-        //     {
-        //         _id: "641b596b136efbfe5d76d690",
-        //         title: 'Notebook',
-        //         description: 'Dell Modelo 15-RFS56',
-        //         category: 'notebooks',
-        //         price: '200000',
-        //         thumbnail: 'https://mdbcdn.b-cdn.net/img/Photos/Horizontal/E-commerce/Products/7.webp',
-        //         code: 'abc456',
-        //         stock: '8'
-        //     },
-        //     {
-        //         _id: "641b5a02136efbfe5d76d691",
-        //         title: 'Notebook',
-        //         description: 'Dell Modelo 17-RYHD6',
-        //         category: 'notebooks',
-        //         price: '265000',
-        //         thumbnail: 'https://mdbcdn.b-cdn.net/img/Photos/Horizontal/E-commerce/Products/5.webp',
-        //         code: 'abc789',
-        //         stock: '4'
-        //     }
-        // ];
+        const productsFound = await productModel.find({category: "notebooks"});
+        let products = [];
+        if(productsFound){
+            productsFound.forEach( element => {
+                let object = {
+                    thumbnail: element.thumbnail,
+                    category: element.category,
+                    description: element.description,
+                    price: element.price,
+                    stock: element.stock
+                }
+                    products.push(object);
+            });
+        }
         res.render('datos', { user: req.session.user, role: userFound.role , products});
     }
 });

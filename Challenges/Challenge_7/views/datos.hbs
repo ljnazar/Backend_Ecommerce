@@ -1,19 +1,17 @@
 <div class="container text-center my-3">
     <div class="jumbotron" style="background-color: blue; color: white;">
-        <h1 class="my-4 py-4">USER OK LOGIN!</h1>
+        <h1 class="my-2 py-4">USER OK LOGIN!</h1>
         <h2><i>Bienvenido {{ user }}</i></h2>
         <h2><i>Rol {{ role }}</i></h2>
-        <button class="btn btn-danger my-5" onclick="location.href='/logout'">LOGOUT</button>
+        <button class="btn btn-danger my-3" onclick="location.href='/logout'">LOGOUT</button>
     </div>
 
     <h3 class="my-5"><i>productos</i></h2>
 
-    <h3 class="my-5"><i>{{ products }}</i></h2>
-
     <section style="background-color: #eee;">
-        {{#each products}}
-            <div class="container py-5">
-                <div class="row">
+        <div class="container py-5">
+            <div class="row">
+                {{#each products}}
                     <div class="col-md-12 col-lg-4 mb-4 mb-lg-0">
                         <div class="card">
                             <img src={{ thumbnail }}
@@ -32,9 +30,9 @@
                             </div>
                         </div>
                     </div>
-                </div>
+                {{/each}}
             </div>
-        {{/each}}
+        </div>
     </section>
 
 </div>
