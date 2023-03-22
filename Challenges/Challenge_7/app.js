@@ -18,14 +18,6 @@ const app = express();
 app.engine('.hbs', exphbs({ extname: '.hbs', defaultLayout: 'main.hbs' }));
 app.set('view engine', '.hbs');
 
-const PORT = process.env.PORT || 8080;
-const server = app.listen(PORT, () => console.log(`Server running on port: ${PORT}`));
-server.on('error', error => console.log(error));
-
-mongoose.connect('mongodb+srv://ljnazar:elmo1546@ecommerce.2qxtdjo.mongodb.net/ecommerce?retryWrites=true&w=majority')
-    .then(res => console.log('Database connected'))
-    .catch(error => console.log(error));
-
 // const mongoStore = MongoStore.create({
 //     mongoUrl: 'mongodb+srv://ljnazar:elmo1546@ecommerce.2qxtdjo.mongodb.net/ecommerce?retryWrites=true&w=majority',
 //     mongoOptions: { useNewUrlParser: true, useUnifiedTopology: true },
@@ -43,6 +35,8 @@ initializePassport();
 
 app.use(session({
     secret: createHash('secretoConHashRandom'),
+    resave: false,
+    saveUninitialized: false
 }));
 
 app.use(passport.initialize());
@@ -54,3 +48,10 @@ app.use('/api/sessions', sessionsRouter);
 // });
 
 
+const PORT = process.env.PORT || 8080;
+const server = app.listen(PORT, () => console.log(`Server running on port: ${PORT}`));
+server.on('error', error => console.log(error));
+
+mongoose.connect('mongodb+srv://ljnazar:elmo1546@ecommerce.2qxtdjo.mongodb.net/ecommerce?retryWrites=true&w=majority')
+    .then(res => console.log('Database connected'))
+    .catch(error => console.log(error));

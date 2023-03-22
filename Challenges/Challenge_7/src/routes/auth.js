@@ -59,7 +59,7 @@ authRouter.post('/register', sessionValidation,  async(req, res) => {
 
 authRouter.get('/logout', async(req, res) => {
     req.session.destroy(error => {
-        res.redirect('/auth/login');
+        res.redirect('/login');
     });
 });
 
