@@ -6,15 +6,15 @@ const usuarioModel = require('../models/user');
 
 const authRouter = Router();
 
-authRouter.get('/', authMiddleware, async(req, res) => {
-    res.render('datos', {});
-});
+// authRouter.get('/', authMiddleware, async(req, res) => {
+//     res.render('datos', {});
+// });
 
 authRouter.get('/login', sessionValidation, async(req, res) => {
     res.render('login', {});
 });
 
-authRouter.post('/login', sessionValidation,  async(req, res) => {
+authRouter.post('/login', sessionValidation,  async (req, res) => {
     let user = req.body;
     let userFound = await usuarioModel.findOne({ email: user.email });
     if(!userFound || !isValidPassword(userFound, user.password)){

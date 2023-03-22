@@ -7,13 +7,13 @@ const authRouter = require('./src/routes/auth');
 const sessionsRouter = require('./src/routes/sessions');
 const { createHash } = require('./src/utils/index');
 const initializePassport = require('./src/config/passport.config');
-const env = require('dotenv');
 const passport = require('passport');
-
+const env = require('dotenv');
 const app = express();
 
-// app.use(express.json());
-// app.use(express.urlencoded({extended: true}));
+
+app.use(express.json());
+app.use(express.urlencoded({extended: true}));
 
 app.engine('.hbs', exphbs({ extname: '.hbs', defaultLayout: 'main.hbs' }));
 app.set('view engine', '.hbs');
@@ -40,12 +40,16 @@ app.use(session({
 }));
 
 app.use(passport.initialize());
-//app.use('/auth', authRouter);
 app.use('/', authRouter);
+//app.use('/', authRouter);
 app.use('/api/sessions', sessionsRouter);
 // app.get('/', (req, res) => {
 //     res.redirect('/login');
 // });
+
+app.get('/', (req, res) => {
+    res.redirect('/login');
+});
 
 
 const PORT = process.env.PORT || 8080;
