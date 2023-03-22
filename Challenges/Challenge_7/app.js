@@ -11,6 +11,7 @@ const passport = require('passport');
 const env = require('dotenv');
 const app = express();
 
+env.config();
 
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));
@@ -56,6 +57,10 @@ const PORT = process.env.PORT || 8080;
 const server = app.listen(PORT, () => console.log(`Server running on port: ${PORT}`));
 server.on('error', error => console.log(error));
 
-mongoose.connect('mongodb+srv://ljnazar:elmo1546@ecommerce.2qxtdjo.mongodb.net/ecommerce?retryWrites=true&w=majority')
+const MONGOOSE_API_KEY = process.env.MONGOOSE_API_KEY;
+mongoose.connect(MONGOOSE_API_KEY)
     .then(res => console.log('Database connected'))
-    .catch(error => console.log(error));
+    .catch(error => {
+        console.log("Cannot connect to database: " + error);
+        process.exit();
+    });
