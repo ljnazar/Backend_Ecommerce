@@ -1,4 +1,4 @@
-const authMiddleware =  (req, res, next) => {
+const isAuth =  (req, res, next) => {
     if(req.session.user){
         next();
     }else{
@@ -6,12 +6,4 @@ const authMiddleware =  (req, res, next) => {
     }
 }
 
-const sessionValidation = (req, res, next) => {
-    if(!req.session?.user){
-        next();
-    }else{
-        res.render('datos', {});
-    }
-}
-
-module.exports = { sessionValidation, authMiddleware };
+module.exports = { isAuth };
