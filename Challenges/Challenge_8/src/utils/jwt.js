@@ -14,9 +14,11 @@ const authToken = (req, res, next) => {
 
     const token = req.signedCookies.sessionToken;
 
-    if(!token) return res.status(401).json({ error: 'Not authenticated' });
+    //if(!token) return res.status(401).json({ error: 'Not authenticated' });
+    if(!token) return res.status(401).render('login', { error: 'Not authenticated' });
     jwt.verify(token, RANDOM_PRIVATE_KEY, error => {
-        if(error) return res.status(403).json({ error: 'Not authorized' });
+        //if(error) return res.status(403).json({ error: 'Not authorized' });
+        if(error) return res.status(403).render('login', { error: 'Not authorized' });
     })
     next();
 }

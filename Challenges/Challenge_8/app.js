@@ -7,7 +7,8 @@ const sessionsRouter = require('./src/routes/sessions');
 const { createHash } = require('./src/utils/bcrypt');
 const initializePassport = require('./src/config/passport.config');
 const passport = require('passport');
-const { isAuth } = require('./src/middlewares/index');
+const { authToken } = require('./src/utils/jwt');
+//const { isAuth } = require('./src/middlewares/index');
 
 const env = require('dotenv');
 
@@ -38,9 +39,9 @@ app.use('/', authRouter);
 
 app.use('/api/sessions', sessionsRouter);
 
-app.get('/', isAuth, (req, res) => {
-    res.redirect('/');
-});
+// app.get('/', authToken, (req, res) => {
+//     res.redirect('/');
+// });
 
 const PORT = process.env.PORT || 8080;
 const server = app.listen(PORT, () => console.log(`Server running on port: ${PORT}`));

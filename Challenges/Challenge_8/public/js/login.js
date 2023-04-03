@@ -20,15 +20,16 @@ btnSubmit.addEventListener('click', async e => {
         body: JSON.stringify(data)
     });
 
-    //location.href = '/';
+    
+    location.href = '/';
 
 
 
 
 
-    const response = await sendData.json(); 
+    //const response = await sendData.json(); 
 
-    console.log(response);
+    //console.log(response);
 
     // const { accessToken } = response;
 

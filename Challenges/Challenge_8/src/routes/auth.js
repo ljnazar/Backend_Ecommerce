@@ -1,5 +1,4 @@
 const { Router } = require('express');
-const { isAuth } = require('../middlewares/index');
 const { createHash, isValidPassword } = require('../utils/bcrypt');
 const userModel = require('../models/user');
 const productModel = require('../models/product');
@@ -45,6 +44,7 @@ authRouter.post('/login', passport.authenticate('login', {failureRedirect: '/fai
         const accessToken = generateToken(user);
         //res.cookie('sessionToken', accessToken, { maxAge: 30*1000, httpOnly: true, signed: true }).json({ status: 'success', message: 'Logged in!' });
         res.cookie('sessionToken', accessToken, { maxAge: 30*1000, httpOnly: true, signed: true }).render('datos', { user: req.session.user, role: userFound.role , products});
+        //.redirect('/')
     }
 });
 
@@ -66,8 +66,8 @@ authRouter.get('/failregister', (req, res) => {
 
 // DATOS
 
-authRouter.get('/', isAuth, (req, res) => {
-    res.render('datos', {});
+authRouter.get('/', authToken, (req, res) => {
+    //res.render('datos');
 });
 
 // VALIDATE TOKEN JWT
