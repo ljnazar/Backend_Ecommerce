@@ -10,9 +10,7 @@ const passport = require('passport');
 const { authToken } = require('./src/utils/jwt');
 //const { isAuth } = require('./src/middlewares/index');
 
-const env = require('dotenv');
-
-env.config();
+const env = require('dotenv').config();
 
 const app = express();
 

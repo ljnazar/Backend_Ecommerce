@@ -16,36 +16,37 @@ authRouter.get('/login', (req, res) => {
     res.render('login');
 });
 
-authRouter.post('/login', passport.authenticate('login', {failureRedirect: '/faillogin'}),  async (req, res) => {
+authRouter.post('/login', passport.authenticate('login'),  async (req, res) => {
     let user = req.body;
     //console.log(user);
-    let userFound = await userModel.findOne({ email: user.email });
-    if(!userFound || !isValidPassword(userFound, user.password)){
-        res.render('login-error', { user });
-    }else{
-        req.session.user = userFound.email;
-        const productsFound = await productModel.find({category: "notebooks"});
-        let products = [];
-        if(productsFound){
-            productsFound.forEach( element => {
-                let object = {
-                    thumbnail: element.thumbnail,
-                    category: element.category,
-                    description: element.description,
-                    price: element.price,
-                    stock: element.stock
-                }
-                    products.push(object);
-            });
-        }
+    // let userFound = await userModel.findOne({ email: user.email });
+    // if(!userFound || !isValidPassword(userFound, user.password)){
+    //     res.render('login-error', { user: user.email });//.json({ status: 'error', message: 'badCredentials' });;
+    // }else{
+    //     //req.session.user = userFound.email;
+    //     const productsFound = await productModel.find({category: "notebooks"});
+    //     let products = [];
+    //     if(productsFound){
+    //         productsFound.forEach( element => {
+    //             let object = {
+    //                 thumbnail: element.thumbnail,
+    //                 category: element.category,
+    //                 description: element.description,
+    //                 price: element.price,
+    //                 stock: element.stock
+    //             }
+    //                 products.push(object);
+    //         });
+    //     }
         //console.log({ user: req.session.user, role: userFound.role , products});
         //res.render('datos', { user: req.session.user, role: userFound.role , products});
         // Generate token JWT
         const accessToken = generateToken(user);
         //res.cookie('sessionToken', accessToken, { maxAge: 30*1000, httpOnly: true, signed: true }).json({ status: 'success', message: 'Logged in!' });
-        res.cookie('sessionToken', accessToken, { maxAge: 30*1000, httpOnly: true, signed: true }).render('datos', { user: req.session.user, role: userFound.role , products});
+        res.cookie('sessionToken', accessToken, { maxAge: 30*1000, httpOnly: true, signed: true }).json();
+        //.render('datos', { user: req.session.user, role: userFound.role , products});
         //.redirect('/')
-    }
+    //}
 });
 
 authRouter.get('/faillogin', (req, res) => {
@@ -66,8 +67,34 @@ authRouter.get('/failregister', (req, res) => {
 
 // DATOS
 
-authRouter.get('/', authToken, (req, res) => {
-    //res.render('datos');
+authRouter.get('/', authToken, async (req, res) => {
+    //console.log(req.user);
+    //const email = JSON.stringify(req.user.email);
+
+    let user = req.user;
+    let userFound = await userModel.findOne({ email: user.email });
+    if(!userFound || !isValidPassword(userFound, user.password)){
+        res.render('login-error', { user: user.email });//.json({ status: 'error', message: 'badCredentials' });;
+    }else{
+        //req.session.user = userFound.email;
+        const productsFound = await productModel.find({category: "notebooks"});
+        let products = [];
+        if(productsFound){
+            productsFound.forEach( element => {
+                let object = {
+                    thumbnail: element.thumbnail,
+                    category: element.category,
+                    description: element.description,
+                    price: element.price,
+                    stock: element.stock
+                }
+                    products.push(object);
+            });
+        }
+
+    //res.render('datos', { user: email });
+    res.render('datos', { user: user.email, role: userFound.role , products});
+    }
 });
 
 // VALIDATE TOKEN JWT

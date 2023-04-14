@@ -19,17 +19,43 @@ btnSubmit.addEventListener('click', async e => {
         },
         body: JSON.stringify(data)
     });
+        /*.then(result => result.json())
+        .then(json => console.log(json));*/
 
     
-    location.href = '/';
+    //location.href = '/';
 
 
 
 
 
-    //const response = await sendData.json(); 
+    const response = await sendData;
+    console.log(response);
+    if(response.status === 200){
+        //const jsonResponse = await response.json();
+        //console.log(jsonResponse);
+        //console.log(jsonResponse.message);
+        console.log('Logged in');
+        location.href = '/';
+    }else if(response.status === 401){
+        console.log(`Error code ${response.status} - Not authenticated`);
+        location.href = '/faillogin';
+    }else if(response.status === 403){
+        console.log(`Error code ${response.status} - Not authorized`);
+        location.href = '/faillogin';
+    }else{
+        console.log(`Error code ${response.status}`);
+        location.href = '/faillogin';
+    }
+    // const jsonResponse = await response.json();
+    // console.log(jsonResponse);
+    // console.log(jsonResponse.message);
+    // console.log(jsonResponse[0]);
+    // console.log(jsonResponse.state);
 
-    //console.log(response);
+    //console.log(response.url);
+
+    //location.href = '/';
 
     // const { accessToken } = response;
 
@@ -38,6 +64,6 @@ btnSubmit.addEventListener('click', async e => {
     //     location.href = '/';
     // }
     // else {
-    //     location.href = '/login-error';
+    //     location.href = '/faillogin';
     // }
 });
