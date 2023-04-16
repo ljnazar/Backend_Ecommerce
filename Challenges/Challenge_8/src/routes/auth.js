@@ -1,10 +1,11 @@
 import { Router } from 'express';
 import { createHash } from '../utils/bcrypt.js';
 import userModel from '../models/userSchema.js';
-import productModel from '../models/productSchema.js';
+//import productModel from '../models/productSchema.js';
 import passport from 'passport';
 import { generateToken, authToken } from '../utils/jwt.js';
 import cookieParser from 'cookie-parser';
+import ProductsMongooseDao from '../dao/productsMongooseDao.js'
 
 const authRouter = Router();
 
@@ -42,20 +43,8 @@ authRouter.get('/failregister', (req, res) => {
 
 authRouter.get('/', authToken, async (req, res) => {
 
-    const productsFound = await productModel.find({category: "notebooks"});
-    let products = [];
-    if(productsFound){
-        productsFound.forEach( element => {
-            let object = {
-                thumbnail: element.thumbnail,
-                category: element.category,
-                description: element.description,
-                price: element.price,
-                stock: element.stock
-            }
-                products.push(object);
-        });
-    }
+    const productsMongooseDao = new ProductsMongooseDao();
+    const products = await productsMongooseDao.list();
 
     res.render('datos', { user: req.user.email, role: req.user.role , products});
 
