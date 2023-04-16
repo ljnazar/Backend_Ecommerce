@@ -7,13 +7,14 @@ const sessionsRouter = require('./src/routes/sessions');
 const { createHash } = require('./src/utils/bcrypt');
 const initializePassport = require('./src/config/passport.config');
 const passport = require('passport');
-const { authToken } = require('./src/utils/jwt');
+//const { authToken } = require('./src/utils/jwt');
 //const { isAuth } = require('./src/middlewares/index');
 
 const env = require('dotenv').config();
 
 const app = express();
 
+// Middlewares
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));
 app.use(express.static('public'));
@@ -21,20 +22,18 @@ app.use(express.static('public'));
 app.engine('.hbs', exphbs({ extname: '.hbs', defaultLayout: 'main.hbs' }));
 app.set('view engine', '.hbs');
 
+// Session and passport only for GitHub login
 initializePassport();
-
 app.use(session({
     secret: createHash('secretoConHashRandom'),
     resave: false,
     saveUninitialized: false
 }));
-
 app.use(passport.initialize());
-
 app.use(passport.session());
 
+// Routes
 app.use('/', authRouter);
-
 app.use('/api/sessions', sessionsRouter);
 
 // app.get('/', authToken, (req, res) => {

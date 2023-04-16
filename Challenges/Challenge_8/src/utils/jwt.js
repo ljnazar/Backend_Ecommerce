@@ -19,7 +19,7 @@ const authToken = (req, res, next) => {
     jwt.verify(token, RANDOM_PRIVATE_KEY, (error, credentials) => {
         //if(error) return res.status(403).json({ error: 'Not authorized' });
         if(error) return res.status(403).render('login', { error: 'Not authorized' });
-        req.user = credentials.user;
+        req.userCredentials = credentials.user;
         //Test
         //req.asd = JSON.stringify(credentials.user);
         //const asd = JSON.stringify(req.user);

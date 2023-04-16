@@ -17,7 +17,12 @@ authRouter.get('/login', (req, res) => {
 });
 
 authRouter.post('/login', passport.authenticate('login'),  async (req, res) => {
-    let user = req.body;
+
+
+    //console.log(req);
+
+
+    //let user = req.body;
     //console.log(user);
     // let userFound = await userModel.findOne({ email: user.email });
     // if(!userFound || !isValidPassword(userFound, user.password)){
@@ -41,7 +46,7 @@ authRouter.post('/login', passport.authenticate('login'),  async (req, res) => {
         //console.log({ user: req.session.user, role: userFound.role , products});
         //res.render('datos', { user: req.session.user, role: userFound.role , products});
         // Generate token JWT
-        const accessToken = generateToken(user);
+        const accessToken = generateToken(req.userCredentials);
         //res.cookie('sessionToken', accessToken, { maxAge: 30*1000, httpOnly: true, signed: true }).json({ status: 'success', message: 'Logged in!' });
         res.cookie('sessionToken', accessToken, { maxAge: 30*1000, httpOnly: true, signed: true }).json();
         //.render('datos', { user: req.session.user, role: userFound.role , products});
@@ -68,33 +73,35 @@ authRouter.get('/failregister', (req, res) => {
 // DATOS
 
 authRouter.get('/', authToken, async (req, res) => {
-    //console.log(req.user);
+    //console.log(req);
     //const email = JSON.stringify(req.user.email);
 
-    let user = req.user;
-    let userFound = await userModel.findOne({ email: user.email });
-    if(!userFound || !isValidPassword(userFound, user.password)){
-        res.render('login-error', { user: user.email });//.json({ status: 'error', message: 'badCredentials' });;
-    }else{
+    //let user = req.userCredentials;
+    //let userFound = await userModel.findOne({ email: user.email });
+    //if(!userFound || !isValidPassword(req.user, req.userCredentials.password)){
+        //res.render('login-error', { user: req.user.email });//.json({ status: 'error', message: 'badCredentials' });;
+    //}else{
         //req.session.user = userFound.email;
-        const productsFound = await productModel.find({category: "notebooks"});
-        let products = [];
-        if(productsFound){
-            productsFound.forEach( element => {
-                let object = {
-                    thumbnail: element.thumbnail,
-                    category: element.category,
-                    description: element.description,
-                    price: element.price,
-                    stock: element.stock
-                }
-                    products.push(object);
-            });
-        }
+    const productsFound = await productModel.find({category: "notebooks"});
+    let products = [];
+    if(productsFound){
+        productsFound.forEach( element => {
+            let object = {
+                thumbnail: element.thumbnail,
+                category: element.category,
+                description: element.description,
+                price: element.price,
+                stock: element.stock
+            }
+                products.push(object);
+        });
+    }
+
+    console.log(req);
 
     //res.render('datos', { user: email });
-    res.render('datos', { user: user.email, role: userFound.role , products});
-    }
+    res.render('datos', { user: req.user.email, role: req.user.role , products});
+    //}
 });
 
 // VALIDATE TOKEN JWT
@@ -108,9 +115,10 @@ authRouter.get('/VerificateToken', authToken, (req, res) => {
 // LOGOUT
 
 authRouter.get('/logout', (req, res) => {
-    req.session.destroy(error => {
-        res.redirect('/login');
-    });
+    // req.session.destroy(error => {
+    //     res.redirect('/login');
+    // });
+    res.redirect('/login');
 });
 
 // RESET PASSWORD
