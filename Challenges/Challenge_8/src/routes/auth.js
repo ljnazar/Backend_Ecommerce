@@ -1,10 +1,10 @@
-const { Router } = require('express');
-const { createHash, isValidPassword } = require('../utils/bcrypt');
-const userModel = require('../models/user');
-const productModel = require('../models/product');
-const passport = require('passport');
-const { generateToken, authToken } = require('../utils/jwt');
-const cookieParser = require('cookie-parser');
+import { Router } from 'express';
+import { createHash } from '../utils/bcrypt.js';
+import userModel from '../models/userSchema.js';
+import productModel from '../models/productSchema.js';
+import passport from 'passport';
+import { generateToken, authToken } from '../utils/jwt.js';
+import cookieParser from 'cookie-parser';
 
 const authRouter = Router();
 
@@ -17,41 +17,9 @@ authRouter.get('/login', (req, res) => {
 });
 
 authRouter.post('/login', passport.authenticate('login'),  async (req, res) => {
-
-
-    //console.log(req);
-
-
-    //let user = req.body;
-    //console.log(user);
-    // let userFound = await userModel.findOne({ email: user.email });
-    // if(!userFound || !isValidPassword(userFound, user.password)){
-    //     res.render('login-error', { user: user.email });//.json({ status: 'error', message: 'badCredentials' });;
-    // }else{
-    //     //req.session.user = userFound.email;
-    //     const productsFound = await productModel.find({category: "notebooks"});
-    //     let products = [];
-    //     if(productsFound){
-    //         productsFound.forEach( element => {
-    //             let object = {
-    //                 thumbnail: element.thumbnail,
-    //                 category: element.category,
-    //                 description: element.description,
-    //                 price: element.price,
-    //                 stock: element.stock
-    //             }
-    //                 products.push(object);
-    //         });
-    //     }
-        //console.log({ user: req.session.user, role: userFound.role , products});
-        //res.render('datos', { user: req.session.user, role: userFound.role , products});
-        // Generate token JWT
-        const accessToken = generateToken(req.userCredentials);
-        //res.cookie('sessionToken', accessToken, { maxAge: 30*1000, httpOnly: true, signed: true }).json({ status: 'success', message: 'Logged in!' });
-        res.cookie('sessionToken', accessToken, { maxAge: 30*1000, httpOnly: true, signed: true }).json();
-        //.render('datos', { user: req.session.user, role: userFound.role , products});
-        //.redirect('/')
-    //}
+    // Generate token JWT
+    const accessToken = generateToken(req.userCredentials);
+    res.cookie('sessionToken', accessToken, { maxAge: 30*1000, httpOnly: true, signed: true }).json();
 });
 
 authRouter.get('/faillogin', (req, res) => {
@@ -73,15 +41,7 @@ authRouter.get('/failregister', (req, res) => {
 // DATOS
 
 authRouter.get('/', authToken, async (req, res) => {
-    //console.log(req);
-    //const email = JSON.stringify(req.user.email);
 
-    //let user = req.userCredentials;
-    //let userFound = await userModel.findOne({ email: user.email });
-    //if(!userFound || !isValidPassword(req.user, req.userCredentials.password)){
-        //res.render('login-error', { user: req.user.email });//.json({ status: 'error', message: 'badCredentials' });;
-    //}else{
-        //req.session.user = userFound.email;
     const productsFound = await productModel.find({category: "notebooks"});
     let products = [];
     if(productsFound){
@@ -97,11 +57,8 @@ authRouter.get('/', authToken, async (req, res) => {
         });
     }
 
-    console.log(req);
-
-    //res.render('datos', { user: email });
     res.render('datos', { user: req.user.email, role: req.user.role , products});
-    //}
+
 });
 
 // VALIDATE TOKEN JWT
@@ -109,15 +66,11 @@ authRouter.get('/', authToken, async (req, res) => {
 authRouter.get('/VerificateToken', authToken, (req, res) => {
     const token = req.signedCookies.sessionToken;
     res.json({ signedCookies: token });
-    //res.send({ status: 'success', sessionToken });
 });
 
 // LOGOUT
 
 authRouter.get('/logout', (req, res) => {
-    // req.session.destroy(error => {
-    //     res.redirect('/login');
-    // });
     res.redirect('/login');
 });
 
@@ -146,4 +99,4 @@ authRouter.post('/restaurarPassword',  async(req, res) => {
 
 });
 
-module.exports = authRouter;
+export default authRouter;

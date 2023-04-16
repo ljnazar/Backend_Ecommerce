@@ -1,16 +1,16 @@
-const jwt = require('jsonwebtoken');
+import jwt from 'jsonwebtoken';
 //const { createHash } = require('./bcrypt');
 
 //const RANDOM_PRIVATE_KEY = createHash('secretoConHashRandom');
 
 const RANDOM_PRIVATE_KEY = 'secretRandom';
 
-const generateToken = (user) => {
+export const generateToken = (user) => {
     const token = jwt.sign({ user }, RANDOM_PRIVATE_KEY);
     return token;
 }
 
-const authToken = (req, res, next) => {
+export const authToken = (req, res, next) => {
 
     const token = req.signedCookies.sessionToken;
 
@@ -27,5 +27,3 @@ const authToken = (req, res, next) => {
         next();
     })
 }
-
-module.exports = { generateToken, authToken };

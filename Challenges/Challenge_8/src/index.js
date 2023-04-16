@@ -1,16 +1,15 @@
-const express = require('express');
-const session = require('express-session');
-const mongoose = require('mongoose');
-const exphbs = require('express-handlebars');
-const authRouter = require('./src/routes/auth');
-const sessionsRouter = require('./src/routes/sessions');
-const { createHash } = require('./src/utils/bcrypt');
-const initializePassport = require('./src/config/passport.config');
-const passport = require('passport');
-//const { authToken } = require('./src/utils/jwt');
-//const { isAuth } = require('./src/middlewares/index');
+import express from 'express';
+import session from 'express-session';
+import mongoose from'mongoose';
+import exphbs from 'express-handlebars';
+import authRouter from'./routes/auth.js';
+import sessionsRouter from'./routes/sessions.js';
+import { createHash } from'./utils/bcrypt.js';
+import initializePassport from'./config/passport.config.js';
+import passport from 'passport';
+import env from 'dotenv';
 
-const env = require('dotenv').config();
+env.config();
 
 const app = express();
 
@@ -35,10 +34,6 @@ app.use(passport.session());
 // Routes
 app.use('/', authRouter);
 app.use('/api/sessions', sessionsRouter);
-
-// app.get('/', authToken, (req, res) => {
-//     res.redirect('/');
-// });
 
 const PORT = process.env.PORT || 8080;
 const server = app.listen(PORT, () => console.log(`Server running on port: ${PORT}`));
