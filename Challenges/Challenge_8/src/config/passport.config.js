@@ -3,20 +3,19 @@ import GitHubStrategy from 'passport-github2';
 import userModel from '../models/userSchema.js';
 import local from 'passport-local';
 import { createHash, isValidPassword } from '../utils/bcrypt.js';
-import UserMongooseDao from '../dao/userMongooseDao.js'
+import UserMongooseDao from '../daos/userMongooseDao.js'
 
 const LocalStrategy = local.Strategy
 
 const initializePassport = () => {
 
     const userMongooseDao = new UserMongooseDao();
-    //const products = await userMongooseDao.list();
 
     passport.serializeUser((user, done) => {
         done(null, user._id);
     });
     passport.deserializeUser(async (id, done) => {
-        let user = await userMongooseDao.getById(id); //userModel.findOne({ _id: id });
+        let user = await userMongooseDao.getById(id);
         done(null, user);
     });
 
@@ -26,7 +25,7 @@ const initializePassport = () => {
     }, async (req, username, password, done) => {
             const {first_name, last_name, email, age} = req.body;
             try{
-                let user = await userMongooseDao.getByUser(username); //userModel.findOne({email: username});
+                let user = await userMongooseDao.getByUser(username);
                 if(user){
                     console.log('User already exists');
                     return done(null, false);
@@ -38,7 +37,7 @@ const initializePassport = () => {
                     email,
                     password: createHash(password)
                 }
-                let result = await userMongooseDao.create(newUser);//userModel.create(newUser);
+                let result = await userMongooseDao.create(newUser);
                 return done (null, result);
             } catch (error) {
                 return done ('Error al obtener el usuario: ' + error);
@@ -48,7 +47,7 @@ const initializePassport = () => {
 
     passport.use('login', new LocalStrategy({usernameField: 'email'}, async(username, password, done) => {
         try{
-            const user = await userMongooseDao.getByUser(username); //userModel.findOne({email: username});
+            const user = await userMongooseDao.getByUser(username);
             //console.log(user);
             if(!user){
                 console.log('User does not exists');

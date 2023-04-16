@@ -1,47 +1,55 @@
 import { Router } from 'express';
+//import { createUser, getUser } from '../controllers/userController.js';
+
 import { createHash } from '../utils/bcrypt.js';
 import userModel from '../models/userSchema.js';
-//import productModel from '../models/productSchema.js';
 import passport from 'passport';
 import { generateToken, authToken } from '../utils/jwt.js';
 import cookieParser from 'cookie-parser';
 import ProductsMongooseDao from '../daos/productsMongooseDao.js'
 
-const authRouter = Router();
+const userRoute = Router();
 
-authRouter.use(cookieParser('PrivateKey'));
+userRoute.use(cookieParser('PrivateKey'));
+
+
+//app.use('/', authRouter);
+//app.use('/api/sessions', sessionsRouter);
+
+//userRoute.get('/:id', getUser);
+//userRoute.post('/', createUser);
 
 // LOGIN
 
-authRouter.get('/login', (req, res) => {
+userRoute.get('/login', (req, res) => {
     res.render('login');
 });
 
-authRouter.post('/login', passport.authenticate('login'),  async (req, res) => {
+userRoute.post('/login', passport.authenticate('login'),  async (req, res) => {
     // Generate token JWT
     const accessToken = generateToken(req.userCredentials);
     res.cookie('sessionToken', accessToken, { maxAge: 30*1000, httpOnly: true, signed: true }).json();
 });
 
-authRouter.get('/faillogin', (req, res) => {
+userRoute.get('/faillogin', (req, res) => {
     res.render('login-error');
 });
 
 // REGISTER
 
-authRouter.get('/register', (req, res) => {
+userRoute.get('/register', (req, res) => {
     res.render('register', {});
 });
 
-authRouter.post('/register', passport.authenticate('register', {failureRedirect: '/failregister', successRedirect: '/'}));
+userRoute.post('/register', passport.authenticate('register', {failureRedirect: '/failregister', successRedirect: '/'}));
 
-authRouter.get('/failregister', (req, res) => {
+userRoute.get('/failregister', (req, res) => {
     res.render('register-error');
 })
 
 // DATOS
 
-authRouter.get('/', authToken, async (req, res) => {
+userRoute.get('/', authToken, async (req, res) => {
 
     const productsMongooseDao = new ProductsMongooseDao();
     const products = await productsMongooseDao.list();
@@ -52,24 +60,24 @@ authRouter.get('/', authToken, async (req, res) => {
 
 // VALIDATE TOKEN JWT
 
-authRouter.get('/VerificateToken', authToken, (req, res) => {
+userRoute.get('/VerificateToken', authToken, (req, res) => {
     const token = req.signedCookies.sessionToken;
     res.json({ signedCookies: token });
 });
 
 // LOGOUT
 
-authRouter.get('/logout', (req, res) => {
+userRoute.get('/logout', (req, res) => {
     res.redirect('/login');
 });
 
 // RESET PASSWORD
 
-authRouter.get('/restaurarPassword', (req, res) => {
+userRoute.get('/restaurarPassword', (req, res) => {
     res.render('restore-password', {});
 });
 
-authRouter.post('/restaurarPassword',  async(req, res) => {
+userRoute.post('/restaurarPassword',  async(req, res) => {
     let user = req.body;
     try {
         let userFound = await userModel.findOne({ email: user.email });
@@ -85,7 +93,18 @@ authRouter.post('/restaurarPassword',  async(req, res) => {
         console.log(error);
         res.render('register', {});
     }
-    
+
 });
 
-export default authRouter;
+// LOGIN GITHUB
+
+userRoute.get('/api/sessions/github', passport.authenticate('github', {scope: ['user:email']}), async(req, res) => {});
+
+userRoute.get('/api/sessions/githubcallback', passport.authenticate('github', {failureRedirect: '/login'}), async (req, res) => {
+    // change to JWT
+    req.session.user = req.user;
+    //console.log(req.session.user);
+    res.redirect('/');
+});
+
+export default userRoute;

@@ -2,8 +2,9 @@ import express from 'express';
 import session from 'express-session';
 import mongoose from'mongoose';
 import exphbs from 'express-handlebars';
-import authRouter from'./routes/auth.js';
-import sessionsRouter from'./routes/sessions.js';
+import userRoute from './routes/userRoute.js'
+//import authRouter from'./routes/auth.js';
+//import sessionsRouter from'./routes/sessions.js';
 import { createHash } from'./utils/bcrypt.js';
 import initializePassport from'./config/passport.config.js';
 import passport from 'passport';
@@ -32,8 +33,9 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 // Routes
-app.use('/', authRouter);
-app.use('/api/sessions', sessionsRouter);
+app.use('/', userRoute);
+//app.use('/', authRouter);
+//app.use('/api/sessions', sessionsRouter);
 
 const PORT = process.env.PORT || 8080;
 const server = app.listen(PORT, () => console.log(`Server running on port: ${PORT}`));
