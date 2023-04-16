@@ -19,6 +19,12 @@ userRoute.use(cookieParser('PrivateKey'));
 //userRoute.get('/:id', getUser);
 //userRoute.post('/', createUser);
 
+// MAIN ROUTE
+
+userRoute.get('/', (req, res) => {
+    res.redirect('/home');
+});
+
 // LOGIN
 
 userRoute.get('/login', (req, res) => {
@@ -49,7 +55,7 @@ userRoute.get('/failregister', (req, res) => {
 
 // DATOS
 
-userRoute.get('/', authToken, async (req, res) => {
+userRoute.get('/home', authToken, async (req, res) => {
 
     const productsMongooseDao = new ProductsMongooseDao();
     const products = await productsMongooseDao.list();
@@ -68,6 +74,7 @@ userRoute.get('/VerificateToken', authToken, (req, res) => {
 // LOGOUT
 
 userRoute.get('/logout', (req, res) => {
+    // Eliminar Cookie de JWT
     res.redirect('/login');
 });
 

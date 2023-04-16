@@ -19,24 +19,12 @@ btnSubmit.addEventListener('click', async e => {
         },
         body: JSON.stringify(data)
     });
-        /*.then(result => result.json())
-        .then(json => console.log(json));*/
-
-    
-    //location.href = '/';
-
-
-
-
 
     const response = await sendData;
     console.log(response);
     if(response.status === 200){
-        //const jsonResponse = await response.json();
-        //console.log(jsonResponse);
-        //console.log(jsonResponse.message);
         console.log('Logged in');
-        location.href = '/';
+        location.href = '/home';
     }else if(response.status === 401){
         console.log(`Error code ${response.status} - Not authenticated`);
         location.href = '/faillogin';
@@ -47,23 +35,5 @@ btnSubmit.addEventListener('click', async e => {
         console.log(`Error code ${response.status}`);
         location.href = '/faillogin';
     }
-    // const jsonResponse = await response.json();
-    // console.log(jsonResponse);
-    // console.log(jsonResponse.message);
-    // console.log(jsonResponse[0]);
-    // console.log(jsonResponse.state);
 
-    //console.log(response.url);
-
-    //location.href = '/';
-
-    // const { accessToken } = response;
-
-    // if(accessToken) {
-    //     localStorage.setItem('accessToken', accessToken);
-    //     location.href = '/';
-    // }
-    // else {
-    //     location.href = '/faillogin';
-    // }
 });
