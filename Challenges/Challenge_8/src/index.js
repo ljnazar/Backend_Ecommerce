@@ -4,15 +4,20 @@ import mongoose from'mongoose';
 import exphbs from 'express-handlebars';
 import userRoute from './routes/userRoute.js'
 import { createHash } from'./utils/bcrypt.js';
-import initializePassport from'./config/passport.config.js';
 import passport from 'passport';
-import env from 'dotenv';
-
-env.config();
+import initializePassport from'./config/passportConfig.js';
+import config from './config/envConfig.js';
+import cors from 'cors';
 
 const app = express();
 
+const corsOptions = {
+    origin: config.nodeEnv == 'development' ? 'http://localhost:8080/' : 'https://my.web.com',
+    optionsSuccessStatus: 200
+}
+
 // Middlewares
+app.use(cors(corsOptions));
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));
 app.use(express.static('public'));
@@ -33,12 +38,10 @@ app.use(passport.session());
 // Routes
 app.use('/', userRoute);
 
-const PORT = process.env.PORT || 8080;
-const server = app.listen(PORT, () => console.log(`Server running on port: ${PORT}`));
+const server = app.listen(config.port, () => console.log(`Server running on port: ${config.port}`));
 server.on('error', error => console.log(error));
 
-const MONGOOSE_API_KEY = process.env.MONGOOSE_API_KEY;
-mongoose.connect(MONGOOSE_API_KEY)
+mongoose.connect(config.mongooseApiKey)
     .then(res => console.log('Database connected'))
     .catch(error => {
         console.log("Cannot connect to database: " + error);

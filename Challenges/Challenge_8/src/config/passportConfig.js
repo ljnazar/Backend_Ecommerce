@@ -4,6 +4,7 @@ import userModel from '../models/userSchema.js';
 import local from 'passport-local';
 import { createHash, isValidPassword } from '../utils/bcrypt.js';
 import UserMongooseDao from '../daos/userMongooseDao.js'
+import config from './envConfig.js'
 
 const LocalStrategy = local.Strategy
 
@@ -61,8 +62,8 @@ const initializePassport = () => {
     }));
 
     passport.use('github', new GitHubStrategy({
-        clientID: 'Iv1.cb6d2acccfc6dd74',
-        clientSecret: '835f5dc902bb5c53830f48f214786833a5db5f05',
+        clientID: config.githubClientId,
+        clientSecret: config.githubClientSecret,
         callbackURL: 'http://localhost:8080/api/sessions/githubcallback',
         scope: ['user: email']
     }, async (accessToken, refreshToken, profile, done) => {
