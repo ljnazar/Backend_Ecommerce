@@ -1,12 +1,11 @@
 import { Router } from 'express';
-//import { createUser, getUser } from '../controllers/userController.js';
-
 import { createHash } from '../utils/bcrypt.js';
 import userModel from '../models/userSchema.js';
 import passport from 'passport';
 import { generateToken, authToken } from '../utils/jwt.js';
 import cookieParser from 'cookie-parser';
 import ProductsMongooseDao from '../daos/productsMongooseDao.js'
+//import { createUser, getUser } from '../controllers/userController.js';
 
 const userRoute = Router();
 
@@ -74,8 +73,8 @@ userRoute.get('/VerificateToken', authToken, (req, res) => {
 // LOGOUT
 
 userRoute.get('/logout', (req, res) => {
-    // Eliminar Cookie de JWT
-    res.redirect('/login');
+    req.session.destroy();
+    res.clearCookie('sessionToken').redirect('/login');
 });
 
 // RESET PASSWORD
@@ -105,13 +104,13 @@ userRoute.post('/restaurarPassword',  async(req, res) => {
 
 // LOGIN GITHUB
 
-userRoute.get('/api/sessions/github', passport.authenticate('github', {scope: ['user:email']}), async(req, res) => {});
+userRoute.get('/api/sessions/github', passport.authenticate('github'), async(req, res) => {});
 
 userRoute.get('/api/sessions/githubcallback', passport.authenticate('github', {failureRedirect: '/login'}), async (req, res) => {
-    // change to JWT
+
     req.session.user = req.user;
-    //console.log(req.session.user);
-    res.redirect('/');
+    res.redirect('/home');
+
 });
 
 export default userRoute;

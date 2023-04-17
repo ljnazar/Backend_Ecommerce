@@ -10,7 +10,7 @@ class UserMongooseDao {
 
     }
 
-    async getById(id) {
+    async getUserById(id) {
 
         const idFound = await userModel.findOne({ _id: id }).lean();
 
@@ -18,7 +18,7 @@ class UserMongooseDao {
     
     }
 
-    async getByUser(username) {
+    async getUserByUsername(username) {
 
         const userFound = await userModel.findOne({ email: username }).lean();
 

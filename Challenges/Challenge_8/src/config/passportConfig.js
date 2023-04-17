@@ -16,7 +16,7 @@ const initializePassport = () => {
         done(null, user._id);
     });
     passport.deserializeUser(async (id, done) => {
-        let user = await userMongooseDao.getById(id);
+        let user = await userMongooseDao.getUserById(id);
         done(null, user);
     });
 
@@ -26,7 +26,7 @@ const initializePassport = () => {
     }, async (req, username, password, done) => {
             const {first_name, last_name, email, age} = req.body;
             try{
-                let user = await userMongooseDao.getByUser(username);
+                let user = await userMongooseDao.getUserByUsername(username);
                 if(user){
                     console.log('User already exists');
                     return done(null, false);
@@ -48,7 +48,7 @@ const initializePassport = () => {
 
     passport.use('login', new LocalStrategy({usernameField: 'email'}, async(username, password, done) => {
         try{
-            const user = await userMongooseDao.getByUser(username);
+            const user = await userMongooseDao.getUserByUsername(username);
             //console.log(user);
             if(!user){
                 console.log('User does not exists');
@@ -69,7 +69,7 @@ const initializePassport = () => {
     }, async (accessToken, refreshToken, profile, done) => {
         try{
             //console.log(profile);
-            let user = await userModel.findOne({ email: profile.emails[0].value });
+            let user = await userMongooseDao.getUserByUsername(profile.emails[0].value);
             if(!user) {
                 let newUser = {
                     first_name: profile._json.login,
