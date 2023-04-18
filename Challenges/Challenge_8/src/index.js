@@ -36,6 +36,7 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 // Routes
+
 app.use('/', userRoute);
 
 const server = app.listen(config.port, () => console.log(`Server running on port: ${config.port}`));

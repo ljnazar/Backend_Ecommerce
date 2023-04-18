@@ -26,6 +26,14 @@ class UserMongooseDao {
     
     }
 
+    async updateUser(username, newPassword) {
+
+        const userUpdate = userModel.updateOne({ email: username }, { $set: { password: newPassword }});
+
+        return userUpdate
+    
+    }
+
 }
 
 export default UserMongooseDao;

@@ -3,20 +3,23 @@ import GitHubStrategy from 'passport-github2';
 import userModel from '../models/userSchema.js';
 import local from 'passport-local';
 import { createHash, isValidPassword } from '../utils/bcrypt.js';
-import UserMongooseDao from '../daos/userMongooseDao.js'
+//import UserMongooseDao from '../daos/userMongooseDao.js'
+import UserService from '../services/userService.js';
+
 import config from './envConfig.js'
 
 const LocalStrategy = local.Strategy
 
 const initializePassport = () => {
 
-    const userMongooseDao = new UserMongooseDao();
+    //const userMongooseDao = new UserMongooseDao();
+    const userService = new UserService();
 
     passport.serializeUser((user, done) => {
         done(null, user._id);
     });
     passport.deserializeUser(async (id, done) => {
-        let user = await userMongooseDao.getUserById(id);
+        let user = await userService.getUserById(id);
         done(null, user);
     });
 
@@ -26,7 +29,7 @@ const initializePassport = () => {
     }, async (req, username, password, done) => {
             const {first_name, last_name, email, age} = req.body;
             try{
-                let user = await userMongooseDao.getUserByUsername(username);
+                let user = await userService.getUserByUsername(username);
                 if(user){
                     console.log('User already exists');
                     return done(null, false);
@@ -38,7 +41,7 @@ const initializePassport = () => {
                     email,
                     password: createHash(password)
                 }
-                let result = await userMongooseDao.create(newUser);
+                let result = await userService.create(newUser);
                 return done (null, result);
             } catch (error) {
                 return done ('Error al obtener el usuario: ' + error);
@@ -48,7 +51,7 @@ const initializePassport = () => {
 
     passport.use('login', new LocalStrategy({usernameField: 'email'}, async(username, password, done) => {
         try{
-            const user = await userMongooseDao.getUserByUsername(username);
+            const user = await userService.getUserByUsername(username);
             //console.log(user);
             if(!user){
                 console.log('User does not exists');
@@ -69,7 +72,7 @@ const initializePassport = () => {
     }, async (accessToken, refreshToken, profile, done) => {
         try{
             //console.log(profile);
-            let user = await userMongooseDao.getUserByUsername(profile.emails[0].value);
+            let user = await userService.getUserByUsername(profile.emails[0].value);
             if(!user) {
                 let newUser = {
                     first_name: profile._json.login,
