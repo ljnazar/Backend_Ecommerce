@@ -1,12 +1,10 @@
-<div class="container text-center my-3">
-    <div class="jumbotron" style="background-color: blue; color: white;">
-        <h1 class="my-2 py-4">USER OK LOGIN!</h1>
-        <h2><i>Bienvenido {{ user }}</i></h2>
-        <h2><i>Rol {{ role }}</i></h2>
-        <button class="btn btn-danger my-3" onclick="location.href='/logout'">LOGOUT</button>
+<div class="container">
+    <div class="jumbotron d-flex justify-content-between my-3" style="background-color: blue; color: white;">
+        <h4 class="ps-3 pt-1">{{ role }}: {{ user }}</h4>
+        <button class="btn btn-danger" onclick="location.href='/logout'">LOGOUT</button>
     </div>
 
-    <h3 class="my-5"><i>productos</i></h2>
+    <h4 class="fw-bolder text-center ps-3 my-5">Productos destacados</h4>
 
     <section style="background-color: #eee;">
         <div class="container py-5">

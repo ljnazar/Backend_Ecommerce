@@ -2,7 +2,7 @@ import express from 'express';
 import session from 'express-session';
 import mongoose from'mongoose';
 import exphbs from 'express-handlebars';
-import userRoute from './routes/userRoute.js'
+import mainRoute from './routes/index.js'
 import { createHash } from'./utils/bcrypt.js';
 import passport from 'passport';
 import initializePassport from'./config/passportConfig.js';
@@ -37,7 +37,7 @@ app.use(passport.session());
 
 // Routes
 
-app.use('/', userRoute);
+app.use('/', mainRoute);
 
 const server = app.listen(config.port, () => console.log(`Server running on port: ${config.port}`));
 server.on('error', error => console.log(error));

@@ -1,7 +1,7 @@
 import { Router } from 'express';
 import passport from 'passport';
-import cookieParser from 'cookie-parser';
-import { authToken } from '../utils/jwt.js';
+//import cookieParser from 'cookie-parser';
+//import { authToken } from '../utils/jwt.js';
 import { 
     mainUrl, 
     loginUrl, 
@@ -10,7 +10,7 @@ import {
     registerUrl, 
     createUser, 
     createUserError,
-    getAllProducts, 
+    //getAllProducts, 
     logoutUser, 
     restoreUrl, 
     restorePassword,
@@ -19,7 +19,7 @@ import {
 
 const userRoute = Router();
 
-userRoute.use(cookieParser('PrivateKey'));
+//userRoute.use(cookieParser('PrivateKey'));
 
 // MAIN ROUTE
 
@@ -43,7 +43,7 @@ userRoute.get('/failregister', createUserError);
 
 // DATOS
 
-userRoute.get('/home', authToken, getAllProducts);
+//userRoute.get('/home', authToken, getAllProducts);
 
 // LOGOUT
 
