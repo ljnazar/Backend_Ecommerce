@@ -1,15 +1,15 @@
 import { Router } from 'express';
 import passport from 'passport';
 import { 
-    mainUrl, 
-    loginUrl, 
+    mainRender, 
+    loginRender, 
     loginUser, 
     loginUserError, 
-    registerUrl, 
+    registerRender, 
     createUser, 
     createUserError,
     logoutUser, 
-    restoreUrl, 
+    restoreRender, 
     restorePassword,
     sessionGithub
 } from '../controllers/userController.js';
@@ -18,11 +18,11 @@ const userRoute = Router();
 
 // MAIN ROUTE
 
-userRoute.get('/', mainUrl);
+userRoute.get('/', mainRender);
 
 // LOGIN
 
-userRoute.get('/login', loginUrl);
+userRoute.get('/login', loginRender);
 
 userRoute.post('/login', passport.authenticate('login'), loginUser);
 
@@ -30,7 +30,7 @@ userRoute.get('/faillogin', loginUserError);
 
 // REGISTER
 
-userRoute.get('/register', registerUrl);
+userRoute.get('/register', registerRender);
 
 userRoute.post('/register', passport.authenticate('register', {failureRedirect: '/failregister', successRedirect: '/'}), createUser);
 
@@ -42,7 +42,7 @@ userRoute.get('/logout', logoutUser);
 
 // RESET PASSWORD
 
-userRoute.get('/restaurarPassword', restoreUrl);
+userRoute.get('/restaurarPassword', restoreRender);
 
 userRoute.post('/restaurarPassword', restorePassword);
 

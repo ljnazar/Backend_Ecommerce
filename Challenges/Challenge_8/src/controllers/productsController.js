@@ -1,6 +1,3 @@
-// import { createHash } from '../utils/bcrypt.js';
-// import { generateToken} from '../utils/jwt.js';
-// import UserService from '../services/userService.js';
 import ProductsMongooseDao from '../daos/productsMongooseDao.js'
 
 // DATOS

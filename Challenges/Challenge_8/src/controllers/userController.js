@@ -4,13 +4,13 @@ import UserService from '../services/userService.js';
 
 // MAIN ROUTE
 
-export const mainUrl = (req, res) => {
+export const mainRender = (req, res) => {
     res.redirect('/home');
 };
 
 // LOGIN
 
-export const loginUrl = (req, res) => {
+export const loginRender = (req, res) => {
     res.render('login');
 };
 
@@ -26,7 +26,7 @@ export const loginUserError = (req, res) => {
 
 // REGISTER
 
-export const registerUrl = (req, res) => {
+export const registerRender = (req, res) => {
     res.render('register', {});
 };
 
@@ -45,7 +45,7 @@ export const logoutUser = (req, res) => {
 
 // RESET PASSWORD
 
-export const restoreUrl = (req, res) => {
+export const restoreRender = (req, res) => {
     res.render('restore-password', {});
 };
 
