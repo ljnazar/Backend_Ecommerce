@@ -1,6 +1,5 @@
 import { createHash } from '../utils/bcrypt.js';
 import { generateToken} from '../utils/jwt.js';
-//import UserMongooseDao from '../daos/userMongooseDao.js'
 import UserService from '../services/userService.js';
 import ProductsMongooseDao from '../daos/productsMongooseDao.js'
 
@@ -63,7 +62,6 @@ export const restoreUrl = (req, res) => {
 };
 
 export const restorePassword = async(req, res) => {
-    //const userMongooseDao = new UserMongooseDao();
     const userService = new UserService();
     let user = req.body;
     try {

@@ -3,7 +3,6 @@ import GitHubStrategy from 'passport-github2';
 import userModel from '../models/userSchema.js';
 import local from 'passport-local';
 import { createHash, isValidPassword } from '../utils/bcrypt.js';
-//import UserMongooseDao from '../daos/userMongooseDao.js'
 import UserService from '../services/userService.js';
 
 import config from './envConfig.js'
@@ -12,7 +11,6 @@ const LocalStrategy = local.Strategy
 
 const initializePassport = () => {
 
-    //const userMongooseDao = new UserMongooseDao();
     const userService = new UserService();
 
     passport.serializeUser((user, done) => {
