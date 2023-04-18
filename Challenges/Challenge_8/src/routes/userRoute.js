@@ -1,7 +1,5 @@
 import { Router } from 'express';
 import passport from 'passport';
-//import cookieParser from 'cookie-parser';
-//import { authToken } from '../utils/jwt.js';
 import { 
     mainUrl, 
     loginUrl, 
@@ -10,7 +8,6 @@ import {
     registerUrl, 
     createUser, 
     createUserError,
-    //getAllProducts, 
     logoutUser, 
     restoreUrl, 
     restorePassword,
@@ -18,8 +15,6 @@ import {
 } from '../controllers/userController.js';
 
 const userRoute = Router();
-
-//userRoute.use(cookieParser('PrivateKey'));
 
 // MAIN ROUTE
 
@@ -40,10 +35,6 @@ userRoute.get('/register', registerUrl);
 userRoute.post('/register', passport.authenticate('register', {failureRedirect: '/failregister', successRedirect: '/'}), createUser);
 
 userRoute.get('/failregister', createUserError);
-
-// DATOS
-
-//userRoute.get('/home', authToken, getAllProducts);
 
 // LOGOUT
 
