@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import passport from 'passport';
+//import passport from 'passport';
 import { 
     mainRender, 
     loginRender, 
@@ -11,7 +11,7 @@ import {
     logoutUser, 
     restoreRender, 
     restorePassword,
-    sessionGithub
+    //sessionGithub
 } from '../controllers/userController.js';
 
 const userRoute = Router();
@@ -24,7 +24,8 @@ userRoute.get('/', mainRender);
 
 userRoute.get('/login', loginRender);
 
-userRoute.post('/login', passport.authenticate('login'), loginUser);
+//userRoute.post('/login', passport.authenticate('login'), loginUser);
+userRoute.post('/login', loginUser);
 
 userRoute.get('/faillogin', loginUserError);
 
@@ -32,7 +33,8 @@ userRoute.get('/faillogin', loginUserError);
 
 userRoute.get('/register', registerRender);
 
-userRoute.post('/register', passport.authenticate('register', {failureRedirect: '/failregister', successRedirect: '/'}), createUser);
+//userRoute.post('/register', passport.authenticate('register', {failureRedirect: '/failregister', successRedirect: '/'}), createUser);
+userRoute.post('/register', createUser);
 
 userRoute.get('/failregister', createUserError);
 
@@ -48,8 +50,8 @@ userRoute.post('/restaurarPassword', restorePassword);
 
 // LOGIN GITHUB
 
-userRoute.get('/api/sessions/github', passport.authenticate('github'));
+//userRoute.get('/api/sessions/github', passport.authenticate('github'));
 
-userRoute.get('/api/sessions/githubcallback', passport.authenticate('github', {failureRedirect: '/login'}), sessionGithub);
+//userRoute.get('/api/sessions/githubcallback', passport.authenticate('github', {failureRedirect: '/login'}), sessionGithub);
 
 export default userRoute;

@@ -1,4 +1,4 @@
-import { createHash } from '../utils/bcrypt.js';
+import { createHash, isValidPassword } from '../utils/bcrypt.js';
 import { generateToken} from '../utils/jwt.js';
 import UserService from '../services/userService.js';
 
@@ -15,9 +15,23 @@ export const loginRender = (req, res) => {
 };
 
 export const loginUser = async (req, res) => {
-    // Generate token JWT
-    const accessToken = generateToken(req.userCredentials);
-    res.cookie('sessionToken', accessToken, { maxAge: 30*1000, httpOnly: true, signed: true }).json();
+
+    const { email, password } = req.body;
+
+    const userService = new UserService();
+
+    const userFound = await userService.getUserByUsername(email);
+
+    if(!userFound){
+        return res.status(401).redirect('/login').json({ error: 'User does not exists' });
+    }
+    if(!isValidPassword(userFound, password)){
+        return res.status(401).redirect('/login').json({ error: 'Wrong password' });
+    }else {
+        // Generate token JWT
+        const accessToken = generateToken(req.userCredentials);
+        res.cookie('sessionToken', accessToken, { maxAge: 30*1000, httpOnly: true, signed: true }).json();
+    }
 };
 
 export const loginUserError = (req, res) => {
@@ -27,10 +41,12 @@ export const loginUserError = (req, res) => {
 // REGISTER
 
 export const registerRender = (req, res) => {
-    res.render('register', {});
+    res.render('register');
 };
 
-export const createUser = async (req, res) => {};
+export const createUser = async (req, res) => {
+  //  Agregar codigoooooooo
+};
 
 export const createUserError = (req, res) => {
     res.render('register-error');
@@ -39,14 +55,14 @@ export const createUserError = (req, res) => {
 // LOGOUT
 
 export const logoutUser = (req, res) => {
-    req.session.destroy();
+    //req.session.destroy();
     res.clearCookie('sessionToken').redirect('/login');
 };
 
 // RESET PASSWORD
 
 export const restoreRender = (req, res) => {
-    res.render('restore-password', {});
+    res.render('restore-password');
 };
 
 export const restorePassword = async(req, res) => {
@@ -55,16 +71,16 @@ export const restorePassword = async(req, res) => {
     try {
         let userFound = await userService.getUserByUsername(user.email);
         if(!userFound){
-            res.render('register', {});
+            res.render('register');
         }else{
             let newPassword = createHash(user.password);
             await userService.updateUser(user.email, newPassword);
-            res.render('login', {});
+            res.render('login');
         }
     
     } catch (error) {
         console.log(error);
-        res.render('register', {});
+        res.render('register');
     }
 
 };

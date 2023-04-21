@@ -1,6 +1,5 @@
 import passport from 'passport';
 import GitHubStrategy from 'passport-github2';
-import userModel from '../models/userSchema.js';
 import local from 'passport-local';
 import { createHash, isValidPassword } from '../utils/bcrypt.js';
 import UserService from '../services/userService.js';
@@ -80,7 +79,7 @@ const initializePassport = () => {
                     role: 'user',
                     password: ''
                 }
-                let result = await userModel.create(newUser);
+                let result = await userService.create(newUser);
                 done(null, result);
             }
             else {

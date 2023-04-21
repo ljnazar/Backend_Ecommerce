@@ -11,18 +11,18 @@ export const generateToken = (user) => {
 
 export const authToken = (req, res, next) => {
 
-    const sessionGithub = req.session.user;
+    // const sessionGithub = req.session.user;
 
-    if(sessionGithub){
-        next();
-    }else {
+    // if(sessionGithub){
+    //     next();
+    // }else {
         const token = req.signedCookies.sessionToken;
         if(!token) return res.status(401).redirect('/login');//.json({ error: 'Not authenticated' });
         jwt.verify(token, RANDOM_PRIVATE_KEY, (error, credentials) => {
             if(error) return res.status(403).redirect('/login');//.json({ error: 'Not authorized' });
             req.userCredentials = credentials.user;
             next();
-        })
-    }
+        });
+    // }
 
 }
