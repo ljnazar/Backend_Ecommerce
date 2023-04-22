@@ -20,8 +20,8 @@ btnSubmit.addEventListener('click', async e => {
         body: JSON.stringify(data)
     });
 
-    const response = await sendData;
-    console.log(response);
+    const response = sendData;
+    //console.log(response);
     if(response.status === 200){
         console.log('Logged in');
         location.href = '/home';

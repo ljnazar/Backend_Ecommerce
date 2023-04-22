@@ -23,10 +23,10 @@ export const loginUser = async (req, res) => {
     const userFound = await userService.getUserByUsername(email);
 
     if(!userFound){
-        return res.status(401).redirect('/login').json({ error: 'User does not exists' });
+        return res.status(401).json({ error: 'User does not exists' });
     }
     if(!isValidPassword(userFound, password)){
-        return res.status(401).redirect('/login').json({ error: 'Wrong password' });
+        return res.status(401).json({ error: 'Wrong password' });
     }else {
         // Generate token JWT
         const accessToken = generateToken(req.userCredentials);
@@ -45,7 +45,26 @@ export const registerRender = (req, res) => {
 };
 
 export const createUser = async (req, res) => {
-  //  Agregar codigoooooooo
+
+        const {first_name, last_name, password, email, age} = req.body;
+
+        const userService = new UserService();
+
+        let userFound = await userService.getUserByUsername(email);
+        if(userFound){
+            console.log('User already exists');
+            return res.redirect('/failregister');
+        }
+        const newUser = {
+            first_name,
+            last_name,
+            age,
+            email,
+            password: createHash(password)
+        }
+        await userService.create(newUser);
+        return res.status(201).redirect('/login');
+    
 };
 
 export const createUserError = (req, res) => {
