@@ -1,14 +1,21 @@
 import { Router } from 'express';
 import { authToken } from '../utils/jwt.js';
 import { 
-    getAllProducts
+    getAllProducts,
+    createProduct,
+    updateProduct,
+    deleteProduct
 } from '../controllers/productsController.js';
 import isAdmin from '../middlewares/isAdmin.js';
 
-const userRoute = Router();
+const productsRoute = Router();
 
-// DATOS
+productsRoute.get('/', authToken, getAllProducts);
 
-userRoute.get('/', authToken, getAllProducts);
+productsRoute.post("/", authToken, isAdmin, createProduct);
 
-export default userRoute;
+productsRoute.put("/:pid", authToken, isAdmin, updateProduct);
+
+productsRoute.delete("/:pid", authToken, isAdmin, deleteProduct);
+
+export default productsRoute;
