@@ -5,7 +5,6 @@ class UserMongooseDao {
     async create(newUser) {
 
         const userDocument = await userModel.create(newUser);
-
         return userDocument;
 
     }
@@ -13,7 +12,6 @@ class UserMongooseDao {
     async getUserById(id) {
 
         const idFound = await userModel.findOne({ _id: id }).lean();
-
         return idFound
     
     }
@@ -21,7 +19,6 @@ class UserMongooseDao {
     async getUserByUsername(username) {
 
         const userFound = await userModel.findOne({ email: username }).lean();
-
         return userFound
     
     }
@@ -29,7 +26,6 @@ class UserMongooseDao {
     async updateUser(username, newPassword) {
 
         const userUpdate = userModel.updateOne({ email: username }, { $set: { password: newPassword }});
-
         return userUpdate
     
     }

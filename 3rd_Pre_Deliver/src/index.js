@@ -1,11 +1,7 @@
 import express from 'express';
-//import session from 'express-session';
 import mongoose from 'mongoose';
 import exphbs from 'express-handlebars';
 import mainRoute from './routes/index.js'
-import { createHash } from'./utils/bcrypt.js';
-//import passport from 'passport';
-//import initializePassport from './config/passportConfig.js';
 import config from './config/envConfig.js';
 //import compression from 'compression';
 //import helmet from 'helmet';
@@ -28,16 +24,6 @@ app.use(express.static('public'));
 
 app.engine('.hbs', exphbs({ extname: '.hbs', defaultLayout: 'main.hbs' }));
 app.set('view engine', '.hbs');
-
-// Session and passport only for GitHub login
-//initializePassport();
-// app.use(session({
-//     secret: createHash('secretoConHashRandom'),
-//     resave: false,
-//     saveUninitialized: false
-// }));
-// app.use(passport.initialize());
-// app.use(passport.session());
 
 // Routes
 

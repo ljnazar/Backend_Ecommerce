@@ -74,7 +74,6 @@ export const createUserError = (req, res) => {
 // LOGOUT
 
 export const logoutUser = (req, res) => {
-    //req.session.destroy();
     res.clearCookie('sessionToken').redirect('/login');
 };
 
@@ -102,11 +101,4 @@ export const restorePassword = async(req, res) => {
         res.render('register');
     }
 
-};
-
-// LOGIN GITHUB
-
-export const sessionGithub = async (req, res) => {
-    req.session.user = req.user;
-    res.redirect('/home');
 };

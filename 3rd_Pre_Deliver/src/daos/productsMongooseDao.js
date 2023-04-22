@@ -5,7 +5,6 @@ class ProductsMongooseDao {
     async list() {
 
         const productsFound = await productModel.find({category: "notebooks"}).lean();
-
         return productsFound;
 
     }
