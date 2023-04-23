@@ -1,6 +1,6 @@
-import userModel from "../models/userSchema.js";
+import { userModel } from "../models/userSchema.js";
 
-class UserMongooseDao {
+export default class UserMongooseDao {
 
     async create(newUser) {
 
@@ -31,5 +31,3 @@ class UserMongooseDao {
     }
 
 }
-
-export default UserMongooseDao;

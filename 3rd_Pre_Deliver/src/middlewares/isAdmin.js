@@ -2,7 +2,7 @@ import UserService from '../services/userService.js';
 
 const userService = new UserService();
 
-const isAuth = async (req, res, next) => {
+export const isAdmin = async (req, res, next) => {
   
   const user = await userService.getUserByUsername(req.user.email);
 
@@ -12,11 +12,9 @@ const isAuth = async (req, res, next) => {
     next();
   } else {
     res.status(401).send({
-      status: "Unauthorized",
-      message: "No posee la autorización para realizar esta acción",
+      status: 'Unauthorized',
+      message: 'Unauthorized',
       code: 401,
     });
   }
 };
-
-export default isAuth;

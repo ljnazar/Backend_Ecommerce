@@ -1,6 +1,6 @@
 import UserMongooseDao from '../daos/userMongooseDao.js'
 
-class UserService {
+export default class UserService {
 
     constructor() {
         this.userMongooseDao = new UserMongooseDao();
@@ -27,5 +27,3 @@ class UserService {
     }
 
 }
-
-export default UserService;

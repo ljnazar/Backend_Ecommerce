@@ -2,7 +2,7 @@ import express from 'express';
 import mongoose from 'mongoose';
 import exphbs from 'express-handlebars';
 import mainRoute from './routes/index.js'
-import config from './config/envConfig.js';
+import { config } from './config/envConfig.js';
 //import compression from 'compression';
 //import helmet from 'helmet';
 import cors from 'cors';

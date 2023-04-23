@@ -26,12 +26,10 @@ const mailContent = {
     }]
 };
 
-const sendMail = async (gmailConfig, mailContent) => {
+export const sendMail = async (gmailConfig, mailContent) => {
   const transporter = nodemailer.createTransport(gmailConfig);
   let response = await transporter.sendMail(mailContent);
   console.log(response);
 }
 
-export default sendMail;
-
-//sendMail(gmailConfig, mailContent)
+//sendMail(gmailConfig, mailContent);

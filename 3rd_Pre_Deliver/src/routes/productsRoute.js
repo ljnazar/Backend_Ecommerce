@@ -6,7 +6,7 @@ import {
     updateProduct,
     deleteProduct
 } from '../controllers/productsController.js';
-import isAdmin from '../middlewares/isAdmin.js';
+import { isAdmin } from '../middlewares/isAdmin.js';
 
 const productsRoute = Router();
 
