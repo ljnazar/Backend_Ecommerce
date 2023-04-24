@@ -22,16 +22,16 @@ export const loginUser = async (req, res) => {
 
     const userFound = await userService.getUserByUsername(email);
 
-    if(!userFound){
-        return res.status(401).json({ error: 'User does not exists' });
-    }
-    if(!isValidPassword(userFound, password)){
-        return res.status(401).json({ error: 'Wrong password' });
-    }else {
-        // Generate token JWT
-        const accessToken = generateToken(req.userCredentials);
-        res.cookie('sessionToken', accessToken, { maxAge: 30*1000, httpOnly: true, signed: true }).json();
-    }
+    if(!userFound) return res.status(401).json({ error: 'User does not exists' });
+    if(!isValidPassword(userFound, password)) return res.status(401).json({ error: 'Wrong password' });
+    
+    req.session.email = userFound.email;
+    req.session.role = userFound.role
+
+    // Generate token JWT
+    const accessToken = generateToken(email);
+    res.cookie('sessionToken', accessToken, { maxAge: 30*1000, httpOnly: true, signed: true }).json();
+    
 };
 
 export const loginUserError = (req, res) => {

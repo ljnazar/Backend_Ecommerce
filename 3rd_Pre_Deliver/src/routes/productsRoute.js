@@ -2,6 +2,7 @@ import { Router } from 'express';
 import { authToken } from '../utils/jwt.js';
 import { 
     getAllProducts,
+    adminRender,
     createProduct,
     updateProduct,
     deleteProduct
@@ -12,10 +13,12 @@ const productsRoute = Router();
 
 productsRoute.get('/', authToken, getAllProducts);
 
-productsRoute.post("/", authToken, isAdmin, createProduct);
+productsRoute.get('/admin', authToken, isAdmin, adminRender);
 
-productsRoute.put("/:pid", authToken, isAdmin, updateProduct);
+productsRoute.post("/admin", authToken, isAdmin, createProduct);
 
-productsRoute.delete("/:pid", authToken, isAdmin, deleteProduct);
+productsRoute.put("/admin/:pid", authToken, isAdmin, updateProduct);
+
+productsRoute.delete("/admin/:pid", authToken, isAdmin, deleteProduct);
 
 export default productsRoute;

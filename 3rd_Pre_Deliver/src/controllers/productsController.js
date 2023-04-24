@@ -4,8 +4,16 @@ export const getAllProducts = async (req, res) => {
     const productService = new ProductService();
     try {
         const products = await productService.list();
-        //res.render('datos', { user: req.user.email, role: req.user.role, products});
-        res.render('datos', { user: 'asd', role: 'asd', products});
+        res.render('datos', { user: req.session.email, role: req.session.role, products});
+        //res.render('datos', { user: 'asd', role: 'asd', products});
+    } catch (error) {
+        res.status(400).send({ status: "error", payload: error.message });
+    }
+};
+
+export const adminRender = (req, res) => {
+    try {
+        res.render('admin');
     } catch (error) {
         res.status(400).send({ status: "error", payload: error.message });
     }

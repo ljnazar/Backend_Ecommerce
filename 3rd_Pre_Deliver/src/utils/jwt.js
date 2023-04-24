@@ -10,12 +10,10 @@ export const generateToken = (user) => {
 }
 
 export const authToken = (req, res, next) => {
-
     const token = req.signedCookies.sessionToken;
     if(!token) return res.status(401).redirect('/login');//.json({ error: 'Not authenticated' });
-    jwt.verify(token, RANDOM_PRIVATE_KEY, (error, credentials) => {
+    jwt.verify(token, RANDOM_PRIVATE_KEY, error => {
         if(error) return res.status(403).redirect('/login');//.json({ error: 'Not authorized' });
-        req.userCredentials = credentials.user;
         next();
     });
 

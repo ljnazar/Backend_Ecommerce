@@ -21,6 +21,8 @@ export const authToken = (req, res, next) => {
         jwt.verify(token, RANDOM_PRIVATE_KEY, (error, credentials) => {
             if(error) return res.status(403).redirect('/login');//.json({ error: 'Not authorized' });
             req.userCredentials = credentials.user;
+            console.log(credentials.user);
+            console.log(credentials);
             next();
         })
     }

@@ -3,6 +3,8 @@ import mongoose from 'mongoose';
 import exphbs from 'express-handlebars';
 import mainRoute from './routes/index.js'
 import { config } from './config/envConfig.js';
+import session from 'express-session';
+import { createHash } from'./utils/bcrypt.js';
 //import compression from 'compression';
 //import helmet from 'helmet';
 import cors from 'cors';
@@ -21,6 +23,11 @@ app.use(cors(corsOptions));
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));
 app.use(express.static('public'));
+app.use(session({
+    secret: createHash('secretoConHashRandom'),
+    resave: false,
+    saveUninitialized: false
+}));
 
 app.engine('.hbs', exphbs({ extname: '.hbs', defaultLayout: 'main.hbs' }));
 app.set('view engine', '.hbs');
