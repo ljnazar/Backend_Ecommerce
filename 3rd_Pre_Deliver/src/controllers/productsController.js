@@ -1,7 +1,9 @@
 import ProductService from '../services/productService.js';
 
-import ProductsMongooseDao from '../daos/productsMongooseDao.js';
-const productsMongooseDao = new ProductsMongooseDao();
+//import ProductsMongooseDao from '../daos/productsMongooseDao.js';
+//const productsMongooseDao = new ProductsMongooseDao();
+
+import { productModel } from "../models/productSchema.js";
 
 const productService = new ProductService();
 
@@ -24,7 +26,6 @@ export const adminRender = (req, res) => {
 
 export const createProduct = async (req, res) => {
     try {
-        console.log(req.body);
         const result = await productService.create(req.body);
         res.status(201).send({ status: "success", payload: result });
     } catch (error) {
@@ -34,7 +35,8 @@ export const createProduct = async (req, res) => {
 
 export const updateProduct = async (req, res) => {
     try {
-        const result = await productService.update(req.params, req.body);
+        const pid = req.params.pid;
+        const result = await productService.update(pid, req.body);
         res.status(200).send({ status: "success", payload: result });
     } catch (error) {
         res.status(400).send({ status: "error", payload: error.message });
@@ -44,10 +46,8 @@ export const updateProduct = async (req, res) => {
 export const deleteProduct = async (req, res) => {
     try {
         const pid = req.params.pid;
-        //const result = await productService.delete(pid);
-        const result = await productsMongooseDao.deleteOne({ _id: '63fa40e4d0cbc98026432e36' });
-        console.log(result);
-        res.status(200).json({ status: "success", payload: result });
+        const result = await productService.delete(pid);
+        res.status(200).send({ status: "success", payload: result });
     } catch (error) {
         res.status(400).send({ status: "error", payload: error.message });
     }

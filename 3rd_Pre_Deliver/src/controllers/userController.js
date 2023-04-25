@@ -46,22 +46,22 @@ export const registerRender = (req, res) => {
 
 export const createUser = async (req, res) => {
 
-        const {first_name, last_name, password, email, age} = req.body;
+    const {first_name, last_name, password, email, age} = req.body;
 
-        let userFound = await userService.getUserByUsername(email);
-        if(userFound){
-            console.log('User already exists');
-            return res.redirect('/failregister');
-        }
-        const newUser = {
-            first_name,
-            last_name,
-            age,
-            email,
-            password: createHash(password)
-        }
-        await userService.create(newUser);
-        return res.status(201).redirect('/login');
+    let userFound = await userService.getUserByUsername(email);
+    if(userFound){
+        console.log('User already exists');
+        return res.redirect('/failregister');
+    }
+    const newUser = {
+        first_name,
+        last_name,
+        age,
+        email,
+        password: createHash(password)
+    }
+    await userService.create(newUser);
+    return res.status(201).redirect('/login');
     
 };
 

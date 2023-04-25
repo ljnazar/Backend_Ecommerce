@@ -8,13 +8,13 @@ export default class ProductsMongooseDao {
     }
 
     async create(product) {
-        const result = await this.productModel.create(product);
+        const result = await productModel.create(product);
         return result;
     }
 
     async update(pid, product) {
         try {
-            const result = await this.productModel.updateOne({ _id: pid }, product);
+            const result = await productModel.updateOne({ _id: pid }, product);
             return result;
         } catch (error) {
             console.log(error);
@@ -23,7 +23,7 @@ export default class ProductsMongooseDao {
     
     async delete(pid) {
         try {
-            const result = await this.productModel.deleteOne({ _id: pid });
+            const result = await productModel.deleteOne({ _id: pid });
             return result;
         } catch (error) {
             console.log(error);

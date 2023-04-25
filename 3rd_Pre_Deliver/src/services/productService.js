@@ -17,7 +17,7 @@ export default class ProductService {
     }
 
     async update(pid, product) {
-        const productUpdate = this.productsMongooseDao.update(pid, product);
+        const productUpdate = await this.productsMongooseDao.update(pid, product);
         return productUpdate
     }
 
