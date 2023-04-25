@@ -13,12 +13,12 @@ const productsRoute = Router();
 
 productsRoute.get('/', authToken, getAllProducts);
 
-productsRoute.get('/admin', authToken, isAdmin, adminRender);
+productsRoute.get('/admin/products', authToken, isAdmin, adminRender);
 
-productsRoute.post("/admin", authToken, isAdmin, createProduct);
+productsRoute.post('/admin/products', authToken, isAdmin, createProduct);
 
-productsRoute.put("/admin/:pid", authToken, isAdmin, updateProduct);
+productsRoute.put('/admin/products/:pid', authToken, isAdmin, updateProduct);
 
-productsRoute.delete("/admin/:pid", authToken, isAdmin, deleteProduct);
+productsRoute.delete('/admin/products/:pid', authToken, isAdmin, deleteProduct);
 
 export default productsRoute;

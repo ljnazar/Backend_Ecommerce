@@ -1,11 +1,14 @@
 import ProductService from '../services/productService.js';
 
+import ProductsMongooseDao from '../daos/productsMongooseDao.js';
+const productsMongooseDao = new ProductsMongooseDao();
+
+const productService = new ProductService();
+
 export const getAllProducts = async (req, res) => {
-    const productService = new ProductService();
     try {
         const products = await productService.list();
         res.render('datos', { user: req.session.email, role: req.session.role, products});
-        //res.render('datos', { user: 'asd', role: 'asd', products});
     } catch (error) {
         res.status(400).send({ status: "error", payload: error.message });
     }
@@ -20,8 +23,8 @@ export const adminRender = (req, res) => {
 };
 
 export const createProduct = async (req, res) => {
-    const productService = new ProductService();
     try {
+        console.log(req.body);
         const result = await productService.create(req.body);
         res.status(201).send({ status: "success", payload: result });
     } catch (error) {
@@ -30,7 +33,6 @@ export const createProduct = async (req, res) => {
 };
 
 export const updateProduct = async (req, res) => {
-    const productService = new ProductService();
     try {
         const result = await productService.update(req.params, req.body);
         res.status(200).send({ status: "success", payload: result });
@@ -40,9 +42,11 @@ export const updateProduct = async (req, res) => {
 };
 
 export const deleteProduct = async (req, res) => {
-    const productService = new ProductService();
     try {
-        const result = await productService.delete(req.params);
+        const pid = req.params.pid;
+        //const result = await productService.delete(pid);
+        const result = await productsMongooseDao.deleteOne({ _id: '63fa40e4d0cbc98026432e36' });
+        console.log(result);
         res.status(200).json({ status: "success", payload: result });
     } catch (error) {
         res.status(400).send({ status: "error", payload: error.message });
