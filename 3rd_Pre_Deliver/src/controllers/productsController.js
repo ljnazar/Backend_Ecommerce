@@ -1,10 +1,5 @@
 import ProductService from '../services/productService.js';
 
-//import ProductsMongooseDao from '../daos/productsMongooseDao.js';
-//const productsMongooseDao = new ProductsMongooseDao();
-
-import { productModel } from "../models/productSchema.js";
-
 const productService = new ProductService();
 
 export const getAllProducts = async (req, res) => {
