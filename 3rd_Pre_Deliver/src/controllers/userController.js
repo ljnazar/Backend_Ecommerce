@@ -46,7 +46,7 @@ export const registerRender = (req, res) => {
 
 export const createUser = async (req, res) => {
 
-    const {first_name, last_name, password, email, age} = req.body;
+    const {first_name, last_name, password, email} = req.body;
 
     let userFound = await userService.getUserByUsername(email);
     if(userFound){
@@ -56,7 +56,6 @@ export const createUser = async (req, res) => {
     const newUser = {
         first_name,
         last_name,
-        age,
         email,
         password: createHash(password)
     }
