@@ -1,6 +1,6 @@
 import express from 'express';
 import mongoose from 'mongoose';
-import exphbs from 'express-handlebars';
+import { engine } from 'express-handlebars';
 import mainRoute from './routes/index.js'
 import { config } from './config/envConfig.js';
 import session from 'express-session';
@@ -29,7 +29,7 @@ app.use(session({
     saveUninitialized: false
 }));
 
-app.engine('.hbs', exphbs({ extname: '.hbs', defaultLayout: 'main.hbs' }));
+app.engine('.hbs', engine({ extname: '.hbs', defaultLayout: 'main.hbs' }));
 app.set('view engine', '.hbs');
 
 // Routes
