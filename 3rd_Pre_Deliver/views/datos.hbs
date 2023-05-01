@@ -1,7 +1,7 @@
 <div class="container">
+
     <div class="jumbotron d-flex justify-content-between my-3" style="background-color: blue; color: white;">
         <h4 class="ps-3 pt-1">{{ role }}: {{ user }} <button class="ms-2 mt-1 btn btn-success" onclick="location.href='/home/admin/products'">Edit Products</button></h4>
-
         <button class="btn btn-danger" onclick="location.href='/logout'">LOGOUT</button>
     </div>
 
@@ -23,17 +23,17 @@
                                     <h6>{{ description }}</h6>
                                 </div>
                                 <div class="d-flex justify-content-between mb-3">
-                                    <p class="text-muted mb-0">stock: <span class="fw-bold">{{ stock }}</span></p>
+                                    <p class="text-muted mb-0">stock: <span id="stockSpan" class="fw-bold">{{ stock }}</span></p>
                                     <h6 class="text-dark mb-0">${{ price }}</h6>
                                 </div>
-                                <div class="d-flex justify-content-center">
+                                <!--<div class="d-flex justify-content-center">
                                     <div>
                                         <button id="btnSubstract">-</button>
-                                        <span id="counter">0</span>
+                                        <span id="counterSpan">0</span>
                                         <button id="btnPlus">+</button>
                                     </div>
                                     <button class="ms-3" id="btnAddToCart">ADD TO CART</button>
-                                </div>
+                                </div>-->
                             </div>
                         </div>
                     </div>
@@ -43,3 +43,5 @@
     </section>
 
 </div>
+
+<script src="/js/cart.js"></script>

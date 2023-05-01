@@ -6,9 +6,14 @@ export default class CartService {
         this.cartMongooseDao = new CartMongooseDao();
     }
 
+    async create(){
+        const cart = await this.cartMongooseDao.create();
+        return cart;
+    }
+
     async getCart(cid) {
-        const idFound = await this.cartMongooseDao.getCart(cid);
-        return idFound
+        const idFound = await this.cartMongooseDao.getCart({ cid });
+        return idFound;
     }
 
     async addProductToCart({ cid, pid }) {
@@ -18,17 +23,17 @@ export default class CartService {
     
     async deleteProductInCart({ cid, pid }) {
         const deleteProduct = await this.cartMongooseDao.deleteProductInCart({ cid, pid });
-        return deleteProduct
+        return deleteProduct;
     }
     
     async cleanCart({ cid }) {
         const deleteProduct = await this.cartMongooseDao.cleanCart({ cid });
-        return deleteProduct
+        return deleteProduct;
     }
     
     async updateQuantityProduct({ cid, pid }, { quantity }) {
         const productUpdate = await this.cartMongooseDao.updateQuantityProduct({ cid, pid }, { quantity });
-        return productUpdate
+        return productUpdate;
     }
 
 }

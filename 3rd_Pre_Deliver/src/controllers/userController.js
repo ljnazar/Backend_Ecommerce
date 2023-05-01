@@ -1,8 +1,10 @@
 import { createHash, isValidPassword } from '../utils/bcrypt.js';
 import { generateToken} from '../utils/jwt.js';
 import UserService from '../services/userService.js';
+import CartService from '../services/cartService.js';
 
 const userService = new UserService();
+const cartService = new CartService();
 
 // MAIN ROUTE
 
@@ -53,11 +55,20 @@ export const createUser = async (req, res) => {
         console.log('User already exists');
         return res.redirect('/failregister');
     }
+
+    const cart = await cartService.create();
+
+    req.session.cartId = cart._id;
+
+    console.log(cart);
+    console.log(cart._id);
+
     const newUser = {
         first_name,
         last_name,
         email,
-        password: createHash(password)
+        password: createHash(password),
+        cartId: cart._id
     }
     await userService.create(newUser);
     return res.status(201).redirect('/login');

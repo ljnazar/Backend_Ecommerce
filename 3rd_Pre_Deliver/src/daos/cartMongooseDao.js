@@ -2,9 +2,14 @@ import { cartModel } from "../models/cartSchema.js";
 
 export default class CartMongooseDao {
 
+    async create() {
+        const cart = await cartModel.create({});
+        return cart;
+    }
+
     async getCart(cid) {
-        const result = await cartModel.findOne({ _id: cid }).populate("products.product").lean();
-        return result;
+        const cart = await cartModel.findOne({ _id: cid }).populate("products.product").lean();
+        return cart;
     }
 
     async addProductToCart({ cid, pid }) {
