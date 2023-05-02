@@ -3,14 +3,13 @@ import { productModel } from "../models/productSchema.js";
 export default class ProductsMongooseDao {
 
     async list(filters) {
-        //const productsFound = await productModel.find({ category: "notebooks" }).lean();
-        //return productsFound;
+
         const { limit, page, sort, query } = filters;
 
         const setLimit = limit ? limit : 8;
         const setPage = page ? Number(page) : 1;
         const setSort = sort ? { price: sort } : {};
-        const setQuery = query ? {category: query} : {};
+        const setQuery = query ? { category: query } : {};
 
         const options = {
             lean: true,

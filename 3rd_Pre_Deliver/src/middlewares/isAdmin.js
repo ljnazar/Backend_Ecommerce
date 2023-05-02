@@ -3,6 +3,7 @@ export const isAdmin = async (req, res, next) => {
     next();
   } else {
     //res.status(401).json({ error: 'Not authenticated' });
-    throw new Error('Not authorized');
+    //throw new Error('Not authorized');
+    next(new Error('Not authorized'));
   }
 }

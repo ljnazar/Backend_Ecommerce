@@ -27,13 +27,13 @@ btnSubmit.addEventListener('click', async e => {
         location.href = '/home';
     }else if(response.status === 401){
         console.log(`Error code ${response.status} - Not authenticated`);
-        location.href = '/faillogin';
+        console.log(response);
     }else if(response.status === 403){
         console.log(`Error code ${response.status} - Not authorized`);
-        location.href = '/faillogin';
+        console.log(response);
     }else{
         console.log(`Error code ${response.status}`);
-        location.href = '/faillogin';
+        console.log(response);
     }
 
 });
