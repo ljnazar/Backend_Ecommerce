@@ -4,8 +4,8 @@ const productService = new ProductService();
 
 export const getAllProducts = async (req, res, next) => {
     try {
-        const products = await productService.list();
-        res.status(200).render('datos', { user: req.session.email, role: req.session.role, products});
+        const result = await productService.list(req.query);
+        res.status(200).render('datos', { user: req.session.email, role: req.session.role, products: result.payload });
     } catch (error) {
         next(error);
     }

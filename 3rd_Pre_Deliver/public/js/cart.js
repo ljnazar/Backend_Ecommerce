@@ -3,7 +3,7 @@ const btnPlus = document.getElementById('btnPlus');
 const counterSpan = document.getElementById('counterSpan');
 const stockSpan = document.getElementById('stockSpan');
 
-console.log(stockSpan.innerText)
+//console.log(stockSpan.innerText)
 
 let counter = 0;
 

@@ -6,8 +6,8 @@ export default class ProductService {
         this.productsMongooseDao = new ProductsMongooseDao();
     }
 
-    async list() {
-        const idFound = await this.productsMongooseDao.list();
+    async list(filters) {
+        const idFound = await this.productsMongooseDao.list(filters);
         return idFound
     }
 

@@ -35,8 +35,8 @@ export const loginUser = async (req, res, next) => {
         const userFound = await userService.getUserByUsername(email);
 
         //if(!userFound) return res.status(401).json({ error: 'User does not exists' });
-        //if(!isValidPassword(userFound, password)) return res.status(401).json({ error: 'Wrong password' });
         if(!userFound) throw new Error('User does not exists');
+        //if(!isValidPassword(userFound, password)) return res.status(401).json({ error: 'Wrong password' });
         if(!isValidPassword(userFound, password)) throw new Error('Wrong password');
         
         req.session.email = userFound.email;
