@@ -13,21 +13,13 @@ export default class ProductsMongooseDao {
     }
 
     async update(pid, product) {
-        try {
-            const result = await productModel.updateOne({ _id: pid }, product);
-            return result;
-        } catch (error) {
-            console.log(error);
-        }
+        const result = await productModel.updateOne({ _id: pid }, product);
+        return result;
     }
     
     async delete(pid) {
-        try {
-            const result = await productModel.deleteOne({ _id: pid });
-            return result;
-        } catch (error) {
-            console.log(error);
-        }
+        const result = await productModel.deleteOne({ _id: pid });
+        return result;
     }
     
 }

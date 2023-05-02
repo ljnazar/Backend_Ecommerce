@@ -2,43 +2,47 @@ import CartService from '../services/cartService.js';
 
 const cartService = new CartService();
 
-export const getCart = async (req, res) => {
-    const cart = await cartService.getCart(req.params);
-    res.status(200).send(cart);
-};
-
-export const addProductToCart = async (req, res) => {
+export const getCart = async (req, res, next) => {
     try {
-        const result = await cartService.addProduct(req.params);
-        res.status(200).send({ status: "success", payload: result });
+        const result = await cartService.getCart(req.params);
+        res.status(200).json({ status: "success", payload: result });
     } catch (error) {
-        res.status(400).send({ status: "error", payload: error.message });
+        next(error);
     }
 };
 
-export const deleteProductInCart = async (req, res) => {
+export const addProductToCart = async (req, res, next) => {
+    try {
+        const result = await cartService.addProduct(req.params);
+        res.status(200).json({ status: "success", payload: result });
+    } catch (error) {
+        next(error);
+    }
+};
+
+export const deleteProductInCart = async (req, res, next) => {
     try {
         const result = await cartService.deleteProduct(req.params);
         res.status(200).send({ status: "success", payload: result });
     } catch (error) {
-        res.status(400).send({ status: "error", payload: error.message });
+        next(error);
     }
 };
 
-export const cleanCart = async (req, res) => {
+export const cleanCart = async (req, res, next) => {
     try {
         const result = await cartService.cleanCart(req.params);
         res.status(200).send({ status: "success", payload: result });
     } catch (error) {
-        res.status(400).send({ status: "error", payload: error.message });
+        next(error);
     }
 };
 
-export const updateQuantityProduct = async (req, res) => {
+export const updateQuantityProduct = async (req, res, next) => {
     try {
         const result = await cartService.updateQuantityProduct(req.params, req.body);
         res.status(200).send({ status: "success", payload: result });
     } catch (error) {
-        res.status(400).send({ status: "error", payload: error.message });
+        next(error);
     }
 };

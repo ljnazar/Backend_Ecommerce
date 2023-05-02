@@ -5,6 +5,7 @@ import mainRoute from './routes/index.js'
 import { config } from './config/envConfig.js';
 import session from 'express-session';
 import { createHash } from'./utils/bcrypt.js';
+import errorHandler from "./middlewares/errorHandler.js";
 //import compression from 'compression';
 //import helmet from 'helmet';
 import cors from 'cors';
@@ -15,6 +16,9 @@ const corsOptions = {
     origin: config.nodeEnv == 'development' ? 'http://localhost:8080/' : 'https://my.web.com',
     optionsSuccessStatus: 200
 }
+
+app.engine('.hbs', engine({ extname: '.hbs', defaultLayout: 'main.hbs' }));
+app.set('view engine', '.hbs');
 
 // Middlewares
 //app.use(compression());
@@ -28,13 +32,8 @@ app.use(session({
     resave: false,
     saveUninitialized: false
 }));
-
-app.engine('.hbs', engine({ extname: '.hbs', defaultLayout: 'main.hbs' }));
-app.set('view engine', '.hbs');
-
-// Routes
-
 app.use('/', mainRoute);
+app.use(errorHandler);
 
 const server = app.listen(config.port, () => console.log(`Server running on port: ${config.port}`));
 server.on('error', error => console.log(error));
