@@ -6,8 +6,8 @@ import { config } from './config/envConfig.js';
 import session from 'express-session';
 import { createHash } from'./utils/bcrypt.js';
 import errorHandler from "./middlewares/errorHandler.js";
-//import compression from 'compression';
-//import helmet from 'helmet';
+import compression from 'express-compression';
+
 import cors from 'cors';
 
 const app = express();
@@ -21,8 +21,7 @@ app.engine('.hbs', engine({ extname: '.hbs', defaultLayout: 'main.hbs' }));
 app.set('view engine', '.hbs');
 
 // Middlewares
-//app.use(compression());
-//app.use(helmet());
+app.use(compression({ brotli: { enabled: true, zlib: {} } }));
 app.use(cors(corsOptions));
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));

@@ -1,4 +1,4 @@
-import TicketRepository from '../daos/repositories/ticketRepository'
+import TicketRepository from '../daos/repositories/ticketRepository.js'
 
 const ticketRepository = new TicketRepository();
 

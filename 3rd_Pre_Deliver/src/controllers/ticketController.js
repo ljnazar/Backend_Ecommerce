@@ -2,7 +2,7 @@ import CartService from '../services/cartService.js';
 import ProductService from '../services/productService.js';
 import { createTicketService } from '../services/ticketService.js';
 import { uuid } from 'uuidv4';
-import sendMail from '../utils/sendMail.js'
+import { sendMail } from '../utils/sendMail.js'
 
 const cartService = new CartService();
 const productService = new ProductService();
