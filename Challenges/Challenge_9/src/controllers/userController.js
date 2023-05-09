@@ -2,6 +2,9 @@ import { createHash, isValidPassword } from '../utils/bcrypt.js';
 import { generateToken} from '../utils/jwt.js';
 import UserService from '../services/userService.js';
 import CartService from '../services/cartService.js';
+import CustomError from '../utils/customError.js';
+import { errorDictionary } from '../utils/errorDictionary.js';
+import { generateUserErrorInfo } from '../utils/generateUserErrorInfo.js';
 
 const userService = new UserService();
 const cartService = new CartService();
@@ -76,8 +79,23 @@ export const createUser = async (req, res, next) => {
     try {
         const {first_name, last_name, password, email} = req.body;
     
+        if(!first_name || !last_name || !password || !email){
+            CustomError.createError({
+                name: 'User creation error',
+                cause: generateUserErrorInfo({ first_name, last_name, password, email }),
+                message: 'Error trying to create user',
+                code: errorDictionary.INVALID_TYPES_ERROR
+            });
+        }
+        
         let userFound = await userService.getUserByUsername(email);
-        if(userFound) throw new Error('User already exists');
+        if(userFound) CustomError.createError({
+            name: 'User creation error',
+            cause: 'User already exists',
+            message: 'Error trying to create user',
+            code: errorDictionary.INVALID_TYPES_ERROR
+        });
+        //throw new Error('User already exists');
             //console.log('User already exists');
             //res.redirect('/failregister');
             //throw new Error('User already exists');
