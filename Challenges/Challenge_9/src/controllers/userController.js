@@ -39,9 +39,22 @@ export const loginUser = async (req, res, next) => {
         const userFound = await userService.getUserByUsername(email);
 
         //if(!userFound) return res.status(401).json({ error: 'User does not exists' });
-        if(!userFound) throw new Error('User does not exists');
+        if(!userFound) CustomError.createError({
+            name: 'Login error',
+            cause: 'User does not exists',
+            message: 'Error trying to login',
+            code: errorDictionary.INVALID_USER_ERROR
+        });
+        //throw new Error('User does not exists');
         //if(!isValidPassword(userFound, password)) return res.status(401).json({ error: 'Wrong password' });
-        if(!isValidPassword(userFound, password)) throw new Error('Wrong password');
+        if(!isValidPassword(userFound, password)) CustomError.createError({
+            name: 'Login error',
+            cause: 'Wrong password',
+            message: 'Error trying to login',
+            code: errorDictionary.WRONG_PASSWORD_ERROR
+        });
+        
+        //throw new Error('Wrong password');
         
         req.session.email = userFound.email;
         req.session.role = userFound.role;
@@ -84,7 +97,7 @@ export const createUser = async (req, res, next) => {
                 name: 'User creation error',
                 cause: generateUserErrorInfo({ first_name, last_name, password, email }),
                 message: 'Error trying to create user',
-                code: errorDictionary.INVALID_TYPES_ERROR
+                code: errorDictionary.REQUIRED_FIELDS_ERROR
             });
         }
         
@@ -93,7 +106,7 @@ export const createUser = async (req, res, next) => {
             name: 'User creation error',
             cause: 'User already exists',
             message: 'Error trying to create user',
-            code: errorDictionary.INVALID_TYPES_ERROR
+            code: errorDictionary.DUPLICATED_USER_ERROR
         });
         //throw new Error('User already exists');
             //console.log('User already exists');
