@@ -5,9 +5,8 @@ import mainRoute from './routes/index.js'
 import { config } from './config/envConfig.js';
 import session from 'express-session';
 import { createHash } from'./utils/bcrypt.js';
-import errorHandler from "./middlewares/errorHandler.js";
+import errorHandler from './middlewares/errorHandler.js';
 import compression from 'express-compression';
-
 import cors from 'cors';
 
 const app = express();
