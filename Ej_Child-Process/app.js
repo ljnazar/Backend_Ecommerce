@@ -33,7 +33,7 @@ app.get('/no-bloqueante', (req, res) => {
 })
 
 const server = app.listen(8080, () => {
-    console.log(`Servidor http escuchando en el puerto`)
+    console.log(`Servidor http escuchando en el puerto 8080`)
 })
     
 server.on('error', err => { console.log(`Error en servidor: ${err}`) })
