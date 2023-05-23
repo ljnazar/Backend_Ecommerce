@@ -1,8 +1,8 @@
 {
-  "name": "clase-19--coderhouse---32260",
+  "name": "oficom-backend",
   "version": "1.0.0",
   "description": "",
-  "main": "app.js",
+  "main": "index.js",
   "type": "module",
   "scripts": {
     "start": "node src/index.js",
@@ -13,7 +13,7 @@
   "license": "ISC",
   "dependencies": {
     "@faker-js/faker": "^7.6.0",
-    "bcrypt": "^5.1.0",
+    "bcryptjs": "^2.4.3",
     "connect-mongo": "^4.6.0",
     "cookie-parser": "^1.4.6",
     "cors": "^2.8.5",
