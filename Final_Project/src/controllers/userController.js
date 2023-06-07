@@ -13,8 +13,8 @@ const cartService = new CartService();
 
 export const mainRender = (req, res, next) => {
     try {
-        //res.clearCookie('sessionToken').redirect('/home');
-        res.redirect('/home');
+        //res.clearCookie('sessionToken').redirect('/api/products');
+        res.redirect('/api/products');
     } 
     catch(error) {
         next(error);

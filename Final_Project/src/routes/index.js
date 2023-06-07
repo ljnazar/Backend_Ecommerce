@@ -11,7 +11,7 @@ mainRoute.use(cookieParser('PrivateKey'));
 // MAIN ROUTE
 
 mainRoute.use('/', userRoute);
-mainRoute.use('/home', productsRoute);
-mainRoute.use('/cart', cartRoute);
+mainRoute.use('/api/products', productsRoute);
+mainRoute.use('/api/cart', cartRoute);
 
 export default mainRoute;

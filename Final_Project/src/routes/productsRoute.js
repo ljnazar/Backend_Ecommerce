@@ -29,7 +29,7 @@ productsRoute.get('/mockingproducts', authToken, isAdmin, (req, res) => {
 
 productsRoute.get('/loggerTest', (req, res) => {
     req.logger.debug('Este es un debug');
-    req.logger.http('http://localhost:8080/home/loggerTest');
+    req.logger.http('http://localhost:8080/api/products/loggerTest');
     req.logger.info('Ingreso en la ruta raiz');
     req.logger.warn('Este es un warning');
     req.logger.error('Este es un error');

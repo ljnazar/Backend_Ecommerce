@@ -24,7 +24,7 @@ btnSubmit.addEventListener('click', async e => {
     //console.log(response);
     if(response.status === 200){
         console.log('Logged in');
-        location.href = '/home';
+        location.href = '/api/products';
     }else if(response.status === 401){
         console.log(`Error code ${response.status} - Not authenticated`);
         console.log(response);

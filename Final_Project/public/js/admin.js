@@ -8,7 +8,7 @@ const btnDeleteProduct = document.getElementById('btnDeleteProduct');
 const paragraphRender = document.getElementById('paragraphRender');
 
 btnAddProduct.addEventListener('click', async () => {
-    await fetch("/home/admin/products", {
+    await fetch("/api/products/admin/products", {
         method: "post",
         headers: {
             'Accept': 'application/json',
@@ -19,7 +19,7 @@ btnAddProduct.addEventListener('click', async () => {
 });
 
 btnUpdateProduct.addEventListener('click', async () => {
-    await fetch(`/home/admin/products/${inputProductID.value}`, {
+    await fetch(`/api/products/admin/products/${inputProductID.value}`, {
         method: "put",
         headers: {
             'Accept': 'application/json',
@@ -30,7 +30,7 @@ btnUpdateProduct.addEventListener('click', async () => {
 });
 
 btnDeleteProduct.addEventListener('click', async () => {
-    await fetch(`/home/admin/products/${inputDeleteProductID.value}`, {
+    await fetch(`/api/products/admin/products/${inputDeleteProductID.value}`, {
         method: "delete",
         headers: {
             'Accept': 'application/json',

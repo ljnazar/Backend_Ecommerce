@@ -21,7 +21,7 @@ const errorHandler = (err, req, res, next) => {
     case errorDictionary.AUTHORIZATION_ERROR:
       //console.log({ status: 'error', error: err.name, message: err.message, cause: err.cause, code: err.code });
       req.logger.error({ status: 'error', error: err.name, message: err.message, cause: err.cause, code: err.code });
-      res.redirect('/home');
+      res.redirect('/api/products');
       break;
     case errorDictionary.INVALID_USER_ERROR:
       //console.log({ status: 'error', error: err.name, message: err.message, cause: err.cause, code: err.code });
@@ -41,7 +41,7 @@ const errorHandler = (err, req, res, next) => {
 
   //if(err.message === 'Not authenticated') return res.redirect('/login');
 
-  //if(err.message === 'Not authorized') return res.redirect('/home');
+  //if(err.message === 'Not authorized') return res.redirect('/api/products');
 
   //if(err.message) return res.status(400).json({ Error: err.message, Cause: err.cause });
 

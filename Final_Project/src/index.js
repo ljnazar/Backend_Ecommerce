@@ -9,6 +9,10 @@ import errorHandler from './middlewares/errorHandler.js';
 import compression from 'express-compression';
 import { addLogger } from './middlewares/logger.js';
 import cors from 'cors';
+import swaggerJsdoc from 'swagger-jsdoc';
+import swaggerUiExpress from 'swagger-ui-express';
+import { swaggerOptions } from './swagger-options.js';
+
 
 const app = express();
 
@@ -19,6 +23,9 @@ const corsOptions = {
 
 app.engine('.hbs', engine({ extname: '.hbs', defaultLayout: 'main.hbs' }));
 app.set('view engine', '.hbs');
+
+const specs = swaggerJsdoc(swaggerOptions);
+app.use('/apidocs', swaggerUiExpress.serve, swaggerUiExpress.setup(specs));
 
 // Middlewares
 app.use(addLogger);

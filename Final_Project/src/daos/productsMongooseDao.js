@@ -32,8 +32,8 @@ export default class ProductsMongooseDao {
             page: result.page,
             hasPrevPage: result.hasPrevPage,
             hasNextPage: result.hasNextPage,
-            prevLink: result.hasPrevPage ? `http://localhost:8080/home?page=${setPage-1}&limit=${setLimit}${setStringQuery}` : null,
-            nextLink: result.hasNextPage ? `http://localhost:8080/home?page=${setPage+1}&limit=${setLimit}${setStringQuery}` : null
+            prevLink: result.hasPrevPage ? `http://localhost:8080/api/products?page=${setPage-1}&limit=${setLimit}${setStringQuery}` : null,
+            nextLink: result.hasNextPage ? `http://localhost:8080/api/products?page=${setPage+1}&limit=${setLimit}${setStringQuery}` : null
         }
 
         return resultFormatted;
