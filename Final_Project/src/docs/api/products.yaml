@@ -33,6 +33,10 @@ paths:
       responses:
         '200':
           description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#components/schemas/product'
         '400':
           description: Invalid ID supplied
         '404':
@@ -41,7 +45,7 @@ paths:
           description: Internal server error
 components:
   schemas:
-    products:
+    product:
       type: object
       properties:
         status: 
