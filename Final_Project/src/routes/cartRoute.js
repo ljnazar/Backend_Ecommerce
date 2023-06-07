@@ -16,6 +16,6 @@ cartRoute.post('/:cid/product/:pid', authToken, addProductToCart);
 cartRoute.delete('/:cid/product/:pid', authToken, deleteProductInCart);
 cartRoute.delete('/:cid', authToken, cleanCart);
 cartRoute.put('/:cid/product/:pid', authToken, updateQuantityProduct);
-cartRoute.get("/:cid/purchase", purchaseProducts);
+cartRoute.get('/:cid/purchase', purchaseProducts);
 
 export default cartRoute;

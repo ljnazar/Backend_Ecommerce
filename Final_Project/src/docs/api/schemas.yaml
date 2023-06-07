@@ -1,0 +1,94 @@
+components:
+  schemas:
+    paginateResponse:
+      type: object
+      properties:
+        status: 
+          type: number
+          description: Status code
+        payload: 
+          type: array
+          description: Products
+        totalResults:
+          type: number
+          description: Number of products
+        totalPages: 
+          type: number
+          description: Number of pages
+        prevPage:
+          type: number
+          description: Number of page
+        nextPage:
+          type: number
+          description: Number of page
+        page:
+          type: number
+          description: Current pages
+        hasPrevPage:
+          type: boolean
+          description: page exists
+        hasNextPage:
+          type: boolean
+          description: page exists
+        prevLink: 
+          type: string
+          description: Link to previous page
+        nextLink: 
+          type: string
+          description: Link to next page
+    product:
+      type: object
+      properties:
+        _id:
+          type: objectId
+          description: Id mongoDB
+        title:
+          type: string
+          description: Title of the product
+        description:
+          type: string
+          description: description of the product
+        category:
+          type: string
+          description: Category of the product
+        price:
+          type: string
+          description: Price of the product
+        thumbnail:
+          type: string
+          description: Link to image
+        code:
+          type: string
+          description: Code of the product
+        stock:
+          type: number
+          description: Stock of the product
+    cart:
+      type: object
+      properties:
+        product:
+          $ref: '#/components/schemas/product'
+        quantity:
+          type: number
+          description: quantity of product
+    ticket:
+      type: object
+      properties:
+        _id:
+          type: objectId
+          description: Id mongoDB
+        code:
+          type: string
+          description: Code of the product
+        purchase_datetime:
+          type: date
+          description: timestamp
+        amount:
+          type: number
+          description: total price
+        purchaser:
+          type: string
+          description: number of order
+        products: 
+          $ref: '#/components/schemas/cart'
+

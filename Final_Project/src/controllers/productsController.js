@@ -2,7 +2,7 @@ import ProductService from '../services/productService.js';
 
 const productService = new ProductService();
 
-export const getAllProducts = async (req, res, next) => {
+export const getProducts = async (req, res, next) => {
     try {
         const result = await productService.list(req.query);
         res.status(200).render('datos', { user: req.session.email, role: req.session.role, products: result.payload });

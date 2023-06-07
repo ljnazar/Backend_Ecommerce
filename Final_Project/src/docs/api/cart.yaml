@@ -1,0 +1,196 @@
+paths:
+  /api/cart{cid}:
+    get:
+      tags:
+        - cart
+      summary: get cart
+      description: get cart by providing id
+      operationId: getCart
+      parameters:
+        - in: path
+          name: cid
+          schema:
+            type: string
+          required: true
+          description: Id of cart
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#components/schemas/cart'
+        '400':
+          description: Invalid ID supplied
+        '404':
+          description: Not found
+        '500':
+          description: Internal server error
+    delete:
+      tags:
+        - cart
+      summary: delete an existing cart
+      description: delete all products existing in cart
+      operationId: cleanCart
+      parameters:
+        - in: path
+          name: cid
+          schema:
+            type: string
+          required: true
+          description: Id of cart
+      responses:
+        '200':
+          description: Successful operation        
+        '400':
+          description: Invalid ID supplied
+        '404':
+          description: Not found
+        '405':
+          description: Validation exception
+        '500':
+          description: Internal server error
+  /api/cart/{cid}/product/{pid}:
+    post:
+      tags:
+        - cart
+      summary: add product to cart
+      description: add product to cart by Id of cart and Id of product
+      operationId: addProductToCart
+      parameters:
+        - in: path
+          name: cid
+          schema:
+            type: string
+          required: true
+          description: Id of cart
+        - in: path
+          name: pid
+          schema:
+            type: string
+          required: true
+          description: Id of product
+      requestBody:
+        description: Add a new product in the cart
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/product'
+        required: true
+      responses:
+          '200':
+            description: Successful operation
+            content:
+              application/json:
+                schema:
+                  $ref: '#components/schemas/cart'
+          '404':
+            description: Not found
+          '405':
+            description: Invalid input
+          '500':
+            description: Internal server error
+    delete:
+      tags:
+        - cart
+      summary: delete an existing product
+      description: delete an existing product by Id of cart and Id of product
+      operationId: deleteProductInCart
+      parameters:
+        - in: path
+          name: cid
+          schema:
+            type: string
+          required: true
+          description: Id of cart
+        - in: path
+          name: pid
+          schema:
+            type: string
+          required: true
+          description: Id of product
+      responses:
+        '200':
+          description: Successful operation        
+        '400':
+          description: Invalid ID supplied
+        '404':
+          description: Not found
+        '405':
+          description: Validation exception
+        '500':
+          description: Internal server error
+    put:
+      tags:
+        - cart
+      summary: Update quantity of product
+      description: Update quantity of product by Id of cart and Id of product
+      operationId: updateQuantityProduct
+      parameters:
+        - in: path
+          name: cid
+          schema:
+            type: string
+          required: true
+          description: Id of cart
+        - in: path
+          name: pid
+          schema:
+            type: string
+          required: true
+          description: Id of product
+      requestBody:
+        description: Update an existent product in the cart
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/product'
+        required: true
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/cart'        
+        '400':
+          description: Invalid ID supplied
+        '404':
+          description: Not found
+        '405':
+          description: Validation exception
+        '500':
+          description: Internal server error
+  /api/cart/{cid}/purchase:
+    get:
+      tags:
+        - cart
+      summary: get purchase
+      description: get purchase by providing cart id
+      operationId: purchaseProducts
+      parameters:
+        - in: path
+          name: cid
+          schema:
+            type: string
+          required: true
+          description: Id of cart
+        - in: path
+          name: pid
+          schema:
+            type: string
+          required: true
+          description: Id of product
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#components/schemas/ticket'
+        '400':
+          description: Invalid ID supplied
+        '404':
+          description: Not found
+        '500':
+          description: Internal server error
