@@ -3,7 +3,7 @@ import { errorDictionary } from '../utils/errorDictionary.js';
 
 export const isAdmin = async (req, res, next) => {
   try{
-    if (req.session?.role === "admin") next();
+    if (req.session?.role === 'admin') return next();
     CustomError.createError({
       name: 'Authorization Error',
       cause: 'Requires administrator user',
