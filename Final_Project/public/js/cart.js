@@ -1,20 +1,35 @@
-const btnSubstract = document.getElementById('btnSubstract');
-const btnPlus = document.getElementById('btnPlus');
-const counterSpan = document.getElementById('counterSpan');
-const stockSpan = document.getElementById('stockSpan');
+const substractButtons = document.querySelectorAll('[id^="btnSubstract"]');
+const PlusButtons = document.querySelectorAll('[id^="btnPlus"]');
+const counterSpans = document.querySelectorAll('[id^="counterSpan"]');
+const stockSpans = document.querySelectorAll('[id^="stockSpan"]');
+const addToCartButtons = document.querySelectorAll('[id^="btnAddToCart"]');
 
-//console.log(stockSpan.innerText)
-
-let counter = 0;
-
-btnSubstract.addEventListener('click', () => {
-    if(stockSpan.innerText <= 0) return null
-    counter--;
-    counterSpan.innerHTML = counter;
+// Agregar event listeners a cada botón y contador individualmente
+addToCartButtons.forEach((btnAddToCart) => {
+    btnAddToCart.addEventListener('click', () => {
+        const productIndex = btnAddToCart.dataset.productIndex;
+        console.log(productIndex)
+        // Realizar las acciones específicas del producto seleccionado
+        // utilizando el índice del producto (productIndex)
+    });
 });
 
-btnPlus.addEventListener('click', () => {
-    if(stockSpan.innerText <= 0) return null
-    counter++;
-    counterSpan.innerHTML = counter;
+substractButtons.forEach((btnSubstract, index) => {
+    btnSubstract.addEventListener('click', () => {
+        const stockSpan = stockSpans[index];
+        const counterSpan = counterSpans[index];
+        if (stockSpan.innerText <= 0) return null;
+        if (counterSpan.innerText == 0) return null;
+        counterSpan.innerHTML--;
+    });
+});
+
+PlusButtons.forEach((btnPlus, index) => {
+    btnPlus.addEventListener('click', () => {
+        const stockSpan = stockSpans[index];
+        const counterSpan = counterSpans[index];
+        if (stockSpan.innerText <= 0) return null;
+        if (counterSpan.innerText == stockSpan.innerText) return null;
+        counterSpan.innerHTML++;
+    });
 });
