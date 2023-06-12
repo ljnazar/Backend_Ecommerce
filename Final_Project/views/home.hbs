@@ -16,26 +16,27 @@
                             <img src={{ thumbnail }}
                                 class="card-img-top" alt="Img" />
                             <div class="card-body">
-                                <div class="d-flex justify-content-between">
-                                    <p class="small"><a href="#" class="text-muted">{{ category }}</a></p>
+                                <div class=" d-flex justify-content-center">
+                                    <h6 id="titleProduct{{@index}}">{{ title }}</h6>
                                 </div>
-                                <div class="mb-3">
+                                <div class="">
+                                    <p class="small"><a href="#" class="text-muted ">{{ category }}</a></p>
+                                </div>
+                                <div class="mb-2">
                                     <h6>{{ description }}</h6>
                                 </div>
                                 <div class="d-flex justify-content-between mb-3">
                                     <p class="text-muted mb-0">stock: <span id="stockSpan" class="fw-bold">{{ stock }}</span></p>
                                     <h6 class="text-dark mb-0">${{ price }}</h6>
                                 </div>
-
                                 <div class="d-flex justify-content-center">
                                     <div>
                                         <button id="btnSubstract{{@index}}">-</button>
                                         <span id="counterSpan{{@index}}">0</span>
                                         <button id="btnPlus{{@index}}">+</button>
                                     </div>
-                                    <button class="ms-3" id="btnAddToCart{{@index}}" data-product-index="{{@index}}">ADD TO CART</button>
+                                    <button class="ms-3" id="btnAddToCart" data-product-index="{{@index}}">ADD TO CART</button>
                                 </div>
-
                             </div>
                         </div>
                     </div>

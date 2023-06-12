@@ -58,10 +58,15 @@ export const loginUser = async (req, res, next) => {
         
         req.session.email = userFound.email;
         req.session.role = userFound.role;
+        req.session.cartId = userFound.cartId;
+
+        //console.log(userFound.cartId);
+        
+        //localStorage.setItem("cartId", userFound.cartId);
     
         // Generate token JWT
         const accessToken = generateToken(email);
-        res.cookie('sessionToken', accessToken, { maxAge: 3000*1000, httpOnly: true, signed: true }).json();
+        res.cookie('sessionToken', accessToken, { maxAge: 3000*1000, httpOnly: true, signed: true }).json({ cartId: userFound.cartId });
     } 
     catch(error) {
         next(error);
@@ -114,8 +119,6 @@ export const createUser = async (req, res, next) => {
             //throw new Error('User already exists');
     
         const cart = await cartService.create();
-    
-        req.session.cartId = cart._id;
     
         const newUser = {
             first_name,

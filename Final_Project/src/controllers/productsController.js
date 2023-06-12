@@ -5,7 +5,7 @@ const productService = new ProductService();
 export const getProducts = async (req, res, next) => {
     try {
         const result = await productService.list(req.query);
-        res.status(200).render('datos', { user: req.session.email, role: req.session.role, products: result.payload });
+        res.status(200).render('home', { user: req.session.email, role: req.session.role, products: result.payload });
     } catch (error) {
         next(error);
     }

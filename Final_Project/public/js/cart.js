@@ -2,15 +2,18 @@ const substractButtons = document.querySelectorAll('[id^="btnSubstract"]');
 const PlusButtons = document.querySelectorAll('[id^="btnPlus"]');
 const counterSpans = document.querySelectorAll('[id^="counterSpan"]');
 const stockSpans = document.querySelectorAll('[id^="stockSpan"]');
+const titlesProducts = document.querySelectorAll('[id^="titleProduct"]');
 const addToCartButtons = document.querySelectorAll('[id^="btnAddToCart"]');
+
+const cartId = localStorage.getItem("cartId");
 
 // Agregar event listeners a cada botón y contador individualmente
 addToCartButtons.forEach((btnAddToCart) => {
     btnAddToCart.addEventListener('click', () => {
         const productIndex = btnAddToCart.dataset.productIndex;
-        console.log(productIndex)
-        // Realizar las acciones específicas del producto seleccionado
-        // utilizando el índice del producto (productIndex)
+        console.log(titlesProducts[productIndex].innerText);
+        console.log(counterSpans[productIndex].innerText);
+        console.log(cartId);
     });
 });
 

@@ -21,9 +21,11 @@ btnSubmit.addEventListener('click', async e => {
     });
 
     const response = sendData;
-    //console.log(response);
+    const responseJson = await response.json()
+    //console.log(responseJson);
     if(response.status === 200){
         console.log('Logged in');
+        localStorage.setItem("cartId", responseJson.cartId);
         location.href = '/api/products';
     }else if(response.status === 401){
         console.log(`Error code ${response.status} - Not authenticated`);
