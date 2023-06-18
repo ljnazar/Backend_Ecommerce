@@ -2,18 +2,34 @@ const substractButtons = document.querySelectorAll('[id^="btnSubstract"]');
 const PlusButtons = document.querySelectorAll('[id^="btnPlus"]');
 const counterSpans = document.querySelectorAll('[id^="counterSpan"]');
 const stockSpans = document.querySelectorAll('[id^="stockSpan"]');
-const titlesProducts = document.querySelectorAll('[id^="titleProduct"]');
+const idProducts = document.querySelectorAll('[id^="idProduct"]');
 const addToCartButtons = document.querySelectorAll('[id^="btnAddToCart"]');
 
 const cartId = localStorage.getItem("cartId");
 
-// Agregar event listeners a cada botón y contador individualmente
 addToCartButtons.forEach((btnAddToCart) => {
-    btnAddToCart.addEventListener('click', () => {
+    btnAddToCart.addEventListener('click', async () => {
         const productIndex = btnAddToCart.dataset.productIndex;
-        console.log(titlesProducts[productIndex].innerText);
-        console.log(counterSpans[productIndex].innerText);
-        console.log(cartId);
+        if (stockSpans[productIndex].innerText <= 0 || counterSpans[productIndex].innerText <= 0) return null;
+        const productId = idProducts[productIndex].innerText;
+        const quantity = counterSpans[productIndex].innerText
+
+        const data = {
+            quantity: quantity
+        }
+    
+        const sendData = await fetch(`/api/cart/${cartId}/product/${productId}`, {
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data)
+        });
+    
+        const response = sendData;
+        const responseJson = await response.json()
+        console.log(responseJson);
     });
 });
 

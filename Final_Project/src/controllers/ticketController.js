@@ -2,7 +2,7 @@ import CartService from '../services/cartService.js';
 import ProductService from '../services/productService.js';
 import TicketService from '../services/ticketService.js';
 import { uuid } from 'uuidv4';
-import { sendMail } from '../utils/sendMail.js'
+import { sendEmail } from '../utils/sendEmail.js'
 
 const cartService = new CartService();
 const productService = new ProductService();
@@ -11,7 +11,7 @@ const ticketService = new TicketService()
 export const purchaseProducts = async (req, res, next) => {
     try {
         let ticket;
-        let bodyMail;
+        let bodyEmail;
         const cart = await cartService.getCart(req.params);
 
         let totalPrice = 0;
@@ -45,7 +45,7 @@ export const purchaseProducts = async (req, res, next) => {
                 purchaser: req.session.email,
                 products: productsTicket,
             });
-            bodyMail = sendMail(
+            bodyEmail = sendEmail(
                 ticket,
                 req.session.email,
                 "http://localhost:8080/payment"

@@ -5,6 +5,7 @@ import CartService from '../services/cartService.js';
 import CustomError from '../utils/customError.js';
 import { errorDictionary } from '../utils/errorDictionary.js';
 import { generateUserErrorInfo } from '../utils/generateUserErrorInfo.js';
+import { sendEmail } from '../utils/sendEmail.js';
 
 const userService = new UserService();
 const cartService = new CartService();
@@ -56,6 +57,7 @@ export const loginUser = async (req, res, next) => {
         
         //throw new Error('Wrong password');
         
+        req.session.userId = userFound._id;
         req.session.email = userFound.email;
         req.session.role = userFound.role;
         req.session.cartId = userFound.cartId;
@@ -157,10 +159,49 @@ export const logoutUser = (req, res, next) => {
 
 // RESET PASSWORD
 
-export const restoreRender = (req, res, next) => {
+export const restoreRender = async (req, res, next) => {
     try {
-        res.render('restore-password');
+        res.render('send-recovery-password');
     } 
+    catch(error) {
+        next(error);
+    }
+};
+
+export const sendPasswordCode = async (req, res, next) => {
+    try {
+        const { email } = req.body;
+        let userFound = await userService.getUserByUsername(email);
+        let token = userFound._id
+        const link = `http://localhost:8080/restorePassword?email=${email}&code=${token}`;
+        let content = `
+        <div>
+            <h1>
+                Link para cambio de contraseña: ${link}
+            </h1>
+        </div>`
+        await sendEmail(email, 'Recuperar contraseña', content);
+    }
+    catch(error) {
+        next(error);
+    }
+};
+
+export const validatePasswordUpdate = async(req, res, next) => {
+    try {
+        let { email, token } = req.query;
+        let userFound = await userService.getUserByUsername(email);
+        if(userFound._id === token){
+            res.render('restore-password');
+        }else{
+            CustomError.createError({
+                name: 'Recovery password error',
+                cause: 'Token error',
+                message: 'Error trying to recovery password',
+                code: errorDictionary.AUTHORIZATION_ERROR
+            });
+        }
+    }
     catch(error) {
         next(error);
     }
@@ -168,13 +209,13 @@ export const restoreRender = (req, res, next) => {
 
 export const restorePassword = async(req, res, next) => {
     try {
-        let user = req.body;
-        let userFound = await userService.getUserByUsername(user.email);
+        let { email, newPassword } = req.body;
+        let userFound = await userService.getUserByUsername(email);
         if(!userFound){
             console.log('User not found');
         }else{
-            let newPassword = createHash(user.password);
-            await userService.updateUser(user.email, newPassword);
+            let newPasswordHash = createHash(newPassword);
+            await userService.updatePassword(email, newPasswordHash);
             console.log('Restore password ok');
             res.render('login');
         }
@@ -182,5 +223,4 @@ export const restorePassword = async(req, res, next) => {
     catch(error) {
         next(error);
     }
-
 };

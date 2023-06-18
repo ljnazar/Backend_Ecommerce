@@ -13,7 +13,6 @@ import swaggerJsdoc from 'swagger-jsdoc';
 import swaggerUiExpress from 'swagger-ui-express';
 import { swaggerOptions } from './swagger-options.js';
 
-
 const app = express();
 
 const corsOptions = {

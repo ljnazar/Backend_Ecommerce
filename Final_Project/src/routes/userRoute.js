@@ -8,7 +8,9 @@ import {
     createUser, 
     //createUserError,
     logoutUser, 
-    restoreRender, 
+    restoreRender,
+    sendPasswordCode,
+    validatePasswordUpdate,
     restorePassword,
 } from '../controllers/userController.js';
 
@@ -31,7 +33,9 @@ userRoute.post('/register', createUser);
 userRoute.get('/logout', logoutUser);
 
 // RESET PASSWORD
-userRoute.get('/restaurarPassword', restoreRender);
-userRoute.post('/restaurarPassword', restorePassword);
+userRoute.get('/sendRecovery', restoreRender);
+userRoute.post('/sendRecovery', sendPasswordCode);
+userRoute.get('/restorePassword', validatePasswordUpdate);
+userRoute.post('/restorePassword', restorePassword);
 
 export default userRoute;

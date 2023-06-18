@@ -1,3 +1,4 @@
+import mongoose from 'mongoose';
 import { cartModel } from "../models/cartSchema.js";
 
 export default class CartMongooseDao {
@@ -12,22 +13,39 @@ export default class CartMongooseDao {
         return cart;
     }
 
-    async addProductToCart({ cid, pid }) {
+    // async addProductToCart({ cid, pid }) {
+    //     const cart = await cartModel.findOne({ _id: cid });
+    //     const productId = new mongoose.Types.ObjectId(pid);
+    //     const findProduct = cart.products.find((product) =>
+    //         product.product.equals(productId)
+    //     );
+    //     if (findProduct) {
+    //         findProduct.quantity++;
+    //     } else {
+    //         cart.products.push({ product: pid });
+    //     }
+    //     await cart.save();
+    //     return cart;
+    // }
+
+    async addProduct(cid, pid, quantity) {
         const cart = await cartModel.findOne({ _id: cid });
         const productId = new mongoose.Types.ObjectId(pid);
         const findProduct = cart.products.find((product) =>
             product.product.equals(productId)
         );
         if (findProduct) {
-            findProduct.quantity++;
+            const currentQuantity = findProduct.quantity;
+            findProduct.quantity = parseInt(currentQuantity) + parseInt(quantity);
         } else {
-            cart.products.push({ product: pid });
+            cart.products.push({ product: pid, quantity: parseInt(quantity) });
         }
+        //console.log(cart);
         await cart.save();
         return cart;
     }
 
-    async deleteProductInCart({ cid, pid }) {
+    async deleteProduct(cid, pid) {
         let cart = await cartModel.findOne({ _id: cid });
         const productId = new mongoose.Types.ObjectId(pid);
         const index = cart.products.findIndex((product) =>
@@ -38,29 +56,29 @@ export default class CartMongooseDao {
         return cart;
     }
 
-    async cleanCart({ cid }) {
+    async cleanCart(cid) {
         const cart = await cartModel.findOne({ _id: cid });
         cart.products = [];
         cart.save();
         return cart;
     }
 
-    async updateQuantityProduct({ cid, pid }, { quantity }) {
-        const cart = await cartModel.findOne({ _id: cid });
-        const productId = new mongoose.Types.ObjectId(pid);
-        if (quantity === 0) {
-            const index = cart.products.findIndex((product) =>
-                product.product.equals(productId)
-            );
-            cart.products.splice(index, 1);
-        } else {
-            const findProduct = cart.products.find((product) =>
-                product.product.equals(productId)
-            );
-            findProduct.quantity = quantity;
-        }
-        await cart.save();
-        return cart;
-    }
+    // async updateQuantityProduct(cid, pid, quantity) {
+    //     const cart = await cartModel.findOne({ _id: cid });
+    //     const productId = new mongoose.Types.ObjectId(pid);
+    //     if (quantity === 0) {
+    //         const index = cart.products.findIndex((product) =>
+    //             product.product.equals(productId)
+    //         );
+    //         cart.products.splice(index, 1);
+    //     } else {
+    //         const findProduct = cart.products.find((product) =>
+    //             product.product.equals(productId)
+    //         );
+    //         findProduct.quantity = quantity;
+    //     }
+    //     await cart.save();
+    //     return cart;
+    // }
 
 }
