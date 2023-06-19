@@ -1,17 +1,15 @@
 const btnSubmit = document.getElementById('btnSubmit');
 const inputEmail = document.getElementById('email');
-const inputPassword = document.getElementById('password');
 
 btnSubmit.addEventListener('click', async e => {
 
     e.preventDefault();
 
     const data = {
-        email: email.value,
-        newPassword: password.value
+        email: email.value
     }
 
-    const sendData = await fetch('/restorePassword', {
+    const sendData = await fetch('/sendRecovery', {
         method: 'POST',
         headers: {
             'Accept': 'application/json',
@@ -24,8 +22,8 @@ btnSubmit.addEventListener('click', async e => {
     const responseJson = await response.json()
     //console.log(responseJson);
     if(response.status === 200){
-        console.log('updated password');
-        location.href = '/login';
+        console.log('Email sent');
+        location.href = '/restorePassword';
     }else{
         console.log(`Error code ${response.status}`);
         console.log(response);

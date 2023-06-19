@@ -4,9 +4,8 @@ import { config } from '../config/envConfig.js';
 export const sendEmail = async (email, subject, content) => {
     try {
         const transporter = nodemailer.createTransport({
-            host: config.hostEmail,
             service: config.serviceEmail,
-            port: 587,
+            port: config.portEmail,
             secure: true,
             auth: {
                 user: config.userEmail,
@@ -15,7 +14,7 @@ export const sendEmail = async (email, subject, content) => {
         });
 
         await transporter.sendMail({
-            from: process.env.USER_EMAIL,
+            from: config.userEmail,
             to: email,
             subject: subject,
             html: content,

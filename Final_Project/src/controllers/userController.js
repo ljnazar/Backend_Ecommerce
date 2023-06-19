@@ -168,32 +168,61 @@ export const restoreRender = async (req, res, next) => {
     }
 };
 
+let tokens = [];
+
+const deleteToken = token => {
+    tokens = tokens.filter( element => element.token != token);
+};
+
+const saveToken = token => {
+    tokens.push({
+        token,
+        time: Date.now()
+    });
+    setTimeout(() => {
+        deleteToken(token);
+        console.log('token borrado'); //////////////
+        console.log(tokens); //////////////////
+    }, 60 * 60 * 1000);
+};
+
 export const sendPasswordCode = async (req, res, next) => {
+    console.log('1'); ///////////////////////
     try {
         const { email } = req.body;
-        let userFound = await userService.getUserByUsername(email);
-        let token = userFound._id
-        const link = `http://localhost:8080/restorePassword?email=${email}&code=${token}`;
+        let token = createHash(email);
+        saveToken(token);
+        const link = `http://localhost:8080/restorePassword?token=${token}`;
         let content = `
         <div>
-            <h1>
-                Link para cambio de contraseña: ${link}
-            </h1>
+            <h4>
+                Link para cambio de contraseña:
+            </h4>
+            <p>
+                ${link}
+            </p>
         </div>`
         await sendEmail(email, 'Recuperar contraseña', content);
     }
     catch(error) {
         next(error);
     }
-};
+}; 
 
 export const validatePasswordUpdate = async(req, res, next) => {
+    console.log('2'); ///////////////////////
     try {
-        let { email, token } = req.query;
-        let userFound = await userService.getUserByUsername(email);
-        if(userFound._id === token){
+        let tokenFound = false;
+        let { token } = req.query;
+        console.log(tokens); ////////////////
+        for (let element in tokens){
+            if(tokens[element].token == token) tokenFound = true;
+            console.log(tokenFound); ////////////////
+        }
+        if(tokenFound){
             res.render('restore-password');
-        }else{
+        }
+        else{
             CustomError.createError({
                 name: 'Recovery password error',
                 cause: 'Token error',
@@ -208,16 +237,17 @@ export const validatePasswordUpdate = async(req, res, next) => {
 };
 
 export const restorePassword = async(req, res, next) => {
+    console.log('3'); ///////////////////////
     try {
         let { email, newPassword } = req.body;
         let userFound = await userService.getUserByUsername(email);
-        if(!userFound){
-            console.log('User not found');
-        }else{
+        if(userFound){
             let newPasswordHash = createHash(newPassword);
             await userService.updatePassword(email, newPasswordHash);
             console.log('Restore password ok');
-            res.render('login');
+            res.status(200).json({});
+        }else{
+            console.log('User not found');
         }
     }
     catch(error) {

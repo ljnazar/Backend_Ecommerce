@@ -9,29 +9,19 @@
 </head>
 
 <body>
-
   <div class="container col-5 my-5">
     <div>
-
       <h1 class="my-3">LOGIN</h1>
       <br>
-      <!--<form class="form" action="/login" method="post" role="form" autocomplete="off">-->
-      <form class="form" role="form" autocomplete="off"></form>
-
-        <div class="form-group my-1 col-5">
-          <input id="email" name='email' placeholder="email" class="form-control" type="text" required>
-        </div>
-
-        <div class="form-group  col-5">
-          <input id="password" name='password' placeholder="password" class="form-control" type="password" required>
-        </div>
-
-        <div class="form-group">
-          <input id="btnSubmit" class="btn btn-primary my-3" type="submit" value="Login">
-        </div>
-
-      </form>
-
+      <div class="my-1 col-5">
+        <input id="email" name='email' placeholder="email" class="form-control" type="text" required>
+      </div>
+      <div class="col-5">
+        <input id="password" name='password' placeholder="password" class="form-control" type="password" required>
+      </div>
+      <div>
+        <input id="btnSubmit" class="btn btn-primary my-3" type="submit" value="Login">
+      </div>
       <hr>
       <div>
         <button class="btn btn-primary my-3 me-4" onclick="location.href = '/register'">Ir a Register</button>
