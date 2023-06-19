@@ -9,4 +9,4 @@ const userSchema = new Schema({
     cartId: { type: Schema.Types.ObjectId }
 });
 
-export const userModel = mongoose.model('usuarios', userSchema);
+export const userModel = mongoose.model('users', userSchema);
