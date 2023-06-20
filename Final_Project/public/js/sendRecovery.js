@@ -19,8 +19,8 @@ btnSubmit.addEventListener('click', async e => {
     });
 
     const response = sendData;
-    const responseJson = await response.json()
-    //console.log(responseJson);
+    const responseJson = await response.json();
+    console.log(responseJson);
     if(response.status === 200){
         console.log('Email sent');
         location.href = '/restorePassword';

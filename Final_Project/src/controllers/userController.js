@@ -130,7 +130,7 @@ export const createUser = async (req, res, next) => {
             cartId: cart._id
         }
         await userService.create(newUser);
-        return res.status(201).redirect('/login');
+        return res.status(201).json({});
     } 
     catch(error) {
         next(error);

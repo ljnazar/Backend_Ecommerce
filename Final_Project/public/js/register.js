@@ -7,11 +7,13 @@ btnSubmit.addEventListener('click', async e => {
     e.preventDefault();
 
     const data = {
+        first_name: first_name.value,
+        last_name: last_name.value,
+        password: password.value,
         email: email.value,
-        newPassword: password.value
     }
 
-    const sendData = await fetch('/restorePassword', {
+    const sendData = await fetch('/register', {
         method: 'POST',
         headers: {
             'Accept': 'application/json',
@@ -23,8 +25,8 @@ btnSubmit.addEventListener('click', async e => {
     const response = sendData;
     const responseJson = await response.json();
     console.log(responseJson);
-    if(response.status === 200){
-        console.log('updated password');
+    if(response.status === 201){
+        console.log('registered ok');
         location.href = '/login';
     }else{
         console.log(`Error code ${response.status}`);
