@@ -183,7 +183,7 @@ const saveToken = token => {
         deleteToken(token);
         console.log('token borrado'); //////////////
         console.log(tokens); //////////////////
-    }, 60 * 60 * 1000);
+    }, 30000);
 };
 
 export const sendPasswordCode = async (req, res, next) => {

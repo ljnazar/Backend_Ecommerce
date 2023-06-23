@@ -5,6 +5,7 @@ import CartService from '../services/cartService.js';
 import CustomError from '../utils/customError.js';
 import { errorDictionary } from '../utils/errorDictionary.js';
 import { generateUserErrorInfo } from '../utils/generateUserErrorInfo.js';
+import { sendEmail } from '../utils/sendEmail.js';
 
 const userService = new UserService();
 const cartService = new CartService();
@@ -154,14 +155,37 @@ export const logoutUser = (req, res, next) => {
 
 // RESET PASSWORD
 
-export const restoreRender = (req, res, next) => {
-    try {
-        res.render('restore-password');
-    } 
-    catch(error) {
-        next(error);
-    }
-};
+// export const restoreRender = (req, res, next) => {
+//     try {
+//         res.render('restore-password');
+//     } 
+//     catch(error) {
+//         next(error);
+//     }
+// };
+
+export const sendPasswordCode = email => {
+    let newToken = createHash();
+    const link = `http://localhost:8080/restorePassword?code=${newToken}`;
+
+    let content = `
+    <div>
+        <h1>
+            Link para cambio de contraseña: ${link}
+        </h1>
+    </div>`
+
+    sendEmail('ljnazar@gmail.com', 'Test', content);
+
+}
+
+let content = `
+    <div>
+        <h1>
+            !Esto es un test!
+        </h1>
+    </div>`
+sendEmail('ljnazar@gmail.com', 'Test', content);
 
 export const restorePassword = async(req, res, next) => {
     try {
@@ -171,7 +195,7 @@ export const restorePassword = async(req, res, next) => {
             console.log('User not found');
         }else{
             let newPassword = createHash(user.password);
-            await userService.updateUser(user.email, newPassword);
+            await userService.updatePassword(user.email, newPassword);
             console.log('Restore password ok');
             res.render('login');
         }

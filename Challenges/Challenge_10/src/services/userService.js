@@ -21,8 +21,8 @@ export default class UserService {
         return userFound
     }
 
-    async updateUser(username, newPassword) {
-        const userUpdate = this.userMongooseDao.updateUser(username, newPassword);
+    async updatePassword(username, newPassword) {
+        const userUpdate = this.userMongooseDao.updatePassword(username, newPassword);
         return userUpdate
     }
 
