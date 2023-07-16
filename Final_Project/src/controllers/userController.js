@@ -4,7 +4,6 @@ import UserService from '../services/userService.js';
 import CartService from '../services/cartService.js';
 import CustomError from '../utils/customError.js';
 import { errorDictionary } from '../utils/errorDictionary.js';
-import { generateUserErrorInfo } from '../utils/generateUserErrorInfo.js';
 import { sendEmail } from '../utils/sendEmail.js';
 
 const userService = new UserService();
@@ -39,36 +38,27 @@ export const loginUser = async (req, res, next) => {
     
         const userFound = await userService.getUserByUsername(email);
 
-        //if(!userFound) return res.status(401).json({ error: 'User does not exists' });
         if(!userFound) CustomError.createError({
             name: 'Login error',
-            cause: 'User does not exists',
+            cause: 'Usuario inexistente',
             message: 'Error trying to login',
             code: errorDictionary.INVALID_USER_ERROR
         });
-        //throw new Error('User does not exists');
-        //if(!isValidPassword(userFound, password)) return res.status(401).json({ error: 'Wrong password' });
         if(!isValidPassword(userFound, password)) CustomError.createError({
             name: 'Login error',
-            cause: 'Wrong password',
+            cause: 'Contraseña incorrecta',
             message: 'Error trying to login',
             code: errorDictionary.WRONG_PASSWORD_ERROR
         });
-        
-        //throw new Error('Wrong password');
         
         req.session.userId = userFound._id;
         req.session.email = userFound.email;
         req.session.role = userFound.role;
         req.session.cartId = userFound.cartId;
-
-        //console.log(userFound.cartId);
-        
-        //localStorage.setItem("cartId", userFound.cartId);
     
         // Generate token JWT
         const accessToken = generateToken(email);
-        res.cookie('sessionToken', accessToken, { maxAge: 3000*1000, httpOnly: true, signed: true }).json({ cartId: userFound.cartId });
+        res.cookie('sessionToken', accessToken, { maxAge: 3000 * 60 * 60, httpOnly: true, signed: true }).json({ cartId: userFound.cartId });
     } 
     catch(error) {
         next(error);
@@ -102,7 +92,7 @@ export const createUser = async (req, res, next) => {
         if(!first_name || !last_name || !password || !email){
             CustomError.createError({
                 name: 'User creation error',
-                cause: generateUserErrorInfo({ first_name, last_name, password, email }),
+                cause: 'Se requiere completar todos los campos',
                 message: 'Error trying to create user',
                 code: errorDictionary.REQUIRED_FIELDS_ERROR
             });
@@ -111,17 +101,13 @@ export const createUser = async (req, res, next) => {
         let userFound = await userService.getUserByUsername(email);
         if(userFound) CustomError.createError({
             name: 'User creation error',
-            cause: 'User already exists',
+            cause: 'Usuario ya existente',
             message: 'Error trying to create user',
             code: errorDictionary.DUPLICATED_USER_ERROR
         });
-        //throw new Error('User already exists');
-            //console.log('User already exists');
-            //res.redirect('/failregister');
-            //throw new Error('User already exists');
-    
+
         const cart = await cartService.create();
-    
+
         const newUser = {
             first_name,
             last_name,
@@ -159,15 +145,6 @@ export const logoutUser = (req, res, next) => {
 
 // RESET PASSWORD
 
-export const restoreRender = async (req, res, next) => {
-    try {
-        res.render('send-recovery-password');
-    } 
-    catch(error) {
-        next(error);
-    }
-};
-
 let tokens = [];
 
 const deleteToken = token => {
@@ -181,13 +158,19 @@ const saveToken = token => {
     });
     setTimeout(() => {
         deleteToken(token);
-        console.log('token borrado'); //////////////
-        console.log(tokens); //////////////////
     }, 30000);
 };
 
+export const restoreRender = async (req, res, next) => {
+    try {
+        res.render('send-recovery-password');
+    } 
+    catch(error) {
+        next(error);
+    }
+};
+
 export const sendPasswordCode = async (req, res, next) => {
-    console.log('1'); ///////////////////////
     try {
         const { email } = req.body;
         let token = createHash(email);
@@ -203,6 +186,7 @@ export const sendPasswordCode = async (req, res, next) => {
             </p>
         </div>`
         await sendEmail(email, 'Recuperar contraseña', content);
+        return res.status(200).json({ status: 'success' });
     }
     catch(error) {
         next(error);
@@ -210,25 +194,23 @@ export const sendPasswordCode = async (req, res, next) => {
 }; 
 
 export const validatePasswordUpdate = async(req, res, next) => {
-    console.log('2'); ///////////////////////
     try {
         let tokenFound = false;
         let { token } = req.query;
-        console.log(tokens); ////////////////
         for (let element in tokens){
             if(tokens[element].token == token) tokenFound = true;
-            console.log(tokenFound); ////////////////
         }
         if(tokenFound){
             res.render('restore-password');
         }
         else{
-            CustomError.createError({
-                name: 'Recovery password error',
-                cause: 'Token error',
-                message: 'Error trying to recovery password',
-                code: errorDictionary.AUTHORIZATION_ERROR
-            });
+            // CustomError.createError({
+            //     name: 'Error to recover password',
+            //     cause: 'Error de Token',
+            //     message: 'Error trying to recover password',
+            //     code: errorDictionary.AUTHENTICATION_ERROR
+            // });
+            console.log('Hacer que se vaya a otra vista (Token invalido)')
         }
     }
     catch(error) {
@@ -237,18 +219,18 @@ export const validatePasswordUpdate = async(req, res, next) => {
 };
 
 export const restorePassword = async(req, res, next) => {
-    console.log('3'); ///////////////////////
     try {
         let { email, newPassword } = req.body;
         let userFound = await userService.getUserByUsername(email);
-        if(userFound){
-            let newPasswordHash = createHash(newPassword);
-            await userService.updatePassword(email, newPasswordHash);
-            console.log('Restore password ok');
-            res.status(200).json({});
-        }else{
-            console.log('User not found');
-        }
+        if(!userFound) CustomError.createError({
+            name: 'Login error',
+            cause: 'Usuario inexistente',
+            message: 'Error trying to login',
+            code: errorDictionary.INVALID_USER_ERROR
+        });
+        let newPasswordHash = createHash(newPassword);
+        await userService.updatePassword(email, newPasswordHash);
+        return res.status(200).json({ status: 'success' });
     }
     catch(error) {
         next(error);

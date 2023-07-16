@@ -16,7 +16,7 @@ export const authToken = (req, res, next) => {
     //if(!token) return res.status(401).redirect('/login');//.json({ error: 'Not authenticated' });
     if(!token) CustomError.createError({
         name: 'Autentication Error',
-        cause: 'Revoked token user',
+        cause: 'Token de usuario expirado',
         message: 'Error trying to access',
         code: errorDictionary.AUTHENTICATION_ERROR
     });
@@ -26,7 +26,7 @@ export const authToken = (req, res, next) => {
         //if(error) return res.status(403).redirect('/login');//.json({ error: 'Not authorized' });
         if(error) CustomError.createError({
             name: 'Autentication Error',
-            cause: 'Invalid token user',
+            cause: 'Token de usuario inválido',
             message: 'Error trying to access',
             code: errorDictionary.AUTHENTICATION_ERROR
         });

@@ -1,7 +1,7 @@
 import nodemailer from 'nodemailer';
 import { config } from '../config/envConfig.js';
 
-export const sendEmail = async (email, subject, content) => {
+export const sendEmail = async (email, subject, content, next) => {
     try {
         const transporter = nodemailer.createTransport({
             service: config.serviceEmail,
@@ -12,16 +12,13 @@ export const sendEmail = async (email, subject, content) => {
                 pass: config.passEmail,
             },
         });
-
         await transporter.sendMail({
             from: config.userEmail,
             to: email,
             subject: subject,
             html: content,
         });
-
-        console.log("email sent sucessfully");
     } catch (error) {
-        console.log(error, "email not sent");
+        next(error);
     }
 }

@@ -6,7 +6,7 @@ export const isAdmin = async (req, res, next) => {
     if (req.session?.role === 'admin') return next();
     CustomError.createError({
       name: 'Authorization Error',
-      cause: 'Requires administrator user',
+      cause: 'Se requiere usuario administrador',
       message: 'Error trying to access',
       code: errorDictionary.AUTHORIZATION_ERROR
     });

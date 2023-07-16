@@ -1,7 +1,13 @@
 <div class="container">
 
     <div class="jumbotron d-flex justify-content-between my-3" style="background-color: blue; color: white;">
-        <h4 class="ps-3 pt-1">{{ role }}: {{ user }} <button class="ms-2 mt-1 btn btn-success" onclick="location.href='/api/products/admin'">Edit Products</button></h4>
+        <h4 class="ps-3 pt-1">
+            Usuario: {{ user }} 
+            {{#if isAdmin}}
+                - Perfil administrador 
+                <button class="ms-2 mt-1 btn btn-success" onclick="location.href='/api/products/admin'">Editar usuarios</button>
+            {{/if}}
+        </h4>
         <button class="btn btn-danger" onclick="location.href='/logout'">LOGOUT</button>
     </div>
 

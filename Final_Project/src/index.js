@@ -16,7 +16,7 @@ import { swaggerOptions } from './swagger-options.js';
 const app = express();
 
 const corsOptions = {
-    origin: config.nodeEnv == 'development' ? 'http://localhost:8080/' : 'http://localhost:8080/',
+    origin: config.nodeEnv == 'development' ? 'http://localhost:8080/' : 'url_firebase_production',
     optionsSuccessStatus: 200
 }
 
