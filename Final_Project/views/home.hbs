@@ -5,6 +5,7 @@
             Usuario: {{ user }} 
             {{#if isAdmin}}
                 - Perfil administrador 
+                <button class="ms-2 mt-1 btn btn-success" onclick="location.href='/api/products/admin'">Editar productos</button>
                 <button class="ms-2 mt-1 btn btn-success" onclick="location.href='/api/products/admin'">Editar usuarios</button>
             {{/if}}
         </h4>
