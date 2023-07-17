@@ -1,6 +1,7 @@
 const btnSubmit = document.getElementById('btnSubmit');
 const inputEmail = document.getElementById('email');
 const inputPassword = document.getElementById('password');
+const errorMessage = document.getElementById('errorMessage');
 
 btnSubmit.addEventListener('click', async e => {
 
@@ -24,13 +25,20 @@ btnSubmit.addEventListener('click', async e => {
 
     const response = sendData;
     const responseJson = await response.json();
-    console.log(responseJson);
-    if(response.status === 201){
-        console.log('registered ok');
-        location.href = '/login';
+    //console.log(responseJson);
+    if(responseJson.status === 'success'){
+        Swal.fire({
+            position: 'top-end',
+            icon: 'success',
+            title: 'Usuario registrado',
+            showConfirmButton: false,
+            timer: 1500
+        });
+        setTimeout(() => {
+            location.href = '/login';
+        }, 1500);
     }else{
-        console.log(`Error code ${response.status}`);
-        console.log(response);
+        errorMessage.innerText = responseJson.cause;
     }
 
 });

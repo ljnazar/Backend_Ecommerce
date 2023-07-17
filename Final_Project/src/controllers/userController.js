@@ -14,7 +14,8 @@ const cartService = new CartService();
 export const mainRender = (req, res, next) => {
     try {
         //res.clearCookie('sessionToken').redirect('/api/products');
-        res.redirect('/api/products');
+        //res.redirect('/api/products');
+        res.redirect('/login');
     } 
     catch(error) {
         next(error);
@@ -58,7 +59,7 @@ export const loginUser = async (req, res, next) => {
     
         // Generate token JWT
         const accessToken = generateToken(email);
-        res.cookie('sessionToken', accessToken, { maxAge: 3000 * 60 * 60, httpOnly: true, signed: true }).json({ cartId: userFound.cartId });
+        res.cookie('sessionToken', accessToken, { maxAge: 3000 * 60 * 60, httpOnly: true, signed: true }).json({ status: 'success', cartId: userFound.cartId });
     } 
     catch(error) {
         next(error);
@@ -116,7 +117,7 @@ export const createUser = async (req, res, next) => {
             cartId: cart._id
         }
         await userService.create(newUser);
-        return res.status(201).json({});
+        return res.status(201).json({ status: 'success' });
     } 
     catch(error) {
         next(error);

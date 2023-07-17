@@ -15,7 +15,7 @@ export const getProducts = async (req, res, next) => {
 
 export const adminRender = (req, res, next) => {
     try {
-        res.render('admin');
+        res.status(200).render('admin');
     } catch (error) {
         next(error);
     }

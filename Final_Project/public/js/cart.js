@@ -30,6 +30,18 @@ addToCartButtons.forEach((btnAddToCart) => {
         const response = sendData;
         const responseJson = await response.json()
         console.log(responseJson);
+        if(responseJson.status === 'success'){
+            Swal.fire({
+                position: 'top-end',
+                icon: 'success',
+                title: 'Producto agregado',
+                showConfirmButton: false,
+                timer: 1000
+            });
+        }else{
+            sessionStorage.setItem("authError", responseJson.cause);
+            location.href = '/login';
+        }
     });
 });
 
@@ -37,9 +49,10 @@ substractButtons.forEach((btnSubstract, index) => {
     btnSubstract.addEventListener('click', () => {
         const stockSpan = stockSpans[index];
         const counterSpan = counterSpans[index];
-        if (stockSpan.innerText <= 0) return null;
+        if (stockSpan.innerText < 0) return null;
         if (counterSpan.innerText == 0) return null;
         counterSpan.innerHTML--;
+        stockSpan.innerHTML++;
     });
 });
 
@@ -48,7 +61,8 @@ PlusButtons.forEach((btnPlus, index) => {
         const stockSpan = stockSpans[index];
         const counterSpan = counterSpans[index];
         if (stockSpan.innerText <= 0) return null;
-        if (counterSpan.innerText == stockSpan.innerText) return null;
+        if (counterSpan.innerText < 0) return null;
         counterSpan.innerHTML++;
+        stockSpan.innerHTML--;
     });
 });

@@ -13,6 +13,5 @@ export const isAdmin = async (req, res, next) => {
   }catch(error){
     next(error);
   }
-    // //res.status(401).json({ error: 'Not authenticated' });
-    // //throw new Error('Not authorized');
+
 }

@@ -2,26 +2,27 @@
   <div>
     <h1 class="my-3">Registro</h1>
     <br>
-      <div class="my-1 col-5">
-        <input id="first_name" name='first_name' placeholder="nombre" class="form-control" type="text" required>
-      </div>
-      <div class="col-5">
-        <input id="last_name" name='last_name' placeholder="apellido" class="form-control" type="text" required>
-      </div>
-      <div class="my-1 col-5">
-        <input id="password" name='password' placeholder="password" class="form-control" type="password" required>
-      </div>
-      <div class="col-5">
-        <input id="email" name='email' placeholder="email" class="form-control" type="text" required>
-      </div>
-      <div>
-        <input id="btnSubmit" class="btn btn-primary my-3" type="submit" value="Register">
-      </div>
+    <div class="my-1 col-5">
+      <input id="first_name" name='first_name' placeholder="nombre" class="form-control" type="text" required>
+    </div>
+    <div class="col-5">
+      <input id="last_name" name='last_name' placeholder="apellido" class="form-control" type="text" required>
+    </div>
+    <div class="my-1 col-5">
+      <input id="password" name='password' placeholder="password" class="form-control" type="password" required>
+    </div>
+    <div class="col-5">
+      <input id="email" name='email' placeholder="email" class="form-control" type="text" required>
+    </div>
+    <div>
+      <input id="btnSubmit" class="btn btn-primary my-3" type="submit" value="Register">
+    </div>
+    <div id="errorMessage"></div>
     <hr>
     <div class="text-left">
       <button class="btn btn-primary my-3" onclick="location.href = '/login'">Ir a Login</button>
     </div>
   </div>
 </div>
-
+<script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/11.7.12/sweetalert2.all.min.js"></script>   
 <script src="/js/register.js"></script>

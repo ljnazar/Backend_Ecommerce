@@ -6,46 +6,39 @@ const errorHandler = (err, req, res, next) => {
     case errorDictionary.REQUIRED_FIELDS_ERROR:
       //console.log({ status: 'error', error: err.name, message: err.message, cause: err.cause, code: err.code });
       req.logger.error({ status: 'error', error: err.name, message: err.message, cause: err.cause, code: err.code });
-      res.redirect('/register');
+      res.json({ status: 'error', error: err.name, message: err.message, cause: err.cause, code: err.code });
       break;
     case errorDictionary.DUPLICATED_USER_ERROR:
       //console.log({ status: 'error', error: err.name, message: err.message, cause: err.cause, code: err.code });
       req.logger.error({ status: 'error', error: err.name, message: err.message, cause: err.cause, code: err.code });
-      res.redirect('/register');
+      res.json({ status: 'error', error: err.name, message: err.message, cause: err.cause, code: err.code });
       break;
     case errorDictionary.AUTHENTICATION_ERROR:
       //console.log({ status: 'error', error: err.name, message: err.message, cause: err.cause, code: err.code });
       req.logger.error({ status: 'error', error: err.name, message: err.message, cause: err.cause, code: err.code });
-      res.redirect('/login');
+      //res.render('login', { error: err.cause});
+      res.json({ status: 'error', error: err.name, message: err.message, cause: err.cause, code: err.code });
       break;
     case errorDictionary.AUTHORIZATION_ERROR:
       //console.log({ status: 'error', error: err.name, message: err.message, cause: err.cause, code: err.code });
       req.logger.error({ status: 'error', error: err.name, message: err.message, cause: err.cause, code: err.code });
-      res.redirect('/api/products');
+      //res.render('login', { error: err.cause});
+      res.json({ status: 'error', error: err.name, message: err.message, cause: err.cause, code: err.code });
       break;
     case errorDictionary.INVALID_USER_ERROR:
       //console.log({ status: 'error', error: err.name, message: err.message, cause: err.cause, code: err.code });
       req.logger.error({ status: 'error', error: err.name, message: err.message, cause: err.cause, code: err.code });
-      res.redirect('/login');
+      res.json({ status: 'error', error: err.name, message: err.message, cause: err.cause, code: err.code });
       break;
     case errorDictionary.WRONG_PASSWORD_ERROR:
       //console.log({ status: 'error', error: err.name, message: err.message, cause: err.cause, code: err.code });
       req.logger.error({ status: 'error', error: err.name, message: err.message, cause: err.cause, code: err.code });
-      res.redirect('/login');
+      res.json({ status: 'error', error: err.name, message: err.message, cause: err.cause, code: err.code });
       break;
     default:
       res.status(500).json({ status: 'error', error: 'Internal Server Error', code: err.code });
   }
 
-  //console.log(err.message);
-
-  //if(err.message === 'Not authenticated') return res.redirect('/login');
-
-  //if(err.message === 'Not authorized') return res.redirect('/api/products');
-
-  //if(err.message) return res.status(400).json({ Error: err.message, Cause: err.cause });
-
-  //res.status(500).json({ Error: 'Internal Server Error' });
 };
 
 export default errorHandler;
