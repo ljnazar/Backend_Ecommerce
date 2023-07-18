@@ -71,30 +71,6 @@ PlusButtons.forEach((btnPlus, index) => {
 
 btnCart.addEventListener('click', async () => {
 
-    location.href=`/api/cart/${cartId}`
-
-    // const sendQuery = await fetch(`/api/cart/${cartId}`, {
-    //     method: 'GET',
-    //     headers: {
-    //         'Accept': 'application/json',
-    //         'Content-Type': 'application/json'
-    //     }
-    // });
-
-    // const response = sendQuery;
-    // console.log(response);
-    // if(response.status === 200){
-    //     location.href=`/api/cart/${cartId}`;
-    // }else{
-    //     sessionStorage.setItem("authError", 'Error');
-    //     location.href = '/login';
-    // }
-    // const responseJson = await response.json();
-    // if(responseJson.status === 'success'){
-    //     location.href=`/api/cart/${cartId}`;
-    // }else{
-    //     sessionStorage.setItem("authError", responseJson.cause);
-    //     location.href = '/login';
-    // }
+    location.href=`/api/cart/${cartId}`;
 
 });
