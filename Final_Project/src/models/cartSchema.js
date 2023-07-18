@@ -5,7 +5,7 @@ const cartCollection = 'carts';
 const cartSchema = new Schema({
     products: [
         {
-            product: { type: Schema.Types.ObjectId, required: true, ref: 'Products' },
+            product: { type: Schema.Types.ObjectId, required: true, ref: 'products' },
             quantity: { type: Schema.Types.Number, required: true },
             _id: false
         }
