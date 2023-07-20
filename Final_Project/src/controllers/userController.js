@@ -66,15 +66,6 @@ export const loginUser = async (req, res, next) => {
     }
 };
 
-// export const loginUserError = (req, res, next) => {
-//     try {
-//         res.render('login-error');
-//     } 
-//     catch(error) {
-//         next(error);
-//     }
-// };
-
 // REGISTER
 
 export const registerRender = (req, res, next) => {
@@ -123,15 +114,6 @@ export const createUser = async (req, res, next) => {
         next(error);
     }
 };
-
-// export const createUserError = (req, res, next) => {
-//     try {
-//         res.render('register-error');
-//     } 
-//     catch(error) {
-//         next(error);
-//     }
-// };
 
 // LOGOUT
 

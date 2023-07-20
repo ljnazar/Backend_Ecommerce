@@ -8,7 +8,6 @@ export const getCart = async (req, res, next) => {
         res.status(200).render('cart', { payload: result });
         //res.status(200).json({ payload: result });
     } catch (error) {
-        console.log(error);
         next(error);
     }
 };

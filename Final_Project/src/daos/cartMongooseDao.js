@@ -46,7 +46,7 @@ export default class CartMongooseDao {
     }
 
     async deleteProduct(cid, pid) {
-        let cart = await cartModel.findOne({ _id: cid });
+        const cart = await cartModel.findOne({ _id: cid });
         const productId = new mongoose.Types.ObjectId(pid);
         const index = cart.products.findIndex((product) =>
             product.product.equals(productId)

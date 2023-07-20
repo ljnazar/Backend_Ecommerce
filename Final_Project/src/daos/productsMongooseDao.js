@@ -40,10 +40,10 @@ export default class ProductsMongooseDao {
 
     }
 
-    // async getOne(pid) {
-    //     const result = await productModel.findById(pid);
-    //     return result;
-    // }
+    async getOne(pid) {
+        const result = await productModel.findById(pid);
+        return result;
+    }
 
     async create(product) {
         const result = await productModel.create(product);

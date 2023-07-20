@@ -11,10 +11,10 @@ export default class ProductService {
         return idFound
     }
 
-    // async getOne(pid) {
-    //     const productDocument = await this.productsMongooseDao.getOne(pid);
-    //     return productDocument;
-    // }
+    async getOne(pid) {
+        const productDocument = await this.productsMongooseDao.getOne(pid);
+        return productDocument;
+    }
 
     async create(newProduct) {
         const productDocument = await this.productsMongooseDao.create(newProduct);

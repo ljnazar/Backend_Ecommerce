@@ -27,7 +27,7 @@
     "nodemailer": "^6.9.1",
     "swagger-jsdoc": "^6.2.8",
     "swagger-ui-express": "^4.6.3",
-    "uuidv4": "^6.2.13",
+    "uuid": "^9.0.0",
     "winston": "^3.8.2"
   }
 }

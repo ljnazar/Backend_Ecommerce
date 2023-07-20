@@ -14,11 +14,11 @@ addToCartButtons.forEach((btnAddToCart) => {
         if (stockSpans[productIndex].innerText < 0 || counterSpans[productIndex].innerText <= 0) return null;
         if (stockSpans[productIndex].innerText == 0 && counterSpans[productIndex].innerText == 0) return null;
         const productId = idProducts[productIndex].innerText;
-        const quantity = counterSpans[productIndex].innerText
+        const quantity = counterSpans[productIndex].innerText;
 
         const data = {
             quantity: quantity
-        }
+        };
     
         const sendData = await fetch(`/api/cart/${cartId}/product/${productId}`, {
             method: 'POST',
@@ -69,8 +69,6 @@ PlusButtons.forEach((btnPlus, index) => {
     });
 });
 
-btnCart.addEventListener('click', async () => {
-
+btnCart.addEventListener('click', () => {
     location.href=`/api/cart/${cartId}`;
-
 });
