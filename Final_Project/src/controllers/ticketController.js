@@ -10,66 +10,70 @@ const ticketService = new TicketService()
 
 export const purchaseProducts = async (req, res, next) => {
     try {
-        const cart = await cartService.getCart(req.params);
+        const cid = req.params;
+
+        const cart = await cartService.getCart(cid);
         
         if(cart.products.length){
 
-            let ticket
+            let ticket;
+            let purchaseDetail = '';
             let totalPrice = 0;
-            const productsTicket = [];
 
             for (let index = 0; index < cart.products.length; index++) {
-                if (cart.products[index].quantity <= cart.products[index].product.stock) {
-                    totalPrice += cart.products[index].product.price;
-                    const product = await productService.getOne(
-                        cart.products[index].product._id
-                    );
-    
-                    product.stock = product.stock - cart.products[index].quantity;
-    
-                    await product.save();
-    
-                    productsTicket.push(product);
-    
-                    await cartService.deleteProduct(
-                        req.params,
-                        cart.products[index].product._id
-                    );
-                }
+                if (cart.products[index].quantity > cart.products[index].product.stock) return res.status(404).send({ status: "Error", message: 'No hay suficiente stock' });
             }
-    
-            if (productsTicket.length) {
-                ticket = await ticketService.create({
-                    code: uuidv4(),
-                    purchase_datetime: new Date(),
-                    amount: totalPrice,
-                    purchaser: req.session.email,
-                    products: productsTicket,
-                });
-                const email = req.session.email;
-                let contentEmail = `
-                    <div>
-                        <h4>
-                            Detalle de compra:
-                        </h4>
-                        <p>
-                            ${ticket}
-                        </p>
-                    </div>`
-                await sendEmail(
-                    email, 
-                    'Ticket de compra', 
-                    contentEmail
+
+            for (let index = 0; index < cart.products.length; index++) {
+                totalPrice += cart.products[index].product.price * cart.products[index].quantity;
+                const product = await productService.getOne(
+                    cart.products[index].product._id
                 );
+                product.stock = product.stock - cart.products[index].quantity;
+                await product.save();
+                purchaseDetail += `Producto: ${cart.products[index].product.title}, Cantidad: ${cart.products[index].quantity} // `;
             }
+
+            ticket = await ticketService.create({
+                code: uuidv4(),
+                purchase_datetime: new Date(),
+                amount: totalPrice,
+                purchaser: req.session.email,
+                products: cart.products
+            });
+
+            const fullTicket = await ticketService.getTicketById(ticket._id);
+
+            const email = req.session.email;
+            let contentEmail = `
+                <div>
+                    <h4>
+                        Detalle de compra:
+                    </h4>
+                    <p>
+                        ${purchaseDetail}
+                    </p>
+                    <br>
+                    <p>
+                        Precio Total: ${totalPrice}
+                    </p>
+                </div>`
+            await sendEmail(
+                email, 
+                'Ticket de compra', 
+                contentEmail
+            );
+
+            await cartService.cleanCart(cid);
     
-            res.status(201).send({ status: "success", payload: ticket });
+            res.status(201).send({ status: "success", payload: fullTicket });
 
         }
         else{
-            res.status(404).send({ status: "Error", message: 'No existen productos' });
+            res.status(404).send({ status: "Error", message: 'Carrito vacio' });
         }
     } catch (error) {
+        console.log(error);
         next(error);
     }
 };

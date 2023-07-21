@@ -16,9 +16,7 @@ export default class CartService {
         return idFound;
     }
 
-    //async addProductToCart({ cid, pid }) {
     async addProduct({ cid, pid }, { quantity }) {
-        //const productDocument = await this.cartMongooseDao.addProductToCart({ cid, pid });
         const productDocument = await this.cartMongooseDao.addProduct(cid, pid, quantity);
         return productDocument;
     }

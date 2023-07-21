@@ -12,8 +12,8 @@ export default class TicketService {
     }
 
     async getTicketById(id) {
-        const idFound = await this.ticketMongooseDao.getTicketById(id);
-        return idFound;
+        const ticketDocument = await this.ticketMongooseDao.getTicketById(id);
+        return ticketDocument;
     }
 
 }

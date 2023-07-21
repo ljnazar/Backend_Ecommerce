@@ -13,21 +13,6 @@ export default class CartMongooseDao {
         return cart;
     }
 
-    // async addProductToCart({ cid, pid }) {
-    //     const cart = await cartModel.findOne({ _id: cid });
-    //     const productId = new mongoose.Types.ObjectId(pid);
-    //     const findProduct = cart.products.find((product) =>
-    //         product.product.equals(productId)
-    //     );
-    //     if (findProduct) {
-    //         findProduct.quantity++;
-    //     } else {
-    //         cart.products.push({ product: pid });
-    //     }
-    //     await cart.save();
-    //     return cart;
-    // }
-
     async addProduct(cid, pid, quantity) {
         const cart = await cartModel.findOne({ _id: cid });
         const productId = new mongoose.Types.ObjectId(pid);
@@ -40,7 +25,6 @@ export default class CartMongooseDao {
         } else {
             cart.products.push({ product: pid, quantity: parseInt(quantity) });
         }
-        //console.log(cart);
         await cart.save();
         return cart;
     }
