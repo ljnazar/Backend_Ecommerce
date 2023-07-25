@@ -5,12 +5,18 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
-    "start": "node src/index.js",
-    "dev": "nodemon src/index.js"
+    "start": "node index.js",
+    "dev": "nodemon index.js",
+    "serve": "firebase emulators:start --only functions",
+    "shell": "firebase functions:shell",
+    "deploy": "firebase deploy --only functions",
+    "logs": "firebase functions:log"
+  },
+  "engines": {
+    "node": "18"
   },
   "keywords": [],
   "author": "",
-  "license": "ISC",
   "dependencies": {
     "@faker-js/faker": "^7.6.0",
     "bcryptjs": "^2.4.3",
@@ -21,6 +27,8 @@
     "express-compression": "^1.0.2",
     "express-handlebars": "^7.0.7",
     "express-session": "^1.17.3",
+    "firebase-admin": "^11.10.1",
+    "firebase-functions": "^4.4.1",
     "jsonwebtoken": "^9.0.0",
     "mongoose": "^7.0.1",
     "mongoose-paginate-v2": "^1.7.1",
@@ -29,5 +37,8 @@
     "swagger-ui-express": "^4.6.3",
     "uuid": "^9.0.0",
     "winston": "^3.8.2"
+  },
+  "devDependencies": {
+    "firebase-functions-test": "^3.1.0"
   }
 }
