@@ -31,7 +31,7 @@ addToCartButtons.forEach((btnAddToCart) => {
     
         const response = sendData;
         const responseJson = await response.json()
-        console.log(responseJson);
+        //console.log(responseJson);
         if(responseJson.status === 'success'){
             Swal.fire({
                 position: 'top-end',
@@ -40,6 +40,9 @@ addToCartButtons.forEach((btnAddToCart) => {
                 showConfirmButton: false,
                 timer: 1000
             });
+            setTimeout(() => {
+                location.href=`/api/cart/${cartId}`;
+            }, 1000);
         }else{
             sessionStorage.setItem("authError", responseJson.cause);
             location.href = '/login';

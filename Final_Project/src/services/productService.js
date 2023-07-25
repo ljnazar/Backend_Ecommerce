@@ -7,8 +7,8 @@ export default class ProductService {
     }
 
     async list(filters) {
-        const idFound = await this.productsMongooseDao.list(filters);
-        return idFound
+        const productsDocument = await this.productsMongooseDao.list(filters);
+        return productsDocument;
     }
 
     async getOne(pid) {
@@ -23,12 +23,12 @@ export default class ProductService {
 
     async update(pid, product) {
         const productUpdate = await this.productsMongooseDao.update(pid, product);
-        return productUpdate
+        return productUpdate;
     }
 
     async delete(pid) {
         const deleteProduct = await this.productsMongooseDao.delete(pid);
-        return deleteProduct
+        return deleteProduct;
     }
 
 

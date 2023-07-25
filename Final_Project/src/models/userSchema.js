@@ -6,7 +6,8 @@ const userSchema = new Schema({
     email: { type: Schema.Types.String, require: true, unique: true },
     role: { type: Schema.Types.String, default: 'user'},
     password: { type: Schema.Types.String, require: true },
-    cartId: { type: Schema.Types.ObjectId }
+    cartId: { type: Schema.Types.ObjectId },
+    lastLogin: { type: Schema.Types.Date }
 });
 
 export const userModel = mongoose.model('users', userSchema);

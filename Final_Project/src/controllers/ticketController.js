@@ -58,15 +58,12 @@ export const purchaseProducts = async (req, res, next) => {
                         Precio Total: ${totalPrice}
                     </p>
                 </div>`
-            await sendEmail(
-                email, 
-                'Ticket de compra', 
-                contentEmail
-            );
+            await sendEmail( email, 'Ticket de compra', contentEmail );
 
             await cartService.cleanCart(cid);
     
-            res.status(201).send({ status: "success", payload: fullTicket });
+            //res.status(201).send({ status: "success", payload: fullTicket });
+            res.status(200).render('purchase');
 
         }
         else{

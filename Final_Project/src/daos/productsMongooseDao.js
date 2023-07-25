@@ -6,7 +6,7 @@ export default class ProductsMongooseDao {
 
         const { limit, page, sort, query } = filters;
 
-        const setLimit = limit ? limit : 8;
+        const setLimit = limit ? limit : 100;
         const setPage = page ? Number(page) : 1;
         const setSort = sort ? { price: sort } : {};
         const setQuery = query ? { category: query } : {};

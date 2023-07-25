@@ -2,7 +2,10 @@ import { Router } from 'express';
 import { authToken } from '../utils/jwt.js';
 import { 
     getProducts,
-    adminRender,
+    getOneProduct,
+    //adminRender,
+    createProductRender,
+    updateProductRender,
     createProduct,
     updateProduct,
     deleteProduct
@@ -13,7 +16,10 @@ import { isAdmin } from '../middlewares/isAdmin.js';
 const productsRoute = Router();
 
 productsRoute.get('/', authToken, getProducts);
-productsRoute.get('/admin', authToken, isAdmin, adminRender);
+productsRoute.get('/:pid', authToken, getOneProduct);
+//productsRoute.get('/admin', authToken, isAdmin, adminRender);
+productsRoute.get('/admin/createProduct', authToken, isAdmin, createProductRender);
+productsRoute.get('/admin/updateProduct', authToken, isAdmin, updateProductRender);
 productsRoute.post('/', authToken, isAdmin, createProduct);
 productsRoute.put('/:pid', authToken, isAdmin, updateProduct);
 productsRoute.delete('/:pid', authToken, isAdmin, deleteProduct);

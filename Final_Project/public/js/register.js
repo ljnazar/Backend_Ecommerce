@@ -1,6 +1,6 @@
 const btnSubmit = document.getElementById('btnSubmit');
-const inputEmail = document.getElementById('email');
-const inputPassword = document.getElementById('password');
+// const inputEmail = document.getElementById('email');
+// const inputPassword = document.getElementById('password');
 const errorMessage = document.getElementById('errorMessage');
 
 btnSubmit.addEventListener('click', async e => {

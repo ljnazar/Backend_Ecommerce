@@ -100,17 +100,21 @@ export const createUser = async (req, res, next) => {
 
         const cart = await cartService.create();
 
+        const lastLogin = Date.now();
+
         const newUser = {
             first_name,
             last_name,
             email,
             password: createHash(password),
-            cartId: cart._id
+            cartId: cart._id,
+            lastLogin
         }
         await userService.create(newUser);
         return res.status(201).json({ status: 'success' });
     } 
     catch(error) {
+        console.log(error);
         next(error);
     }
 };
