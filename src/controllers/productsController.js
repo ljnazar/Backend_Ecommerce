@@ -32,14 +32,6 @@ export const createProductRender = (req, res, next) => {
     }
 };
 
-export const updateProductRender = (req, res, next) => {
-    try {
-        res.status(200).render('modify-product');
-    } catch (error) {
-        next(error);
-    }
-};
-
 export const createProduct = async (req, res, next) => {
     try {
         let data = req.body;

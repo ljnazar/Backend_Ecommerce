@@ -1,4 +1,5 @@
 import mongoose, { Schema } from 'mongoose';
+import mongoosePaginate from 'mongoose-paginate-v2';
 
 const userSchema = new Schema({
     first_name: { type: Schema.Types.String, require: true },
@@ -9,5 +10,7 @@ const userSchema = new Schema({
     cartId: { type: Schema.Types.ObjectId },
     lastLogin: { type: Schema.Types.Date }
 });
+
+userSchema.plugin(mongoosePaginate);
 
 export const userModel = mongoose.model('users', userSchema);
