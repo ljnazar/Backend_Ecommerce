@@ -7,8 +7,10 @@ export const getProducts = async (req, res, next) => {
     try {
         const result = await productService.list(req.query);
         let isAdmin = false;
+        let isPremium = false;
         if(req.session.role === 'admin') isAdmin = true;
-        res.status(200).render('home', { user: req.session.email, isAdmin: isAdmin, products: result.payload });
+        if(req.session.role === 'premium') isPremium = true;
+        res.status(200).render('home', { user: req.session.email, isAdmin: isAdmin, isPremium: isPremium, products: result.payload });
     } catch (error) {
         next(error);
     }

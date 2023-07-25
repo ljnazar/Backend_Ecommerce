@@ -42,18 +42,18 @@ export default class AdminUsersMongooseDao {
 
     }
 
-    async update(id, user) {
-        const result = await userModel.updateOne({ _id: id }, user);
+    async update(id, newRole) {
+        const result = await userModel.updateOne({ _id: id }, { $set: { role: newRole }});
         return result;
     }
 
     async deleteOne(id) {
-        const result = await productModel.deleteOne({ _id: id });
+        const result = await userModel.deleteOne({ _id: id });
         return result;
     }
 
     async deleteMany(ids) {
-        const result = await productModel.deleteOne({ _id: { $in: ids } });
+        const result = await userModel.deleteMany({ _id: { $in: ids } });
         return result;
     }
     

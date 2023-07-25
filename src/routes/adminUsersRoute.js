@@ -13,6 +13,6 @@ const adminUsersRoute = Router();
 adminUsersRoute.get('/', authToken, isAdmin, getUsers);
 adminUsersRoute.put('/:id', authToken, isAdmin, updateRole);
 adminUsersRoute.delete('/:id', authToken, isAdmin, deleteUser);
-adminUsersRoute.delete('/:id', authToken, isAdmin, cleanupInactiveUsers);
+adminUsersRoute.delete('/cleanup/:ids', authToken, isAdmin, cleanupInactiveUsers);
 
 export default adminUsersRoute;

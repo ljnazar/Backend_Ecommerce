@@ -9,6 +9,16 @@
         </div>
         <h4 class="fw-bolder text-center pt-2 mb-4 mt-5">Perfil de administrador</h4>
         <button id="btnAddProduct" class="mb-2 btn btn-primary">Agregar producto</button>
+    {{else if isPremium}}
+        <div class="jumbotron d-flex justify-content-between my-3" style="border: 2px solid; background-color: #eee; color: black;">
+            <h4 class="ps-3 pt-1">
+                Premium: {{ user }}
+                <button id="btnAdminUsers" class="p-2 ms-3 mt-1 btn btn-primary d-none">Administrar usuarios</button>
+            </h4>
+            <button class="p-2 btn btn-danger" onclick="location.href='/logout'">LOGOUT</button>
+        </div>
+        <h4 class="fw-bolder text-center pt-2 mb-4 mt-5">Perfil de administrador</h4>
+        <button id="btnAddProduct" class="mb-2 btn btn-primary">Agregar producto</button>
     {{else}}
         <div class="jumbotron d-flex justify-content-between my-3" style="border: 2px solid; background-color: #eee; color: black;">
             <h4 class="ps-3 pt-1">
@@ -25,6 +35,40 @@
         <div class="container py-5">
             <div class="row">
                 {{#if isAdmin}}
+                    {{#each products}}
+                        <div id="idProduct{{@index}}" class="d-none">{{ _id }}</div>
+                        <div class="col-xl-3 col-lg-4 col-md-6 col-ms-12">
+                            <div class="card mb-2">
+                                <div id="thumbnailDiv">
+                                    <img id="thumbnail" src={{ thumbnail }} class="card-img-top" alt="Img" />
+                                </div>
+                                <div class="card-body">
+                                    <div id="titleDiv" class=" d-flex justify-content-center">
+                                        <h6 id="title">{{ title }}</h6>
+                                    </div>
+                                    <div id="categoryDiv">
+                                        <p class="small"><a href="#" id="category" class="text-muted ">{{ category }}</a></p>
+                                    </div>
+                                    <div id="descriptionDiv" class="mb-2">
+                                        <h6 id="description">{{ description }}</h6>
+                                    </div>
+                                    <div id="stockAndPriceDiv" class="d-flex justify-content-between mb-3">
+                                        <div id="stockDiv">
+                                            <p class="text-muted mb-0">stock: <span id="stock" class="fw-bold">{{ stock }}</span></p>
+                                        </div>
+                                        <div id="priceDiv">
+                                            <h6 class="text-dark mb-0" id="price">${{ price }}</h6>
+                                        </div>
+                                    </div>
+                                    <div id="buttonsDiv" class="d-flex justify-content-center">
+                                        <button class="ms-3" id="btnModifyProduct" data-product-index="{{@index}}">MODIFICAR</button>
+                                        <button class="ms-3" id="btnRemoveProduct" data-product-index="{{@index}}">ELIMINAR</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    {{/each}}
+                {{else if isPremium}}
                     {{#each products}}
                         <div id="idProduct{{@index}}" class="d-none">{{ _id }}</div>
                         <div class="col-xl-3 col-lg-4 col-md-6 col-ms-12">
@@ -96,6 +140,8 @@
     </section>
 </div>
 {{#if isAdmin}}
+    <script src="/js/homeAdmin.js"></script>
+{{else if isPremium}}
     <script src="/js/homeAdmin.js"></script>
 {{else}}
     <script src="/js/homeUser.js"></script>

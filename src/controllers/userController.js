@@ -56,9 +56,15 @@ export const loginUser = async (req, res, next) => {
         req.session.email = userFound.email;
         req.session.role = userFound.role;
         req.session.cartId = userFound.cartId;
+
+        let lastLogin = Date.now();
     
         // Generate token JWT
         const accessToken = generateToken(email);
+
+        // Update lastLogin of user
+        userService.updateTimestamp(email, lastLogin)
+
         res.cookie('sessionToken', accessToken, { maxAge: 3000 * 60 * 60, httpOnly: true, signed: true }).json({ status: 'success', cartId: userFound.cartId });
     } 
     catch(error) {

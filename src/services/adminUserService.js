@@ -11,18 +11,18 @@ export default class AdminUserService {
         return usersDocument;
     }
 
-    async update(pid, product) {
-        const userUpdate = await this.adminUsersMongooseDao.update(pid, product);
+    async update(id, newRole) {
+        const userUpdate = await this.adminUsersMongooseDao.update(id, newRole);
         return userUpdate;
     }
 
-    async deleteOne(pid) {
-        const deleteOneUser = await this.adminUsersMongooseDao.delete(pid);
+    async deleteOne(id) {
+        const deleteOneUser = await this.adminUsersMongooseDao.deleteOne(id);
         return deleteOneUser;
     }
 
-    async deleteMany(pid) {
-        const deleteManyUser = await this.adminUsersMongooseDao.delete(pid);
+    async deleteMany(ids) {
+        const deleteManyUser = await this.adminUsersMongooseDao.deleteMany(ids);
         return deleteManyUser;
     }
 

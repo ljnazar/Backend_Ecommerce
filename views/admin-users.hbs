@@ -1,5 +1,35 @@
-<h1>Perfil de administración de usuarios</h1>
-
-{{ users }}
+<section class="d-flex flex-column align-items-center" style="background-color: #eee;">
+    <h1 class="p-5 my-3">Perfil de administración de usuarios</h1>
+    <button class="ms-5" id="btnCleanupUsers">REALIZAR LIMPIEZA DE USUARIOS</button>
+    <div id="message"></div>
+    <div class="py-5">
+        <table class="mt-2 mb-5" border="1" style="border-collapse: collapse;">
+            <tr>
+                <th style="text-align: center; padding: 10px; border: 1px solid black;">Nombre</th>
+                <th style="text-align: center; padding: 10px; border: 1px solid black;">Email</th>
+                <th style="text-align: center; padding: 10px; border: 1px solid black;">Rol</th>
+                <th style="text-align: center; padding: 10px; border: 1px solid black;">Opciones</th>
+            </tr>
+            {{#each users}}
+                <div id="idUser{{@index}}" class="d-none">{{ _id }}</div>
+                <tr>
+                    <td id="firstName" style="padding: 10px; border: 1px solid black;">{{ first_name }}</td>
+                    <td id="email" style="padding: 10px; border: 1px solid black;">{{ email }}</td>
+                    <td style="padding: 10px; border: 1px solid black;">
+                        <input id="role" type="text" value="{{ role }}">
+                    </td>
+                    <td style="padding: 10px; border: 1px solid black;">
+                        <button id="btnUpdateRole" data-user-index="{{@index}}">ACTUALIZAR ROL</button>
+                        <button id="btnRemoveUser" data-user-index="{{@index}}">ELIMINAR USUARIO</button>
+                    </td>
+                </tr>
+            {{/each}}
+        </table>
+        <div class="d-flex justify-content-center mt-5">
+            <button id="btnback" class="btn btn-primary">Volver</button>
+        </div>
+    </div>
+</section>
 
 <script src="/js/adminUsers.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/11.7.12/sweetalert2.all.min.js"></script>

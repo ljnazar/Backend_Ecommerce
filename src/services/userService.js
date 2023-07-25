@@ -26,4 +26,9 @@ export default class UserService {
         return userUpdate
     }
 
+    async updateTimestamp(username, newTimestamp) {
+        const userUpdate = this.userMongooseDao.updateTimestamp(username, newTimestamp);
+        return userUpdate
+    }
+
 }
