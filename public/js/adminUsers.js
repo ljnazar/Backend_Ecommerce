@@ -90,7 +90,7 @@ removeUserButtons.forEach((btnRemoveUser) => {
                 timer: 1000
             });
             setTimeout(() => {
-                location.href='/api/users/';
+                location.href='/api/users';
             }, 1000);
         }else{
             sessionStorage.setItem("authError", 'Error');
@@ -107,7 +107,7 @@ removeUserButtons.forEach((btnRemoveUser) => {
                 timer: 1000
             });
             setTimeout(() => {
-                location.href='/api/users/';
+                location.href='/api/users';
             }, 1000);
         }else{
             sessionStorage.setItem("authError", responseJson.cause);
